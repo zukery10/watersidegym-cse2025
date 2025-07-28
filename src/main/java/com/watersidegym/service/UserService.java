@@ -1,22 +1,15 @@
 package com.watersidegym.service;
 
 import com.watersidegym.model.User;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@ManagedBean
-@ApplicationScoped //@ApplicationScoped means there is only ONE instance of UserService for the whole application, shared across all users and sessions.
 public class UserService {
-    private List<User> users;
+    private static List<User> users = new ArrayList<>();
 
-    @PostConstruct
-    public void init() {
-        users = new ArrayList<>();
-
+    // Static block to initialize users once when the class loads
+    static {
         User user2 = new User();
         user2.setEmail("member@example.com");
         user2.setPassword("Member123");
@@ -29,15 +22,16 @@ public class UserService {
         user2.setDateOfBirth(new Date(95, 6, 20));
         user2.setGender("Female");
         user2.setRole("Member");
-
         users.add(user2);
     }
 
-    public List<User> getUsers() {
+    // Static method to get all users
+    public static List<User> getUsers() {
         return users;
     }
 
-    public boolean addUser(User user) {
+    // Static method to add user, returns false if email exists
+    public static boolean addUser(User user) {
         if (findUserByEmail(user.getEmail()) != null) {
             return false;
         }
@@ -45,10 +39,13 @@ public class UserService {
         return true;
     }
 
-    public User findUserByEmail(String email) {
-        return users.stream()
-                .filter(u -> u.getEmail().equalsIgnoreCase(email))
-                .findFirst()
-                .orElse(null);
+    // Static method to find user by email
+    public static User findUserByEmail(String email) {
+        for (User u : users) {
+            if (u.getEmail().equalsIgnoreCase(email)) {
+                return u;
+            }
+        }
+        return null;
     }
 }
