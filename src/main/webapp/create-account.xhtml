@@ -14,6 +14,10 @@
 		<h:inputText id="email" value="#{createAccountBean.user.email}"
 			required="true">
 			<f:validateRegex pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+			<!-- Must look like a valid email (e.g., name@example.com)
+     			- Starts with characters before @
+    			- Has one @ symbol
+     			- Then more characters, a dot, and domain -->
 		</h:inputText>
 		<h:message for="email" style="color:red" />
 
@@ -126,7 +130,11 @@
 			action="#{createAccountBean.register}" />
 		<br />
 		<br />
+		<h:commandButton value="Print Users (Debug)"
+			action="#{createAccountBean.printUsersToConsole}" immediate="true" />
+
 		<h:messages style="color:green" />
 	</h:form>
+
 </h:body>
 </html>
