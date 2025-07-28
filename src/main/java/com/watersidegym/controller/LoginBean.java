@@ -1,52 +1,43 @@
 package com.watersidegym.controller;
 
-
-import javax.annotation.PostConstruct;
+//import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+//import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
-import com.watersidegym.model.User;   //importing the user java
+import com.watersidegym.model.User; //importing the user java
 import com.watersidegym.service.UserService; //importing the userservice java
-
-
-
 
 @ManagedBean
 @SessionScoped
 public class LoginBean {
 
-	private String email ;
-	private String password ;
-	private boolean isRegistered;
-	private String user ;
-	//private UserService userservice;
-
+	private String email;
+	private String password;
+	private User loggedInUser;
+	// private boolean isRegistered;
+	// private String user ;
+	// private UserService userservice;
 
 	// Inject UserService
-	@ManagedProperty(value = "#{userService}")  //injects managed bean called userserivce into this this bean
-	private UserService userService;  //creates an instance of userservice
-	public LoginBean() {
+	// @ManagedProperty(value = "#{userService}") //injects managed bean called
+	// userserivce into this this bean
+	// private UserService userService; //creates an instance of userservice
+	// public LoginBean() {}
 
-	}
-
-
-	public LoginBean(String username, String password) {
-		this.email = username;
-		this.password = password;
-	}
-	public UserService getUserService() {
-		return userService;
-	}
-
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
-
+//	public LoginBean(String username, String password) {
+//		this.email = username;
+//		this.password = password;
+//	}
+//	public UserService getUserService() {
+//		return userService;
+//	}
+//
+//	public void setUserService(UserService userService) {
+//		this.userService = userService;
+//	}
+//
 	public String getEmail() {
 		return email;
 	}
@@ -64,31 +55,59 @@ public class LoginBean {
 	}
 
 	public String login() {
-
-		User user  = UserService.findUserByEmail(email);  // creates an object called user - once method is used, a user object is made and checks
-															//if it's email is in the array in userservice 
-
-		if(user == null) {  //if no email is found
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised" )); //input error message
+		User user = UserService.findUserByEmail(email); // creates an object called user - once method is used, a user
+														// object is made and checks
+														// if it's email is in the array in userservice
+		if (user == null) { // if no email is found
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised")); // input
+																														// error
+																														// message
 			return null;
 		}
 
+		if (!user.getPassword().equals(password)) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed: Incorrect password", null));
+			return null;
+		}
 
-		if(user.getEmail().equals(email) && user.getPassword().equals(password)) { //checks is email/password matches the input 
-			isRegistered = true;
-			if(user.getRole().equals("Member")) { //checks if member
-				return "member-dashboard?faces-redirect=true";
-				
-			}  else if(user.getRole().equals("Non-Member")) { //checks if nonmember
-				return "nonmember-dashboard?faces-redirect=true";
-			}
+		loggedInUser = user;
 
-		} else {
-			isRegistered = false;
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Login successful!", null));
 
-		}return null;
+		// Clear the login form fields
+		email = null;
+		password = null;
 
-
+		switch (loggedInUser.getRole()) {
+		case "Member":
+			return "member-dashboard?faces-redirect=true";
+		case "Non-Member":
+			return "nonmember-dashboard?faces-redirect=true";
+		default:
+			return null;
+		}
 	}
 
+	public String logout() {
+		loggedInUser = null;
+		email = null;
+		password = null;
+		return "index?faces-redirect=true";
+	}
+
+	public boolean isLoggedIn() {
+		return loggedInUser != null;
+	}
+	
+	public void checkLoggedIn() {
+	    if (!isLoggedIn()) {
+	        try {
+	            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+	        } catch (Exception e) {
+	            System.out.println("Redirect failed");
+	        }
+	    }
+	}
 }
