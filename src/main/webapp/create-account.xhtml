@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Create Account</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h2>Create Account</h2>
+
+		<!-- Email -->
+		<h:outputLabel for="email" value="Email:" />
+		<h:inputText id="email" value="#{createAccountBean.user.email}"
+			required="true">
+			<f:validateRegex pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+		</h:inputText>
+		<h:message for="email" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- Password -->
+		<h:outputLabel for="password" value="Password:" />
+		<h:inputSecret id="password"
+			value="#{createAccountBean.user.password}" required="true">
+			<f:validateRegex pattern="^(?=.*[A-Z])(?=.*\d).{8,}$" />
+		</h:inputSecret>
+		<h:message for="password" style="color:red" />
+		<br />
+		<br />
+
+		<!-- First Name -->
+		<h:outputLabel for="firstName" value="First Name:" />
+		<h:inputText id="firstName"
+			value="#{createAccountBean.user.firstName}" required="true" />
+		<h:message for="firstName" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- Second Name -->
+		<h:outputLabel for="secondName" value="Second Name:" />
+		<h:inputText id="secondName"
+			value="#{createAccountBean.user.secondName}" required="true" />
+		<h:message for="secondName" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- Address 1 -->
+		<h:outputLabel for="address1" value="Address Line 1:" />
+		<h:inputText id="address1" value="#{createAccountBean.user.address1}"
+			required="true" />
+		<h:message for="address1" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- Address 2 -->
+		<h:outputLabel for="address2" value="Address Line 2:" />
+		<h:inputText id="address2" value="#{createAccountBean.user.address2}" />
+		<h:message for="address2" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- County -->
+		<h:outputLabel for="county" value="County:" />
+		<h:inputText id="county" value="#{createAccountBean.user.county}"
+			required="true" />
+		<h:message for="county" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- Eircode -->
+		<h:outputLabel for="eircode" value="Eircode:" />
+		<h:inputText id="eircode" value="#{createAccountBean.user.eircode}"
+			required="true">
+			<f:validateRegex pattern="^[A-Za-z0-9]{7}$" />
+		</h:inputText>
+		<h:message for="eircode" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- Phone Number -->
+		<h:outputLabel for="phone" value="Phone Number:" />
+		<h:inputText id="phone" value="#{createAccountBean.user.phoneNumber}"
+			required="true">
+			<f:validateRegex pattern="^08[3-9][0-9]{7}$" />
+		</h:inputText>
+		<h:message for="phone" style="color:red" />
+
+		<br />
+		<br />
+
+		<!-- Date of Birth -->
+		<h:outputLabel for="dob" value="Date of Birth:" />
+		<h:inputText id="dob" value="#{createAccountBean.user.dateOfBirth}"
+			required="true">
+			<f:convertDateTime pattern="yyyy-MM-dd" />
+		</h:inputText>
+		<h:message for="dob" style="color:red" />
+		<small>Format: yyyy-MM-dd</small>
+
+		<br />
+		<br />
+
+		<!-- Gender -->
+		<h:outputLabel for="gender" value="Gender:" />
+		<h:selectOneMenu id="gender" value="#{createAccountBean.user.gender}"
+			required="true">
+			<f:selectItem itemLabel="Select..." itemValue="" />
+			<f:selectItem itemLabel="Male" itemValue="Male" />
+			<f:selectItem itemLabel="Female" itemValue="Female" />
+			<f:selectItem itemLabel="Other" itemValue="Other" />
+		</h:selectOneMenu>
+		<h:message for="gender" style="color:red" />
+
+		<br />
+		<br />
+
+		<h:commandButton value="Register"
+			action="#{createAccountBean.register}" />
+		<br />
+		<br />
+		<h:messages style="color:green" />
+	</h:form>
+</h:body>
+</html>
