@@ -69,8 +69,7 @@ public class LoginBean {
 															//if it's email is in the array in userservice 
 
 		if(user == null) {  //if no email is found
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "Email or Password not found.")); //input error message
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised" )); //input error message
 			return null;
 		}
 
@@ -79,6 +78,7 @@ public class LoginBean {
 			isRegistered = true;
 			if(user.getRole().equals("Member")) { //checks if member
 				return "member-dashboard?faces-redirect=true";
+				
 			}  else if(user.getRole().equals("Non-Member")) { //checks if nonmember
 				return "nonmember-dashboard?faces-redirect=true";
 			}
