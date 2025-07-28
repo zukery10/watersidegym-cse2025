@@ -65,7 +65,7 @@ public class LoginBean {
 
 	public String login() {
 
-		User user  = userService.findUserByEmail(email);  // creates an object called user - once method is used, a user object is made and checks
+		User user  = UserService.findUserByEmail(email);  // creates an object called user - once method is used, a user object is made and checks
 															//if it's email is in the array in userservice 
 
 		if(user == null) {  //if no email is found
