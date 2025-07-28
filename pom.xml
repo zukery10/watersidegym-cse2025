@@ -36,6 +36,11 @@
 			<version>2.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>jstTable</groupId>
+			<artifactId>jstTable</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

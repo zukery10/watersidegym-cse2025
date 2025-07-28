@@ -4,9 +4,28 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-    <title>ENTER TITLE HERE</title>
+    <title>Login Page</title>
 </h:head>
 <h:body>
-    
+    <h:form>
+        <h2>Login</h2>
+
+        <h:outputLabel for="email" value="Email:" />
+        <h:inputText id="email" value="#{loginBean.email}" required="true"/>
+
+        <br/><br/>
+
+        <h:outputLabel for="password" value="Password:" />
+        <h:inputSecret id="password" value="#{loginBean.password}" required="true"/>
+
+        <br/><br/>
+
+
+        <h:commandButton value="Login" action="#{loginBean.login}"/>
+
+        <!-- Functional "Create Account" button -->
+        <h:commandButton value="Create Account"
+                         action="create-account?faces-redirect=true" />
+    </h:form>
 </h:body>
 </html>
