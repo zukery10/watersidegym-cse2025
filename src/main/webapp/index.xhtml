@@ -25,13 +25,13 @@
 
         <br/><br/>
 
-
+<!-- Functional "Login" button -->
         <h:commandButton value="Login" action="#{loginBean.login}"/>
 
 
         <!-- Functional "Create Account" button -->
-        <h:commandButton value="Create Account"
-                         action="create-account?faces-redirect=true" />
+        <h:commandButton value="Create Account"  action="create-account?faces-redirect=true" immediate="true"/>
+                        
     </h:form>
 </h:body>
 </html>
