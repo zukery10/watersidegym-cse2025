@@ -10,10 +10,19 @@
 </h:head>
 <h:body>
 
-	<h1>Member Dashboard</h1>
-	<h3>Login Successful</h3>
-<h:form>
+    <h:panelGroup rendered="#{not empty loginBean.loggedInUser}">
+        <h3>Welcome, #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.secondName}!</h3>
+        <p>Email: #{loginBean.loggedInUser.email}</p>
+        <p>Role: #{loginBean.loggedInUser.role}</p>
+    </h:panelGroup>
+
+    <h1>Member Dashboard</h1>
+    <h3>Login Successful</h3>
+
+    <h:form>
         <h:commandButton value="Logout" action="#{loginBean.logout}" />
     </h:form>
+
 </h:body>
+
 </html>

@@ -104,10 +104,14 @@ public class LoginBean {
 	public void checkLoggedIn() {
 	    if (!isLoggedIn()) {
 	        try {
-	            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+	        	FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?faces-redirect=true");
 	        } catch (Exception e) {
 	            System.out.println("Redirect failed");
 	        }
 	    }
+	}
+	
+	public User getLoggedInUser() {
+	    return loggedInUser;
 	}
 }
