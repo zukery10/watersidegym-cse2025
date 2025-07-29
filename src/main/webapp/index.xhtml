@@ -9,18 +9,21 @@
 </h:head>
 <h:body>
 
+<h1>Gym That's Fit For Your Life</h1>
+	<h:form id="loginForm" styleClass="form-container">
+		<h2>Login</h2>
 
-	<h:form>
-	<h2>Login</h2>
 
-	<h:outputLabel for="email" value="Email:" />
-	<h:inputText id="email" value="#{loginBean.email}" required="true" />
+		<h:outputLabel for="email" value="Email:"  styleClass="label" />
+		<h:inputText id="email" value="#{loginBean.email}" styleClass="inputField" />
+
 		<br />
 		<br />
-		<h:outputLabel for="password" value="Password:" />
+		<h:outputLabel for="password" value="Password:"  styleClass="label"/>
 
-		<h:inputSecret id="password" value="#{loginBean.password}"
-			required="true" />
+		<h:inputSecret id="password" value="#{loginBean.password}" styleClass="inputField"/>
+
+
 
 		<br />
 		<br />
@@ -28,7 +31,7 @@
 
 		<!-- Functional "Login" button -->
 		<h:commandButton value="Login" action="#{loginBean.login}" />
-		
+
 		<h:messages style="color:red" />
 
 		<!-- Functional "Create Account" button -->
@@ -36,7 +39,7 @@
 			action="create-account?faces-redirect=true" immediate="true" />
 
 	</h:form>
-	
-	
+
+
 </h:body>
 </html>

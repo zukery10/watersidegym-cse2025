@@ -1,0 +1,29 @@
+body{
+	
+	background: #c0c0c0;
+}
+h1{
+	text-align:center;
+	color:white;
+	font-family:arial;
+	padding-top: 50px;
+}
+.form-container{
+	font-family:arial;
+	padding-top: 100px;
+	color:white;
+	text-align:center;
+	
+}
+.label{
+	text-align: left;
+  padding-right: 15px;
+  font-weight: bold;
+  
+  
+}
+.inputField{
+	 border: 2px solid #7f7f7f;
+  border-radius: 4px;
+ align-items: center;
+}

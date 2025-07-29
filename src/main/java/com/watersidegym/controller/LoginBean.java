@@ -34,19 +34,26 @@ public class LoginBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+
 
 	public String login() {
+		
+		
+		
+		if ( email == null || "".equals(email) || password == null || "".equals(password)  ) {  // if email or password is null or blank 
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null)); //input this message
+			email = null; // puts input box to blank again
+			password = null;
+			return null;  //restart
+		}
 	
 		
 		User user = UserService.findUserByEmail(email); // creates an object called user - once method is used, a user
-														// object is made and checks
-		
+														// object is made and checks		
 															// if it's email is in the array in userservice
-		if ( email.equals("") || password.equals("")  ) { 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null));
-			return null;
-		}												
+														
 		if (user == null) { // if no email is found
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised")); // input
 																														// error
