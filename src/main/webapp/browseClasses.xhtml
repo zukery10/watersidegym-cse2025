@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Browse Classes</title>
+</h:head>
+<h:body>
+
+	<h2>Book Classes</h2>
+	
+	<ul>
+    <ui:repeat value="#{gymClassBean.gymClassList}" var="cls" >
+        <li>#{cls.nameOfClass} - #{cls.noOfSlots}</li>
+        
+    </ui:repeat>
+	</ul>
+	
+
+<!-- 	<h:form>
+		<h:dataTable value="#{gymClassBean.gymClassList}" var="cls">
+			<h:column>
+				<h:column>
+					<f:facet name="header">Class Name</f:facet>
+                	#{cls.nameOfClass}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Slots Available</f:facet>
+                	#{cls.noOfSlots}
+            </h:column>
+			</h:column>
+		</h:dataTable>
+	</h:form>
+	
+-->
+</h:body>
+</html>
