@@ -5,7 +5,12 @@ public class GymClass {
 	private String nameOfClass;
 	private int noOfSlots;
 	
-	
+		
+	public GymClass(String nameOfClass, int noOfSlots) {
+		super();
+		this.nameOfClass = nameOfClass;
+		this.noOfSlots = noOfSlots;
+	}
 	public String getNameOfClass() {
 		return nameOfClass;
 	}
