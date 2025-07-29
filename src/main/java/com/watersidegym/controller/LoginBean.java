@@ -36,32 +36,40 @@ public class LoginBean {
 	}
 	
 
+	
+
 
 	public String login() {
 		
 		
-		
-		if ( email == null || "".equals(email) || password == null || "".equals(password)  ) {  // if email or password is null or blank 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null)); //input this message
-			email = null; // puts input box to blank again
-			password = null;
-			return null;  //restart
+			
+		if ( emptyFields()) {//made a method below, tried to use for testing	
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null)); //output this message
+			return null;
 		}
+		
+		
+//		if ( email == null || "".equals(email) || password == null || "".equals(password)  ) {  // if email or password is null or blank 
+//			FacesContext.getCurrentInstance().addMessage(null,
+//					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null)); //input this message
+//			email = null; // puts input box to blank again
+//			password = null;
+//			return null;  //restart
+//		}  
+		
+		
 	
 		
 		User user = UserService.findUserByEmail(email); // creates an object called user - once method is used, a user
 														// object is made and checks		
 															// if it's email is in the array in userservice
 														
-		if (user == null) { // if no email is found
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised")); // input
-																														// error
-																														// message
+		if (noEmailFound(user)) { // if no email is found
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised")); // input error																											// message
 			return null;
 		}
 
-		if (!user.getPassword().equals(password)) { //if the inputted password doesnt match the passaword in the array
+		if (passwordMismatch(user)) { //if the inputted password doesnt match the passaword in the array
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed: Incorrect password", null));
 			return null;
@@ -88,6 +96,25 @@ public class LoginBean {
 			return null;
 		}
 	}
+	public boolean noEmailFound(User user) { //returns true if user is null
+		if(user == null) {
+			return true;
+			
+		} else return false;
+	}
+	public boolean passwordMismatch(User user) { //returns true if password mismatches
+		if (!user.getPassword().equals(password)) {
+			return true;
+		} else return false;
+	}
+	
+	public boolean emptyFields() { // to test
+		if ( email == null || "".equals(email) || password == null || "".equals(password)  ) {  // if email or password is null or blank 
+			email = null; // puts input box to blank again
+			password = null;
+			return true;
+	} else return false;
+}
 
 	public String logout() { // resets all inputs fields and user
 		loggedInUser = null;
