@@ -11,7 +11,7 @@ public class GymClassService {
 	
 	
 	public GymClassService() {
-		 // Dummy data initialization
+		 // Dummy data initialisation
 		gymclassList.add(new GymClass("Yoga", 5));
 		gymclassList.add(new GymClass("Pilates", 8));
 		gymclassList.add(new GymClass("Tai chi", 10));
