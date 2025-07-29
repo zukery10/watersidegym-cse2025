@@ -9,35 +9,16 @@ import javax.faces.context.FacesContext;
 import com.watersidegym.model.User; //importing the user java
 import com.watersidegym.service.UserService; //importing the userservice java
 
-@ManagedBean
+@ManagedBean 
 @SessionScoped
 public class LoginBean {
 
 	private String email;
 	private String password;
 	private User loggedInUser;
-	// private boolean isRegistered;
-	// private String user ;
-	// private UserService userservice;
+	
+	
 
-	// Inject UserService
-	// @ManagedProperty(value = "#{userService}") //injects managed bean called
-	// userserivce into this this bean
-	// private UserService userService; //creates an instance of userservice
-	// public LoginBean() {}
-
-//	public LoginBean(String username, String password) {
-//		this.email = username;
-//		this.password = password;
-//	}
-//	public UserService getUserService() {
-//		return userService;
-//	}
-//
-//	public void setUserService(UserService userService) {
-//		this.userService = userService;
-//	}
-//
 	public String getEmail() {
 		return email;
 	}
@@ -55,9 +36,17 @@ public class LoginBean {
 	}
 
 	public String login() {
+	
+		
 		User user = UserService.findUserByEmail(email); // creates an object called user - once method is used, a user
 														// object is made and checks
-														// if it's email is in the array in userservice
+		
+															// if it's email is in the array in userservice
+		if ( email.equals("") || password.equals("")  ) { 
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null));
+			return null;
+		}												
 		if (user == null) { // if no email is found
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised")); // input
 																														// error
@@ -65,22 +54,25 @@ public class LoginBean {
 			return null;
 		}
 
-		if (!user.getPassword().equals(password)) {
+		if (!user.getPassword().equals(password)) { //if the inputted password doesnt match the passaword in the array
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed: Incorrect password", null));
 			return null;
 		}
+		
+		
+		
 
-		loggedInUser = user;
+		loggedInUser = user; //if username and password match, creates saves the user in the bean
 
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Login successful!", null));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Login successful!", null)); // success message
 
 		// Clear the login form fields
 		email = null;
 		password = null;
 
-		switch (loggedInUser.getRole()) {
+		switch (loggedInUser.getRole()) { //checks if user is member or non member
 		case "Member":
 			return "member-dashboard?faces-redirect=true";
 		case "Non-Member":
@@ -90,11 +82,11 @@ public class LoginBean {
 		}
 	}
 
-	public String logout() {
+	public String logout() { // resets all inputs fields and user
 		loggedInUser = null;
 		email = null;
 		password = null;
-		return "index?faces-redirect=true";
+		return "index?faces-redirect=true"; //redirects back to index
 	}
 
 	public boolean isLoggedIn() {
@@ -102,12 +94,16 @@ public class LoginBean {
 	}
 	
 	public void checkLoggedIn() {
-	    if (!isLoggedIn()) {
+	    if (!isLoggedIn()) { //check the method isLoggedIn= if false
 	        try {
 	            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	        } catch (Exception e) {
 	            System.out.println("Redirect failed");
 	        }
 	    }
+	}
+	
+	public User getLoggedInUser() {
+		return loggedInUser;
 	}
 }

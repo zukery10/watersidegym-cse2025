@@ -5,18 +5,18 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<title>Login Page</title>
+	<h:outputStylesheet name="styles.css" library="css" />
 </h:head>
 <h:body>
+
+
 	<h:form>
-		<h2>Login</h2>
+	<h2>Login</h2>
 
-		<h:outputLabel for="email" value="Email:" />
-
-		<h:inputText id="email" value="#{loginBean.email}" required="true" />
-
+	<h:outputLabel for="email" value="Email:" />
+	<h:inputText id="email" value="#{loginBean.email}" required="true" />
 		<br />
 		<br />
-
 		<h:outputLabel for="password" value="Password:" />
 
 		<h:inputSecret id="password" value="#{loginBean.password}"
@@ -24,6 +24,7 @@
 
 		<br />
 		<br />
+
 
 		<!-- Functional "Login" button -->
 		<h:commandButton value="Login" action="#{loginBean.login}" />
@@ -35,5 +36,7 @@
 			action="create-account?faces-redirect=true" immediate="true" />
 
 	</h:form>
+	
+	
 </h:body>
 </html>

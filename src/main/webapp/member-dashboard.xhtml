@@ -11,6 +11,7 @@
 <h:body>
 
 	<h1>Member Dashboard</h1>
+	<h2> #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.secondName}  </h2>
 	<h3>Login Successful</h3>
 <h:form>
         <h:commandButton value="Logout" action="#{loginBean.logout}" />
