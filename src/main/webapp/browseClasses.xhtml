@@ -10,17 +10,16 @@
 
 	<h2>Book Classes</h2>
 	
-	<ul>
+	<!-- <ul>
     <ui:repeat value="#{gymClassBean.gymClassList}" var="cls" >
         <li>#{cls.nameOfClass} - #{cls.noOfSlots}</li>
         
     </ui:repeat>
-	</ul>
+	</ul> -->
 	
 
-<!-- 	<h:form>
-		<h:dataTable value="#{gymClassBean.gymClassList}" var="cls">
-			<h:column>
+	<h:form>
+		<h:dataTable value="#{gymClassBean.gymClassList}" var="cls" border ="1">
 				<h:column>
 					<f:facet name="header">Class Name</f:facet>
                 	#{cls.nameOfClass}
@@ -29,10 +28,9 @@
 					<f:facet name="header">Slots Available</f:facet>
                 	#{cls.noOfSlots}
             </h:column>
-			</h:column>
 		</h:dataTable>
 	</h:form>
 	
--->
+
 </h:body>
 </html>
