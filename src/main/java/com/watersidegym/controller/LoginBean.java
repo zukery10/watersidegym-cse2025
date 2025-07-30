@@ -40,10 +40,8 @@ public class LoginBean {
 
 
 	public String login() {
-		
-		
 			
-		if ( emptyFields()) {//made a method below, tried to use for testing	
+		if (emptyFields()) {//made a method below, tried to use for testing	
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null)); //output this message
 			return null;
 		}

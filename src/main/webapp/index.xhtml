@@ -2,26 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Login Page</title>
 	<h:outputStylesheet name="styles.css" library="css" />
 </h:head>
 <h:body>
 
-<h1>Gym That's Fit For Your Life</h1>
+	<h1>Gym That's Fit For Your Life</h1>
 	<h:form id="loginForm" styleClass="form-container">
 		<h2>Login</h2>
 
 
-		<h:outputLabel for="email" value="Email:"  styleClass="label" />
-		<h:inputText id="email" value="#{loginBean.email}" styleClass="inputField" />
+		<p:outputLabel for="email" value="Email:" styleClass="label" />
+		<p:inputText id="email" value="#{loginBean.email}"
+			styleClass="inputField" />
 
 		<br />
 		<br />
-		<h:outputLabel for="password" value="Password:"  styleClass="label"/>
+		<p:outputLabel for="password" value="Password:" styleClass="label" />
 
-		<h:inputSecret id="password" value="#{loginBean.password}" styleClass="inputField"/>
+		<p:password id="password" value="#{loginBean.password}"
+			styleClass="inputField" />
 
 
 
@@ -30,12 +33,12 @@
 
 
 		<!-- Functional "Login" button -->
-		<h:commandButton value="Login" action="#{loginBean.login}" />
+		<p:commandButton value="Login" action="#{loginBean.login}" />
 
-		<h:messages style="color:red" />
+		<p:messages style="color:red" />
 
 		<!-- Functional "Create Account" button -->
-		<h:commandButton value="Create Account"
+		<p:commandButton value="Create Account"
 			action="create-account?faces-redirect=true" immediate="true" />
 
 	</h:form>
