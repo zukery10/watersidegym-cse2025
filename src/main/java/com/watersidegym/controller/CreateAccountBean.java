@@ -30,7 +30,7 @@ public class CreateAccountBean {
             new FacesMessage(FacesMessage.SEVERITY_INFO, "Account created successfully!", null));
 
         user = new User(); // reset form
-        return "index?faces-redirect=true";
+        return "index.jsf";
     }
     public void printUsersToConsole() {
         System.out.println("---- List of Users ----");
