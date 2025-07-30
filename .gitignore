@@ -3,5 +3,5 @@
 /.settings
 /target/
 /.tern-project
-
+.vscode
 /src/main/webapp/META-INF/
