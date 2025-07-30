@@ -1,12 +1,82 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-<h:head>
-    <title>ENTER TITLE HERE</title>
-</h:head>
-<h:body>
-    <h1>Purchase Membership</h1>
-</h:body>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Waterside Gym Membership</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/membership_select_page.css"/>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Waterside Gym <span class="tagline">A Fit for Your Life</span></div>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Memberships</a>
+            <a href="#">Classes</a>
+            <a href="#">Personal Trainers</a>
+            <a href="#">About</a>
+        </nav>
+        <div class="nav-buttons">
+            <a href="#" class="sign-in">Sign In</a>
+            <a href="#" class="join-now">Join Now</a>
+        </div>
+    </header>
+
+    <main class="main-section">
+        <h1>Choose Your <span class="highlight">Membership</span></h1>
+        <p class="subtitle">Flexible membership options designed to fit your lifestyle and fitness goals. <br/>All memberships include personal training sessions and unlimited class access.</p>
+
+        <div class="plans">
+            <!-- 3 Month Plan -->
+            <div class="plan-card">
+                
+                <h2>3 Month</h2>
+                <p class="price">£149 <span class="duration">per quarter</span></p>
+                <div class="session-label">1 Personal Training Session</div>
+                <ul>
+                    <li>Full gym access</li>
+                    <li>All group classes included</li>
+                    <li>Online exercise videos</li>
+                    <li>Fitness assessment</li>
+                    <li>Mobile app access</li>
+                </ul>
+                <button class="choose-btn">Choose Plan</button>
+            </div>
+
+            <!-- 6 Month Plan -->
+            <div class="plan-card popular">
+                <div class="badge">Most Popular</div>
+                
+                <h2>6 Month</h2>
+                <p class="price">£269 <span class="duration">per 6 months</span></p>
+                <div class="session-label">2 Personal Training Sessions</div>
+                <ul>
+                    <li>Everything in 3 Month plan</li>
+                    <li>Priority class booking</li>
+                    <li>Nutrition consultation</li>
+                    <li>Body composition analysis</li>
+                    <li>Guest passes (2 per month)</li>
+                    <li>Towel service</li>
+                </ul>
+                <button class="choose-btn">Choose Plan</button>
+            </div>
+
+            <!-- 12 Month Plan -->
+            <div class="plan-card">
+                
+                <h2>12 Month</h2>
+                <p class="price">£499 <span class="duration">per year</span></p>
+                <div class="session-label">4 Personal Training Sessions</div>
+                <ul>
+                    <li>Everything in 6 Month plan</li>
+                    <li>VIP locker access</li>
+                    <li>Unlimited guest passes</li>
+                    <li>Free personal training consultation</li>
+                    <li>Exclusive member events</li>
+                    <li>24/7 gym access</li>
+                    <li>Recovery zone access</li>
+                </ul>
+                <button class="choose-btn">Choose Plan</button>
+            </div>
+        </div>
+    </main>
+</body>
 </html>
