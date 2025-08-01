@@ -15,7 +15,8 @@
 
 	<h:form>
 
-		<div class="box">
+<div class="flex-container">
+		<div class="calendar-box">
 
 			<p:calendar value="#{gymClassBean.selectedDate}" pattern="dd.MM.yy"
 				style="padding:10px; margin-bottom:10px; width:150px;" />
@@ -24,7 +25,7 @@
 				action="#{gymClassBean.getFilteredClassesAction}" />
 		</div>
 
-		<div class="box">
+		<div class="table-box">
 			<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
 				border="1">
 
@@ -66,6 +67,7 @@
 				</h:column>
 		
 		</h:dataTable>
+</div>
 </div>
 	</h:form>
 
