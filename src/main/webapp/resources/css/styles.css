@@ -1,29 +1,126 @@
-body{
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #0f1115;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #0a0a0a;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+}
+
+.tagline {
+    display: block;
+    font-size: 12px;
+    color: #8fffa0;
+}
+
+.main-section {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.main-section h1 {
+    font-size: 42px;
+}
+
+.highlight {
+    color: #28a745;
+}
+
+.form-container {
+    font-family: arial;
+    padding-top: 100px;
+    color: white;
+    text-align: center;
+     
+}
+.error {
+	font-family: 'Segoe UI', sans-serif;
+	list-style: none;
+	text-align: center;
 	
-	background: #c0c0c0;
 }
-h1{
-	text-align:center;
-	color:white;
-	font-family:arial;
-	padding-top: 50px;
+
+.inputs {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+   
+    align-items: center; /* Vertically center label and input */
+    justify-content: flex-end; /* Align items to the left */
+    margin-bottom: 15px; /* Space between rows */
+    gap: 15px; /* Space between label and input */
+    width: 100%;
+    max-width: 400px; /* Optional max width */
+    margin-left: auto;
+    margin-right: auto;
+    
 }
-.form-container{
-	font-family:arial;
-	padding-top: 100px;
-	color:white;
-	text-align:center;
+
+.inputField {
 	
+    border: 2px solid #7f7f7f;
+    border-radius: 4px;
+    padding: 10px;
 }
-.label{
-	text-align: left;
-  padding-right: 15px;
-  font-weight: bold;
-  
-  
+
+.label {
+	flex:1;
+    text-align: left;
+    padding-right: 15px;
+    font-weight: bold;
+   
 }
-.inputField{
-	 border: 2px solid #7f7f7f;
-  border-radius: 4px;
- align-items: center;
+
+
+
+
+
+
+.choose-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid #28a745;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.choose-btn:hover {
+    background-color: #28a745;
+    color: black;
+}
+
+/* === Flex container for the plan cards === */
+.plans {
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 24px; 
+    padding: 0 20px;
+}
+
+/* === Individual plan card styling === */
+.plan-card {
+    background-color: #181a1f;
+    border-radius: 12px; /* Rounded corners */
+    padding: 30px; /* Internal spacing */
+    width: 300px; /* Fixed width for each card */
+    position: relative; /* Needed for absolute badge placement */
+    box-shadow: 0 0 10px rgba(0,255,100,0.1); /* Subtle green glow */
+    transition: transform 0.3s ease; /* Smooth animation on hover */
 }
