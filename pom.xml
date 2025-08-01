@@ -41,6 +41,12 @@
     <artifactId>primefaces</artifactId>
     <version>13.0.5</version> <!-- or latest stable -->
 </dependency>
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.10.0</version>
+    <scope>test</scope>
+</dependency>
 
 
 	</dependencies>
