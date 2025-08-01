@@ -16,6 +16,7 @@ public class User {
     private String gender; // "Male", "Female", "Other"
     private String role;  // "Non-Member", "Member", "PT"
 
+
     public String getEmail() {
         return email;
     }

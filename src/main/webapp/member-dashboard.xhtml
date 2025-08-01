@@ -6,6 +6,7 @@
 	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 </f:metadata>
 <h:head>
+	<h:outputStylesheet name="styles.css" library="css" />
 	<title>Member Dashboard</title>
 </h:head>
 <h:body>
@@ -22,6 +23,7 @@
     <h:form>
         <h:commandButton value="Logout" action="#{loginBean.logout}" />
     </h:form>
+
 
 </h:body>
 

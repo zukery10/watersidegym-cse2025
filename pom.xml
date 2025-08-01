@@ -36,17 +36,18 @@
 			<version>2.2</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>5.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.primefaces.themes/mint-choc -->
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>mint-choc</artifactId>
-			<version>1.0.11</version>
-		</dependency>
+
+		 <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>5.0</version>
+        </dependency> 
+         
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>mint-choc</artifactId>
+            <version>1.0.11</version>
+        </dependency>
 
 	</dependencies>
 	<build>
