@@ -1,9 +1,9 @@
 package com.watersidegym.controller;
 
-//import javax.annotation.PostConstruct;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-//import javax.faces.bean.ManagedProperty;
+
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import com.watersidegym.model.User; //importing the user java
@@ -46,18 +46,6 @@ public class LoginBean {
 			return null;
 		}
 		
-		
-//		if ( email == null || "".equals(email) || password == null || "".equals(password)  ) {  // if email or password is null or blank 
-//			FacesContext.getCurrentInstance().addMessage(null,
-//					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null)); //input this message
-//			email = null; // puts input box to blank again
-//			password = null;
-//			return null;  //restart
-//		}  
-		
-		
-	
-		
 		User user = UserService.findUserByEmail(email); // creates an object called user - once method is used, a user
 														// object is made and checks		
 															// if it's email is in the array in userservice
@@ -87,24 +75,31 @@ public class LoginBean {
 
 		switch (loggedInUser.getRole()) { //checks if user is member or non member
 		case "Member":
-			return "member-dashboard?faces-redirect=true";
+			return "member-dashboard";
 		case "Non-Member":
-			return "nonmember-dashboard?faces-redirect=true";
+			return "nonmember-dashboard";
+		case "PT":
+			return "personal-trainer-dashboard";
 		default:
 			return null;
 		}
 	}
+	
+	
 	public boolean noEmailFound(User user) { //returns true if user is null
 		if(user == null) {
 			return true;
 			
 		} else return false;
 	}
+	
+	
 	public boolean passwordMismatch(User user) { //returns true if password mismatches
 		if (!user.getPassword().equals(password)) {
 			return true;
 		} else return false;
 	}
+	
 	
 	public boolean emptyFields() { // to test
 		if ( email == null || "".equals(email) || password == null || "".equals(password)  ) {  // if email or password is null or blank 
@@ -113,17 +108,21 @@ public class LoginBean {
 			return true;
 	} else return false;
 }
+	
 
 	public String logout() { // resets all inputs fields and user
 		loggedInUser = null;
 		email = null;
 		password = null;
-		return "index?faces-redirect=true"; //redirects back to index
+		return "index"; //redirects back to index
 	}
+	
+	
 
 	public boolean isLoggedIn() {
 		return loggedInUser != null;
 	}
+	
 	
 	public void checkLoggedIn() {
 	    if (!isLoggedIn()) { //check the method isLoggedIn= if false

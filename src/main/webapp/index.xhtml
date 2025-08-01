@@ -14,16 +14,18 @@
 	<h:form id="loginForm" styleClass="form-container">
 		<h2>Login</h2>
 
+		<h:messages style="list-style-type: none; color:red" />
 
-		<p:outputLabel for="email" value="Email:" styleClass="label" />
-		<p:inputText id="email" value="#{loginBean.email}"
-			styleClass="inputField" />
+		<h:outputLabel for="email" value="Email:" styleClass="label" />
+		<h:inputText id="email" value="#{loginBean.email}"
+			styleClass="inputField" required="true"
+			requiredMessage="Must input Email" />
 
 		<br />
 		<br />
-		<p:outputLabel for="password" value="Password:" styleClass="label" />
+		<h:outputLabel for="password" value="Password:" styleClass="label" />
 
-		<p:password id="password" value="#{loginBean.password}"
+		<h:inputSecret id="password" value="#{loginBean.password}"
 			styleClass="inputField" />
 
 
@@ -33,12 +35,11 @@
 
 
 		<!-- Functional "Login" button -->
-		<p:commandButton value="Login" action="#{loginBean.login}" />
+		<h:commandButton value="Login" action="#{loginBean.login}" />
 
-		<p:messages style="color:red" />
 
 		<!-- Functional "Create Account" button -->
-		<p:commandButton value="Create Account"
+		<h:commandButton value="Create Account"
 			action="create-account?faces-redirect=true" immediate="true" />
 
 	</h:form>

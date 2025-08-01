@@ -9,7 +9,7 @@ public class UserService {
     private static List<User> users = new ArrayList<>();
 
     // Static block to initialize users once when the class loads
-    static {
+    static { // member example
         User user2 = new User();
         user2.setEmail("member@example.com");
         user2.setPassword("Member123");
@@ -23,6 +23,22 @@ public class UserService {
         user2.setGender("Female");
         user2.setRole("Member");
         users.add(user2);
+    }
+    
+    static { //PT example
+    	User user3 = new User();
+        user3.setEmail("PT@example.com");
+        user3.setPassword("PT123456");
+        user3.setFirstName("Joe");
+        user3.setSecondName("Soundman");
+        user3.setAddress1("65 Elm Road");
+        user3.setCounty("Wicklow");
+        user3.setEircode("T12ABC1");
+        user3.setPhoneNumber("0859876543");
+        user3.setDateOfBirth(new Date(95, 6, 20));
+        user3.setGender("Male");
+        user3.setRole("PT");
+        users.add(user3);
     }
 
     // Static method to get all users
