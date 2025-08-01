@@ -7,6 +7,7 @@
 
 <h:head>
 	<title>Browse Classes</title>
+	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
 <h:body>
 
@@ -14,54 +15,58 @@
 
 	<h:form>
 
-		<p:calendar value="#{gymClassBean.selectedDate}" pattern="dd.MM.yy"
-			style="padding:10px; margin-bottom:10px; width:150px;" />
+		<div class="box">
 
-		<h:commandButton value="Filter"
-			action="#{gymClassBean.getFilteredClassesAction}" />
+			<p:calendar value="#{gymClassBean.selectedDate}" pattern="dd.MM.yy"
+				style="padding:10px; margin-bottom:10px; width:150px;" />
 
-		<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
-			border="1">
+			<h:commandButton value="Filter"
+				action="#{gymClassBean.getFilteredClassesAction}" />
+		</div>
 
-			<h:column>
-				<f:facet name="header">Class Name</f:facet>
+		<div class="box">
+			<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
+				border="1">
+
+				<h:column>
+					<f:facet name="header">Class Name</f:facet>
                 #{cls.nameOfClass}
             </h:column>
 
-			<h:column>
-				<f:facet name="header">Duration</f:facet>
+				<h:column>
+					<f:facet name="header">Duration</f:facet>
    				 #{cls.classDuration}
 			</h:column>
 
 
-			<h:column>
-				<f:facet name="header">Date</f:facet>
-				<h:outputText value="#{cls.classDate}">
-					<f:convertDateTime pattern="dd.MM.yy" />
-				</h:outputText>
-			</h:column>
+				<h:column>
+					<f:facet name="header">Date</f:facet>
+					<h:outputText value="#{cls.classDate}">
+						<f:convertDateTime pattern="dd.MM.yy" />
+					</h:outputText>
+				</h:column>
 
-			<h:column>
-				<f:facet name="header">Time</f:facet>
-				<h:outputText value="#{cls.classTime}">
-					<f:convertDateTime pattern="HH:mm" />
-				</h:outputText>
-			</h:column>
+				<h:column>
+					<f:facet name="header">Time</f:facet>
+					<h:outputText value="#{cls.classTime}">
+						<f:convertDateTime pattern="HH:mm" />
+					</h:outputText>
+				</h:column>
 
 
-			<h:column>
-				<f:facet name="header">Slots Available</f:facet>
+				<h:column>
+					<f:facet name="header">Slots Available</f:facet>
                 #{cls.noOfSlots}
             </h:column>
 
-			<h:column>
-				<f:facet name="header">
-				</f:facet>
-				<h:commandButton value="Book" />
-			</h:column>
-
+				<h:column>
+					<f:facet name="header">
+					</f:facet>
+					<h:commandButton value="Book" />
+				</h:column>
+		
 		</h:dataTable>
-
+</div>
 	</h:form>
 
 	<!-- Show message if list is empty -->

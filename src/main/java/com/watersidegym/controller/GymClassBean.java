@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.faces.bean.ManagedBean; 
 import javax.faces.bean.RequestScoped;
@@ -59,7 +60,7 @@ public class GymClassBean {
 	public String getFilteredClassesAction(){
 
 		filteredClasses = new ArrayList<>();
-		Calendar sel = Calendar.getInstance();
+		Calendar sel = Calendar.getInstance(TimeZone.getDefault());
 		sel.setTime(selectedDate);
 
 		for(GymClass cls : gymClassList) {

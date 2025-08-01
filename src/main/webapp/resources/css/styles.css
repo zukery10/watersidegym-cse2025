@@ -1,0 +1,73 @@
+body {
+    background-color: #ffffff;
+    font-family: Arial, sans-serif;
+    color: #000;
+    margin: 0;
+    padding: 40px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 28px;
+    color: #006400;
+    margin-bottom: 30px;
+}
+
+/* Box container for calendar and table */
+.box {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #000; /* black box background */
+    border: 2px solid #00cc00; /* bright green border */
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00cc00;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #00ff00; /* green text */
+    background-color: #111;
+}
+
+table th,
+table td {
+    border: 1px solid #00cc00;
+    padding: 12px;
+    text-align: center;
+}
+
+table th {
+    background-color: #003300;
+    color: #00ff00;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #1a1a1a;
+}
+
+/* Button styling */
+.btn {
+    background-color: #00cc00;
+    color: #000;
+    border: none;
+    padding: 8px 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #00ff00;
+}
+
+/* Message */
+.no-classes-msg {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+}
