@@ -20,14 +20,19 @@
 		<h:commandButton value="Filter"
 			action="#{gymClassBean.getFilteredClassesAction}" />
 
-
 		<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
-			border="1" rendered="#{not empty gymClassBean.filteredClasses}">
+			border="1">
 
 			<h:column>
 				<f:facet name="header">Class Name</f:facet>
                 #{cls.nameOfClass}
             </h:column>
+
+			<h:column>
+				<f:facet name="header">Duration</f:facet>
+   				 #{cls.classDuration}
+			</h:column>
+
 
 			<h:column>
 				<f:facet name="header">Date</f:facet>

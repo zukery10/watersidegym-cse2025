@@ -43,24 +43,20 @@ public class GymClassBean {
 		return service.getAllGymClasses();
 	}
 
-	public List<GymClass> getFilteredClasses() {
-		return filteredClasses;
-	}
-	
-	//filter for matching dates -> selectedDate
-
-
 	public void setFilteredClasses(List<GymClass> filteredClasses) {
 		this.filteredClasses = filteredClasses;
 	}
-
+	
+	public List<GymClass> getFilteredClasses() {
+		 if (selectedDate == null) {
+		        return gymClassList; // show all classes by default
+		    }
+		    return filteredClasses;  // show only filtered results after selection
+	}
+	
+	//filter for matching dates -> selectedDate
+	
 	public String getFilteredClassesAction(){
-
-		if (selectedDate == null) {
-
-			filteredClasses=		new ArrayList<>();
-			return null;
-		}
 
 		filteredClasses = new ArrayList<>();
 		Calendar sel = Calendar.getInstance();

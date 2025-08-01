@@ -8,12 +8,14 @@ public class GymClass {
     private int noOfSlots;
     private Date classDate;  // Stores date only
     private Date classTime;  // Stores time only
+    private String classDuration;
 
-    public GymClass(String nameOfClass, Date classDate,Date classTime,int noOfSlots) {
+    public GymClass(String nameOfClass, Date classDate,Date classTime,int noOfSlots, String classDuration) {
         this.nameOfClass = nameOfClass;
         this.noOfSlots = noOfSlots;
         this.classDate = classDate;
         this.classTime = classTime;
+        this.classDuration = classDuration;
     }
 
     public String getNameOfClass() {
@@ -47,4 +49,12 @@ public class GymClass {
     public void setClassTime(Date classTime) {
         this.classTime = classTime;
     }
+
+	public String getClassDuration() {
+		return classDuration;
+	}
+
+	public void setClassDuration(String classDuration) {
+		this.classDuration = classDuration;
+	}
 }
