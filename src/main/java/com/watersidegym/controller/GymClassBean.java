@@ -1,5 +1,6 @@
 package com.watersidegym.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean; 
@@ -14,11 +15,34 @@ import com.watersidegym.service.GymClassService;
 public class GymClassBean {
 	
 	private GymClassService service = new GymClassService();
+	private List<GymClass> gymClassList ;
+	private Date selectedDate;
 	
-	public List<GymClass> getGymClassList(){
-		
-		return service.getAllGymClasses();
-		
+	
+	
+	public GymClassBean() {
+		gymClassList = new GymClassService().getAllGymClasses();
 	}
+	
+	//getter setters
+	public Date getSelectedDate() {
+		return selectedDate;
+	}
+
+	public void setSelectedDate(Date selectedDate) {
+		this.selectedDate = selectedDate;
+	}
+
+	public void setGymClassList(List<GymClass> gymClassList) {
+		this.gymClassList = gymClassList;
+	}
+
+	public List<GymClass> getGymClassList(){
+		return service.getAllGymClasses();
+	}
+	
+	//filter for matching dates -> selectedDate
+	
+	
 
 }

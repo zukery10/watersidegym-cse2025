@@ -9,7 +9,7 @@ public class GymClass {
     private Date classDate;  // Stores date only
     private Date classTime;  // Stores time only
 
-    public GymClass( Date classDate,Date classTime, String nameOfClass, int noOfSlots) {
+    public GymClass(String nameOfClass, Date classDate,Date classTime,int noOfSlots) {
         this.nameOfClass = nameOfClass;
         this.noOfSlots = noOfSlots;
         this.classDate = classDate;
