@@ -1,9 +1,7 @@
 package com.watersidegym.controller;
 
-//import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-//import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import com.watersidegym.model.User; //importing the user java
@@ -16,28 +14,7 @@ public class LoginBean {
 	private String email;
 	private String password;
 	private User loggedInUser;
-	// private boolean isRegistered;
-	// private String user ;
-	// private UserService userservice;
 
-	// Inject UserService
-	// @ManagedProperty(value = "#{userService}") //injects managed bean called
-	// userserivce into this this bean
-	// private UserService userService; //creates an instance of userservice
-	// public LoginBean() {}
-
-//	public LoginBean(String username, String password) {
-//		this.email = username;
-//		this.password = password;
-//	}
-//	public UserService getUserService() {
-//		return userService;
-//	}
-//
-//	public void setUserService(UserService userService) {
-//		this.userService = userService;
-//	}
-//
 	public String getEmail() {
 		return email;
 	}

@@ -126,7 +126,6 @@
 		</h:inputText>
 		<h:message for="eircode" style="color:red" />
 
-
 		<br />
 		<br />
 
@@ -139,19 +138,15 @@
 		</h:inputText>
 		<h:message for="phone" style="color:red" />
 
-
-
 		<br />
 		<br />
-
 		<!-- Date of Birth -->
 		<h:outputLabel for="dob" value="Date of Birth:" />
 		<h:inputText id="dob" value="#{createAccountBean.user.dateOfBirth}"
 			required="true" requiredMessage="Date of birth is required."
-			validatorMessage="Please enter the date in dd-MM-yyyy format">
+			converterMessage="Invalid date format. Please use dd-MM-yyyy.">
 			<f:convertDateTime pattern="dd-MM-yyyy" />
 		</h:inputText>
-
 		<h:message for="dob" style="color:red" />
 		<small>Format: dd-MM-yyyy</small>
 
@@ -167,7 +162,6 @@
 			<f:selectItem itemLabel="Female" itemValue="Female" />
 			<f:selectItem itemLabel="Other" itemValue="Other" />
 		</h:selectOneMenu>
-
 		<h:message for="gender" style="color:red" />
 
 		<br />
