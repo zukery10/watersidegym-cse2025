@@ -1,6 +1,7 @@
 package com.watersidegym.controller;
 
 
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 
@@ -16,8 +17,9 @@ public class LoginBean {
 	private String email;
 	private String password;
 	private User loggedInUser;
-	
-	
+
+
+
 
 	public String getEmail() {
 		return email;
@@ -127,7 +129,7 @@ public class LoginBean {
 	public void checkLoggedIn() {
 	    if (!isLoggedIn()) { //check the method isLoggedIn= if false
 	        try {
-	            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+	        	FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?faces-redirect=true");
 	        } catch (Exception e) {
 	            System.out.println("Redirect failed");
 	        }
@@ -135,6 +137,8 @@ public class LoginBean {
 	}
 	
 	public User getLoggedInUser() {
+
 		return loggedInUser;
+
 	}
 }

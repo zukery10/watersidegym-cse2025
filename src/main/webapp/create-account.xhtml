@@ -8,17 +8,15 @@
 <h:body>
 	<h:form>
 		<h2>Create Account</h2>
-
+		<h:messages globalOnly="true" style="color:red;" />
 		<!-- Email -->
 		<h:outputLabel for="email" value="Email:" />
 		<h:inputText id="email" value="#{createAccountBean.user.email}"
-			required="true">
+			required="true" requiredMessage="Email is required."
+			validatorMessage="Incorrect e-mail format">
 			<f:validateRegex pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
-			<!-- Must look like a valid email (e.g., name@example.com)
-     			- Starts with characters before @
-    			- Has one @ symbol
-     			- Then more characters, a dot, and domain -->
 		</h:inputText>
+
 		<h:message for="email" style="color:red" />
 
 		<br />
@@ -27,17 +25,25 @@
 		<!-- Password -->
 		<h:outputLabel for="password" value="Password:" />
 		<h:inputSecret id="password"
-			value="#{createAccountBean.user.password}" required="true">
+			value="#{createAccountBean.user.password}" required="true"
+			requiredMessage="Password is required."
+			validatorMessage="Password must have 8+ chars, one uppercase and one digit">
 			<f:validateRegex pattern="^(?=.*[A-Z])(?=.*\d).{8,}$" />
 		</h:inputSecret>
 		<h:message for="password" style="color:red" />
+
 		<br />
 		<br />
 
 		<!-- First Name -->
 		<h:outputLabel for="firstName" value="First Name:" />
 		<h:inputText id="firstName"
-			value="#{createAccountBean.user.firstName}" required="true" />
+			value="#{createAccountBean.user.firstName}" required="true"
+			requiredMessage="First name is required."
+			validatorMessage="First name must be at least 2 characters.">
+			<f:validateLength minimum="2" maximum="50" />
+		</h:inputText>
+
 		<h:message for="firstName" style="color:red" />
 
 		<br />
@@ -46,7 +52,12 @@
 		<!-- Second Name -->
 		<h:outputLabel for="secondName" value="Second Name:" />
 		<h:inputText id="secondName"
-			value="#{createAccountBean.user.secondName}" required="true" />
+			value="#{createAccountBean.user.secondName}" required="true"
+			requiredMessage="Second name is required."
+			validatorMessage="Second name must be at least 2 characters.">
+			<f:validateLength minimum="2" maximum="50" />
+		</h:inputText>
+
 		<h:message for="secondName" style="color:red" />
 
 		<br />
@@ -55,7 +66,7 @@
 		<!-- Address 1 -->
 		<h:outputLabel for="address1" value="Address Line 1:" />
 		<h:inputText id="address1" value="#{createAccountBean.user.address1}"
-			required="true" />
+			required="true" requiredMessage="Address Line 1 is required." />
 		<h:message for="address1" style="color:red" />
 
 		<br />
@@ -71,8 +82,36 @@
 
 		<!-- County -->
 		<h:outputLabel for="county" value="County:" />
-		<h:inputText id="county" value="#{createAccountBean.user.county}"
-			required="true" />
+		<h:selectOneMenu id="county" value="#{createAccountBean.user.county}"
+			required="true" requiredMessage="County is required.">
+			<f:selectItem itemLabel="Select a County" itemValue="" />
+			<f:selectItem itemValue="Carlow" itemLabel="Carlow" />
+			<f:selectItem itemValue="Cavan" itemLabel="Cavan" />
+			<f:selectItem itemValue="Clare" itemLabel="Clare" />
+			<f:selectItem itemValue="Cork" itemLabel="Cork" />
+			<f:selectItem itemValue="Donegal" itemLabel="Donegal" />
+			<f:selectItem itemValue="Dublin" itemLabel="Dublin" />
+			<f:selectItem itemValue="Galway" itemLabel="Galway" />
+			<f:selectItem itemValue="Kerry" itemLabel="Kerry" />
+			<f:selectItem itemValue="Kildare" itemLabel="Kildare" />
+			<f:selectItem itemValue="Kilkenny" itemLabel="Kilkenny" />
+			<f:selectItem itemValue="Laois" itemLabel="Laois" />
+			<f:selectItem itemValue="Leitrim" itemLabel="Leitrim" />
+			<f:selectItem itemValue="Limerick" itemLabel="Limerick" />
+			<f:selectItem itemValue="Longford" itemLabel="Longford" />
+			<f:selectItem itemValue="Louth" itemLabel="Louth" />
+			<f:selectItem itemValue="Mayo" itemLabel="Mayo" />
+			<f:selectItem itemValue="Meath" itemLabel="Meath" />
+			<f:selectItem itemValue="Monaghan" itemLabel="Monaghan" />
+			<f:selectItem itemValue="Offaly" itemLabel="Offaly" />
+			<f:selectItem itemValue="Roscommon" itemLabel="Roscommon" />
+			<f:selectItem itemValue="Sligo" itemLabel="Sligo" />
+			<f:selectItem itemValue="Tipperary" itemLabel="Tipperary" />
+			<f:selectItem itemValue="Waterford" itemLabel="Waterford" />
+			<f:selectItem itemValue="Westmeath" itemLabel="Westmeath" />
+			<f:selectItem itemValue="Wexford" itemLabel="Wexford" />
+			<f:selectItem itemValue="Wicklow" itemLabel="Wicklow" />
+		</h:selectOneMenu>
 		<h:message for="county" style="color:red" />
 
 		<br />
@@ -81,7 +120,8 @@
 		<!-- Eircode -->
 		<h:outputLabel for="eircode" value="Eircode:" />
 		<h:inputText id="eircode" value="#{createAccountBean.user.eircode}"
-			required="true">
+			required="true" requiredMessage="Eircode is required."
+			validatorMessage="Eircode must be exactly 7 alphanumeric characters">
 			<f:validateRegex pattern="^[A-Za-z0-9]{7}$" />
 		</h:inputText>
 		<h:message for="eircode" style="color:red" />
@@ -92,22 +132,23 @@
 		<!-- Phone Number -->
 		<h:outputLabel for="phone" value="Phone Number:" />
 		<h:inputText id="phone" value="#{createAccountBean.user.phoneNumber}"
-			required="true">
+			required="true" requiredMessage="Phone number is required."
+			validatorMessage="Phone number must start with 08, then a digit from 3-9, followed by 7 digits">
 			<f:validateRegex pattern="^08[3-9][0-9]{7}$" />
 		</h:inputText>
 		<h:message for="phone" style="color:red" />
 
 		<br />
 		<br />
-
 		<!-- Date of Birth -->
 		<h:outputLabel for="dob" value="Date of Birth:" />
 		<h:inputText id="dob" value="#{createAccountBean.user.dateOfBirth}"
-			required="true">
-			<f:convertDateTime pattern="yyyy-MM-dd" />
+			required="true" requiredMessage="Date of birth is required."
+			converterMessage="Invalid date format. Please use dd-MM-yyyy.">
+			<f:convertDateTime pattern="dd-MM-yyyy" />
 		</h:inputText>
 		<h:message for="dob" style="color:red" />
-		<small>Format: yyyy-MM-dd</small>
+		<small>Format: dd-MM-yyyy</small>
 
 		<br />
 		<br />
@@ -115,7 +156,7 @@
 		<!-- Gender -->
 		<h:outputLabel for="gender" value="Gender:" />
 		<h:selectOneMenu id="gender" value="#{createAccountBean.user.gender}"
-			required="true">
+			required="true" requiredMessage="Please select a gender.">
 			<f:selectItem itemLabel="Select..." itemValue="" />
 			<f:selectItem itemLabel="Male" itemValue="Male" />
 			<f:selectItem itemLabel="Female" itemValue="Female" />
@@ -132,8 +173,6 @@
 		<br />
 		<h:commandButton value="Print Users (Debug)"
 			action="#{createAccountBean.printUsersToConsole}" immediate="true" />
-
-		<h:messages style="color:green" />
 	</h:form>
 
 </h:body>
