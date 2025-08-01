@@ -16,11 +16,10 @@
         <h3>Welcome, #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.secondName}!</h3>
         <p>Email: #{loginBean.loggedInUser.email}</p>
         <p>Role: #{loginBean.loggedInUser.role}</p>
-    </h:panelGroup>
-
- 
-
+    </h:panelGroup> 
+     
     <h:form>
+    <h:commandButton value="Browse Classes" action="browseClasses?faces-redirect=true" />  
         <h:commandButton value="Logout" action="#{loginBean.logout}" />
     </h:form>
 

@@ -1,5 +1,4 @@
 package com.watersidegym.controller;
-
 import com.watersidegym.model.User;
 import com.watersidegym.service.UserService;
 import org.junit.jupiter.api.BeforeEach;

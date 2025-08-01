@@ -10,7 +10,7 @@ import com.watersidegym.model.GymClass;
 
 public class GymClassService {
 
-    private List<GymClass> gymclassList = new ArrayList<>();
+    private static List<GymClass> gymclassList = new ArrayList<>();
 
     public GymClassService() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
@@ -40,7 +40,7 @@ public class GymClassService {
         }
     }
 
-    public List<GymClass> getAllGymClasses() {
+    public static List<GymClass> getAllGymClasses() {
         return gymclassList;
     }
 }

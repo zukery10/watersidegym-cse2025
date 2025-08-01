@@ -9,8 +9,8 @@ import javax.faces.bean.SessionScoped;
 import com.watersidegym.model.GymClass;
 import com.watersidegym.service.GymClassService;
 
-@ManagedBean(name="gymClassBean")
-@RequestScoped
+@ManagedBean
+@SessionScoped
 public class GymClassBean {
 	
 	private GymClassService service = new GymClassService();
