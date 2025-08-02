@@ -29,7 +29,7 @@ public class GymClassBean implements Serializable {
 		} catch (Exception e) {
 			gymClassList = new ArrayList<>(); // fallback to empty
 			System.err.println("Failed to load classes: " + e.getMessage());
-			errorMessage = "We're currently unable to load classes. Please try again later.";
+			errorMessage = "Currently unable to load classes. Please try again later.";
 		}}
 
 	//getter setters
