@@ -1,84 +1,95 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-    <title>Browse Classes</title>
-    <h:outputStylesheet library="css" name="styles.css" />
+	<title>Browse Classes</title>
+	<h:outputStylesheet name="css/styles.css" library="css" />
+
 </h:head>
 
 <h:body>
 
-    <h2>Book Classes</h2>
+	<h2>Book Classes</h2>
 
-    <h:form>
+	<h:form>
 
-        <div class="flex-container">
+		<div class="flex-container">
 
-            <div class="calendar-box">
-                <!-- JSF date input using HTML5 native calendar -->
-                <h:outputLabel for="date" value="Select Date:" />
-                <h:inputText id="date" value="#{gymClassBean.selectedDate}">
-                    <f:passThroughAttribute name="type" value="date" />
-                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+			<div class="calendar-box">
+				<!-- JSF date input using HTML5 native calendar -->
+				<h:outputLabel for="date" value="Select Date:" />
+				<h:inputText id="date" value="#{gymClassBean.selectedDate}">
+					<f:passThroughAttribute name="type" value="date" />
+					<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
 
-                </h:inputText>
+				</h:inputText>
 
-                <h:commandButton value="Filter"
-                                 action="#{gymClassBean.getFilteredClassesAction}" />
-            </div>
+				<h:commandButton value="Filter"
+					action="#{gymClassBean.getFilteredClassesAction}" />
+			</div>
 
-            <div class="table-box">
-                <h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
-                             border="1">
+			<h:panelGroup rendered="#{not empty gymClassBean.filteredClasses}">
+				<div class="table-box">
+					<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
+						border="1">
 
-                    <h:column>
-                        <f:facet name="header">Class Name</f:facet>
+						<h:column>
+							<f:facet name="header">Class Name</f:facet>
                         #{cls.nameOfClass}
                     </h:column>
 
-                    <h:column>
-                        <f:facet name="header">Duration</f:facet>
+						<h:column>
+							<f:facet name="header">Duration</f:facet>
                         #{cls.classDuration}
                     </h:column>
 
-                    <h:column>
-                        <f:facet name="header">Date</f:facet>
-                        <h:outputText value="#{cls.classDate}">
-                            <f:convertDateTime pattern="dd.MM.yy" />
-                        </h:outputText>
-                    </h:column>
+						<h:column>
+							<f:facet name="header">Date</f:facet>
+							<h:outputText value="#{cls.classDate}">
+								<f:convertDateTime pattern="dd.MM.yy" />
+							</h:outputText>
+						</h:column>
 
-                    <h:column>
-                        <f:facet name="header">Time</f:facet>
-                        <h:outputText value="#{cls.classTime}">
-                            <f:convertDateTime pattern="HH:mm" />
-                        </h:outputText>
-                    </h:column>
+						<h:column>
+							<f:facet name="header">Time</f:facet>
+							<h:outputText value="#{cls.classTime}">
+								<f:convertDateTime pattern="HH:mm" />
+							</h:outputText>
+						</h:column>
 
-                    <h:column>
-                        <f:facet name="header">Slots Available</f:facet>
+						<h:column>
+							<f:facet name="header">Slots Available</f:facet>
                         #{cls.noOfSlots}
                     </h:column>
 
-                    <h:column>
-                        <f:facet name="header"></f:facet>
-                        <h:commandButton value="Book" />
-                    </h:column>
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<h:commandButton value="Book" />
+						</h:column>
 
-                </h:dataTable>
-            </div>
-        </div>
+					</h:dataTable>
+				</div>
+			</h:panelGroup>
+		</div>
 
-    </h:form>
+	</h:form>
 
-    <!-- Show message if list is empty -->
-    <h:panelGroup rendered="#{empty gymClassBean.gymClassList}">
-        <h:outputText value="No classes available/scheduled."
-                      style="color: red;" />
-    </h:panelGroup>
+	<!-- Show message if list is empty -->
+	<h:panelGroup
+		rendered="#{not empty gymClassBean.selectedDate and empty gymClassBean.filteredClasses}">
+		<h:outputText value="No classes available/scheduled."
+			style="color: red;" />
+	</h:panelGroup>
+
+	<!-- Show error message if data retrieval fails  -->
+	<h:panelGroup rendered="#{not empty gymClassBean.errorMessage}">
+		<h:outputText value="#{gymClassBean.errorMessage}"
+			style="color: red; font-weight: bold;" />
+	</h:panelGroup>
+
 
 </h:body>
 </html>
