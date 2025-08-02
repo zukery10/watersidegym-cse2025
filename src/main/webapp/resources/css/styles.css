@@ -50,8 +50,7 @@ body {
 	list-style: none;
 	text-align: center;
 	align-content: center;
-	color: #ff6b6b;
-	
+	color: #ff6b6b;	
 }
 
 .form-group {
@@ -84,9 +83,6 @@ body {
     border: 1px solid #ccc;
     font-size: 14px;
 }
-
-
-
 
 .choose-btn {
     width: 100%;
