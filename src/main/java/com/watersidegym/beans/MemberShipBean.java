@@ -110,5 +110,3 @@ public class MemberShipBean implements Serializable {
 
 
 }
-
-
