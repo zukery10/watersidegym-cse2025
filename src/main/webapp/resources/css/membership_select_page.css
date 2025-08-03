@@ -62,12 +62,12 @@ body {
 /* === Main content container === */
 .main-section {
     text-align: center; /* Center align all content */
-    padding: 60px 20px; /* Add vertical and horizontal spacing */
+    padding: 35px 20px; /* Add vertical and horizontal spacing */
 }
 
 /* Main heading inside the section */
 .main-section h1 {
-    font-size: 42px; /* Large and bold main heading */
+    font-size: 53px; /* Large and bold main heading */
 }
 
 /* Highlighted green word in heading */
@@ -81,6 +81,15 @@ body {
     margin: 10px auto 40px; /* Spacing above and below */
     max-width: 600px; /* Constrain width for readability */
     line-height: 1.6; /* Better spacing between lines */
+    font-size: 25px;
+}
+
+.subtitlePlans {
+    color: #ccc; /* Lighter gray text */
+    margin: 10px auto 40px; /* Spacing above and below */
+    max-width: 600px; /* Constrain width for readability */
+    line-height: 1.6; /* Better spacing between lines */
+    font-size: 17px;
 }
 
 /* === Flex container for the plan cards === */
@@ -243,8 +252,24 @@ ul li::before {
     transition: background-color 0.3s ease;
 }
 
+.paypal-btn {
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #cfc339;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 .add-card-btn:hover {
     background-color: #1e7e34;
+}
+
+.paypal-btn:hover {
+    background-color: #7a7424;
 }
 
 /* === Card number input with icon === */
@@ -259,6 +284,24 @@ ul li::before {
     background-position: 12px center;
     background-size: 24px 16px;
 }
+
+.paypal-btn {
+    background-color: #f6c700;
+    color: black;
+    font-weight: bold;
+    padding: 12px 20px 12px 48px; /* left padding for icon space */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    background-image: url('../images/paypal.png');
+    background-repeat: no-repeat;
+    background-position: 16px center;
+	background-size: 93px 82px;
+    width: 100%;
+    text-align: center;
+}
+
 
 /* === Success Confirmation Box === */
 .success-box {
@@ -275,3 +318,19 @@ ul li::before {
   color: #28a745;
   font-size: 20px;
 }
+
+.feedback-message {
+    background-color: #ffdddd;
+    border: 1px solid #ff5e5e;
+    color: #d8000c;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.feedback-message li {
+    list-style: none;
+}
+

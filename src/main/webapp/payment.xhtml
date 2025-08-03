@@ -1,64 +1,93 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-    <title>Payment</title>
-    <link rel="stylesheet" type="text/css" href="resources/css/membership_select_page.css"/>
+	<title>Payment</title>
+	<link rel="stylesheet" type="text/css"
+		href="resources/css/membership_select_page.css" />
 </h:head>
 
 <h:body>
-	
-	<!--  the nav to be incuded in all pages -->	
+
+	<!--  the nav to be incuded in all pages -->
 	<ui:include src="/includes/header.xhtml" />
 
-    <main class="main-section">
-        <h1>Payment <span class="highlight">Details</span></h1>
-        
+	<main class="main-section">
+		<h1>
+			Payment <span class="highlight">Details</span>
+		</h1>
+				<p class="subtitle">
+					You're purchasing: <strong>#{membershipBean.membershipPlan.label}</strong><br />
+					<span style="color: #8fffa0;">Total:
+						€#{membershipBean.membershipPlan.price}</span>
+				</p>
 
-<div class="plan-card payment-form">
-    <h:form styleClass="payment-grid">
-        
-        <div class="form-field">
-            <label for="name">Cardholder's Name</label>
-            <h:inputText id="name" value="#{membershipBean.cardholderName}" required="true" />
-        </div>
+		<div class="plan-card payment-form">	
+			<h:messages globalOnly="true" layout="list" styleClass="feedback-message"/> <!--  if user enters wrong credentials this message will appear -->
+			<h:form styleClass="payment-grid">
+				<div class="form-field">
+					<label for="name">Cardholder's Name</label>
+					<h:inputText id="name" value="#{membershipBean.cardholderName}"
+						required="true" />
+				</div>
 
-		<div class="form-field card-input-wrapper">
-		    <label for="number">Card Number</label>
-		    <h:inputText id="number"
-		                 value="#{membershipBean.cardNumber}"
-		                 required="true"
-		                 maxlength="19"
-		                 oninput="formatCardNumber(this)" />
+				<div class="form-field card-input-wrapper">
+					<label for="number">Card Number</label>
+					<h:inputText id="number" value="#{membershipBean.cardNumber}"
+						required="true" maxlength="19" oninput="formatCardNumber(this)" />
+				</div>
+
+				<div class="form-row">
+					<div class="form-field">
+						<label for="expiry">Expiry</label>
+						<h:inputText id="expiry" value="#{membershipBean.expiry}"
+							required="true" maxlength="5" />
+					</div>
+					<div class="form-field">
+						<label for="cvv">CVV</label>
+						<h:inputSecret id="cvv" value="#{membershipBean.cvv}"
+							required="true" maxlength="4" />
+					</div>
+				</div>
+
+
+				<h:commandButton value="Pay Now"
+					action="#{membershipBean.processPayment}" styleClass="add-card-btn" />
+
+			</h:form>
+
+
+		</div>
+		<br>
+		<div class="plan-card payment-form">
+			<h:form styleClass="payment-grid">
+				<div class="form-field">
+					<label for="PayPalEmail">PayPal Email</label>
+					<h:inputText id="PayPalEmail" value="#{membershipBean.paypalEmail}"
+						required="true" />
+				</div>
+
+				<div class="form-field" >
+					<label for="PayPalPass">PayPal Password</label>
+					<h:inputSecret id="PayPalPass" value="#{membershipBean.paypalPassword}"
+						required="true" maxlength="19" oninput="formatCardNumber(this)" />
+				</div>
+
+				<h:commandButton value="Pay with PayPal"
+    action="#{membershipBean.processPaymentPayPal}"
+    styleClass="paypal-btn" />
+
+
+
+			</h:form>
 		</div>
 
-        <div class="form-row">
-            <div class="form-field">
-                <label for="expiry">Expiry</label>
-                <h:inputText id="expiry" value="#{membershipBean.expiry}" required="true" maxlength="5" />
-            </div>
-            <div class="form-field">
-                <label for="cvv">CVV</label>
-                <h:inputSecret id="cvv" value="#{membershipBean.cvv}" required="true" maxlength="4" />
-            </div>
-        </div>
-        <p class="subtitle"> You're purchasing: <strong>#{membershipBean.membershipPlan.label}</strong><br/>
-        <span style="color: #8fffa0;">Total: £#{membershipBean.membershipPlan.price}</span>	</p>
-
-        <h:commandButton value="Add Card"
-                         action="#{membershipBean.processPayment}"
-                         styleClass="add-card-btn" />
-
-    </h:form>
-</div>
+		</br>
 
 
-
-
-
-    </main>
+	</main>
 </h:body>
 </html>
