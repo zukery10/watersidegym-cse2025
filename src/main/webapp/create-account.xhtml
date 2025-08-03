@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Create Account</title>
+	<h:outputStylesheet name="styles.css" library="css" />
+</h:head>
+<h:body>
+	<header class="navbar">
+		<div class="logo">
+			Waterside Gym <span class="tagline">A Fit for Your Life</span>
+		</div>
+	</header>
+	<main class="main-section">
+		<h1>
+			Create <span class="highlight">Account</span>
+		</h1>
+		<h:form>
+			<h:messages globalOnly="true" style="color:red;" />
+
+			<div class="plans">
+				<div class="plan-card">
+
+					<!-- Email -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="email" value="Email:" />
+							<h:inputText id="email" value="#{createAccountBean.user.email}"
+								required="true" requiredMessage="Email is required."
+								validatorMessage="Incorrect e-mail format">
+								<f:validateRegex pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+							</h:inputText>
+						</div>
+						<h:message for="email" styleClass="error-message" />
+					</div>
+
+					<!-- Password -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="password" value="Password:" />
+							<h:inputSecret id="password" value="#{createAccountBean.user.password}"
+								required="true" requiredMessage="Password is required."
+								validatorMessage="Password must have 8+ chars, one uppercase and one digit">
+								<f:validateRegex pattern="^(?=.*[A-Z])(?=.*\d).{8,}$" />
+							</h:inputSecret>
+						</div>
+						<h:message for="password" styleClass="error-message" />
+					</div>
+
+					<!-- First Name -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="firstName" value="First Name:" />
+							<h:inputText id="firstName" value="#{createAccountBean.user.firstName}"
+								required="true" requiredMessage="First name is required."
+								validatorMessage="First name must be at least 2 characters.">
+								<f:validateLength minimum="2" maximum="50" />
+							</h:inputText>
+						</div>
+						<h:message for="firstName" styleClass="error-message" />
+					</div>
+
+					<!-- Second Name -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="secondName" value="Second Name:" />
+							<h:inputText id="secondName" value="#{createAccountBean.user.secondName}"
+								required="true" requiredMessage="Second name is required."
+								validatorMessage="Second name must be at least 2 characters.">
+								<f:validateLength minimum="2" maximum="50" />
+							</h:inputText>
+						</div>
+						<h:message for="secondName" styleClass="error-message" />
+					</div>
+
+					<!-- Address 1 -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="address1" value="Address Line 1:" />
+							<h:inputText id="address1" value="#{createAccountBean.user.address1}"
+								required="true" requiredMessage="Address Line 1 is required." />
+						</div>
+						<h:message for="address1" styleClass="error-message" />
+					</div>
+
+					<!-- Address 2 -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="address2" value="Address Line 2:" />
+							<h:inputText id="address2" value="#{createAccountBean.user.address2}" />
+						</div>
+						<h:message for="address2" styleClass="error-message" />
+					</div>
+
+					<!-- County -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="county" value="County:" />
+							<h:selectOneMenu id="county" value="#{createAccountBean.user.county}"
+								required="true" requiredMessage="County is required.">
+								<f:selectItem itemLabel="Select a County" itemValue="" />
+								<f:selectItem itemValue="Carlow" itemLabel="Carlow" />
+								<f:selectItem itemValue="Cavan" itemLabel="Cavan" />
+								<f:selectItem itemValue="Clare" itemLabel="Clare" />
+								<f:selectItem itemValue="Cork" itemLabel="Cork" />
+								<f:selectItem itemValue="Donegal" itemLabel="Donegal" />
+								<f:selectItem itemValue="Dublin" itemLabel="Dublin" />
+								<f:selectItem itemValue="Galway" itemLabel="Galway" />
+								<f:selectItem itemValue="Kerry" itemLabel="Kerry" />
+								<f:selectItem itemValue="Kildare" itemLabel="Kildare" />
+								<f:selectItem itemValue="Kilkenny" itemLabel="Kilkenny" />
+								<f:selectItem itemValue="Laois" itemLabel="Laois" />
+								<f:selectItem itemValue="Leitrim" itemLabel="Leitrim" />
+								<f:selectItem itemValue="Limerick" itemLabel="Limerick" />
+								<f:selectItem itemValue="Longford" itemLabel="Longford" />
+								<f:selectItem itemValue="Louth" itemLabel="Louth" />
+								<f:selectItem itemValue="Mayo" itemLabel="Mayo" />
+								<f:selectItem itemValue="Meath" itemLabel="Meath" />
+								<f:selectItem itemValue="Monaghan" itemLabel="Monaghan" />
+								<f:selectItem itemValue="Offaly" itemLabel="Offaly" />
+								<f:selectItem itemValue="Roscommon" itemLabel="Roscommon" />
+								<f:selectItem itemValue="Sligo" itemLabel="Sligo" />
+								<f:selectItem itemValue="Tipperary" itemLabel="Tipperary" />
+								<f:selectItem itemValue="Waterford" itemLabel="Waterford" />
+								<f:selectItem itemValue="Westmeath" itemLabel="Westmeath" />
+								<f:selectItem itemValue="Wexford" itemLabel="Wexford" />
+								<f:selectItem itemValue="Wicklow" itemLabel="Wicklow" />
+							</h:selectOneMenu>
+						</div>
+						<h:message for="county" styleClass="error-message" />
+					</div>
+
+					<!-- Eircode -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="eircode" value="Eircode:" />
+							<h:inputText id="eircode" value="#{createAccountBean.user.eircode}"
+								required="true" requiredMessage="Eircode is required."
+								validatorMessage="Eircode must be exactly 7 alphanumeric characters">
+								<f:validateRegex pattern="^[A-Za-z0-9]{7}$" />
+							</h:inputText>
+						</div>
+						<h:message for="eircode" styleClass="error-message" />
+					</div>
+
+					<!-- Phone Number -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="phone" value="Phone Number:" />
+							<h:inputText id="phone" value="#{createAccountBean.user.phoneNumber}"
+								required="true" requiredMessage="Phone number is required."
+								validatorMessage="Phone number must start with 08, then a digit from 3-9, followed by 7 digits">
+								<f:validateRegex pattern="^08[3-9][0-9]{7}$" />
+							</h:inputText>
+						</div>
+						<h:message for="phone" styleClass="error-message" />
+					</div>
+
+					<!-- Date of Birth -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="dob" value="Date of Birth:" />
+							<h:inputText id="dob" value="#{createAccountBean.user.dateOfBirth}"
+								required="true" requiredMessage="Date of birth is required."
+								converterMessage="Invalid date format. Please use dd-MM-yyyy.">
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</h:inputText>
+						</div>
+						<h:message for="dob" styleClass="error-message" />
+					</div>
+
+					<!-- Gender -->
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="gender" value="Gender:" />
+							<h:selectOneMenu id="gender" value="#{createAccountBean.user.gender}"
+								required="true" requiredMessage="Please select a gender.">
+								<f:selectItem itemLabel="Select..." itemValue="" />
+								<f:selectItem itemLabel="Male" itemValue="Male" />
+								<f:selectItem itemLabel="Female" itemValue="Female" />
+								<f:selectItem itemLabel="Other" itemValue="Other" />
+							</h:selectOneMenu>
+						</div>
+						<h:message for="gender" styleClass="error-message" />
+					</div>
+
+					<!-- Buttons -->
+					<h:commandButton styleClass="choose-btn" value="Register"
+						action="#{createAccountBean.register}" />
+					<br /><br />
+					<h:commandButton styleClass="choose-btn"
+						value="Print Users (Debug)"
+						action="#{createAccountBean.printUsersToConsole}" immediate="true" />
+				</div>
+			</div>
+		</h:form>
+	</main>
+</h:body>
+</html>
