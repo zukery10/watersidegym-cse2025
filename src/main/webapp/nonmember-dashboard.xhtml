@@ -8,7 +8,38 @@
 </h:head>
 <h:body>
 
-	<h1>Non-Member Dashboard</h1>
-	<h3>Login Successful</h3>
+	<header class="navbar">
+		<div class="logo">
+			Waterside Gym <span class="tagline">A Fit for Your Life</span>
+		</div>
+	</header>
+	<main class="main-section">
+		<h1>Non-Member Dashboard</h1>
+		<h3>Login Successful</h3>
+		<h:form id="loginForm" styleClass="form-container">
+			<div class="plans">
+				<div class="plan-card">
+					<h:panelGroup rendered="#{not empty loginBean.loggedInUser}">
+						<h3>Welcome, #{loginBean.loggedInUser.firstName}
+							#{loginBean.loggedInUser.secondName}!</h3>
+						<p>Email: #{loginBean.loggedInUser.email}</p>
+						<p>Role: #{loginBean.loggedInUser.role}</p>
+					</h:panelGroup>
+
+					<h:form>
+					<!-- CHANGE TO MEMBERSHIP PLANS REDIRECT -->
+						<h:commandButton value="Membership Plans"
+							action="index"  
+							styleClass="choose-btn" />
+						<br></br>
+						<br></br>
+						<h:commandButton value="Logout" action="#{loginBean.logout}"
+							styleClass="choose-btn" />
+					</h:form>
+				</div>
+			</div>
+			
+		</h:form>
+		</main>
 </h:body>
 </html>

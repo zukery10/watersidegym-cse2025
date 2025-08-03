@@ -27,7 +27,7 @@ body {
 
 .main-section {
     text-align: center;
-    padding: 60px 20px;
+    
 }
 
 .main-section h1 {
@@ -38,20 +38,24 @@ body {
     color: #28a745;
 }
 
+.error {
+	
+	font-family: 'Segoe UI', sans-serif;
+	
+	float:inherit;
+	text-align: center;
+	list-style: none;	
+	color: #ff6b6b;	
+}
+
 .form-container {
     font-family: arial;
-    padding-top: 100px;
+    padding-top: 10px;
     color: white;
     text-align: center;
      
 }
-.error {
-	font-family: 'Segoe UI', sans-serif;
-	list-style: none;
-	text-align: center;
-	align-content: center;
-	color: #ff6b6b;	
-}
+
 
 .form-group {
     display: flex;
