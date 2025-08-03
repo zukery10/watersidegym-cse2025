@@ -4,4 +4,5 @@
 /target/
 /.tern-project
 .vscode
+.idea
 /src/main/webapp/META-INF/
