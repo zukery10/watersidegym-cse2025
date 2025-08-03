@@ -53,6 +53,7 @@ public class UserService {
             return false;
         }
         users.add(user);
+        user.setRole("Non-Member");
         return true;
     }
 

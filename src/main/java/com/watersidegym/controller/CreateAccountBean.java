@@ -29,14 +29,15 @@ public class CreateAccountBean {
         FacesContext.getCurrentInstance().addMessage(null,
             new FacesMessage(FacesMessage.SEVERITY_INFO, "Account created successfully!", null));
 
-        user = new User(); // reset form
+        user = new User();// reset form
+       			
         return "index";
     }
     public void printUsersToConsole() {
         System.out.println("---- List of Users ----");
         for (User u : UserService.getUsers()) {
             System.out.println("Email: " + u.getEmail() 
-                + ", Name: " + u.getFirstName() + " " + u.getSecondName());
+                + ", Name: " + u.getFirstName() + " " + u.getSecondName() + u.getRole());
         }
         System.out.println("-----------------------");
     }

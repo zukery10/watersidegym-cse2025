@@ -1,3 +1,4 @@
+
 package com.watersidegym.controller;
 
 import javax.faces.application.FacesMessage;
