@@ -27,8 +27,6 @@ public class MemberShipBean implements Serializable {
     private String paypalEmail;
     private String paypalPassword;
 
-    // === GETTERS & SETTERS ===
-
     public MembershipPlan getMembershipPlan() {
         return membershipPlan;
     }
@@ -85,8 +83,6 @@ public class MemberShipBean implements Serializable {
         this.paypalPassword = paypalPassword;
     }
 
-    // === ACTION METHODS ===
-
     public String choosePlan(String planCode) {
         try {
             this.membershipPlan = MembershipPlan.valueOf(planCode);
@@ -105,29 +101,13 @@ public class MemberShipBean implements Serializable {
     }
 
     public String processPayment() {
-        // Validate expiry using java.time to compare with today's current month and year
-        try {
-        	// to convert the user input from string into Date style
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
-            YearMonth expiryDate = YearMonth.parse(expiry, formatter);
-            YearMonth now = YearMonth.now();
-
-            if (expiryDate.isBefore(now)) {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Card has expired."));
-                return null;
-            }
-        } catch (DateTimeParseException e) {
+        if (isCardExpired()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Invalid expiry format. Use MM/YY."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Card has expired."));
             return null;
         }
 
-        // Validate other card inputs
-        if (cardholderName == null || cardholderName.trim().isEmpty() ||
-            cardNumber == null || cardNumber.trim().length() < 16 ||
-            cvv == null || cvv.length() < 3) {
-
+        if (!isValidCardDetails()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Invalid card details."));
             return null;
@@ -142,8 +122,7 @@ public class MemberShipBean implements Serializable {
     }
 
     public String processPaymentPayPal() {
-        if (paypalEmail == null || !paypalEmail.equals("user@example.com") ||
-            paypalPassword == null || !paypalPassword.equals("password")) {
+        if (!isValidPayPal()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Invalid PayPal credentials."));
             return null;
@@ -163,5 +142,40 @@ public class MemberShipBean implements Serializable {
         } catch (IllegalArgumentException e) {
             return 0.0;
         }
+    }
+
+
+    public boolean isValidCardDetails() {
+    	if (cardholderName != null && !cardholderName.trim().isEmpty()
+                && cardNumber != null && cardNumber.trim().length() >= 16
+                && cvv != null && cvv.length() >= 3) 
+    	{
+    		return true;
+    	} 
+    	else {
+            return false;
+    		
+    	}
+    }
+
+    public boolean isCardExpired() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
+            YearMonth expiryDate = YearMonth.parse(expiry, formatter);
+            YearMonth now = YearMonth.now();
+            return expiryDate.isBefore(now);
+        } catch (DateTimeParseException e) {
+            return true;
+        }
+    }
+
+    public boolean isValidPayPal() {
+    	if ("user@example.com".equals(paypalEmail)
+                && "password".equals(paypalPassword)) {
+    		return true;
+    	}
+    	else {
+    		return false ;
+    	}
     }
 }

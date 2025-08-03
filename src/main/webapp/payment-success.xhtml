@@ -18,21 +18,21 @@
 
     <main class="main-section">
         <div class="success-box">
-            <h1 style="margin-bottom: 10px;">🎉 Payment <span class="highlight">Successful</span></h1>
+            <h1 style="margin-bottom: 10px;">Payment <span class="highlight">Successful</span></h1>
 
 			            
-            <p class="subtitle">
+            <p class="subtitlePlans">
     		Payment of <span class="success-price">
 			  <h:outputText value="#{membershipBean.membershipPlan.price}">
 			    <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2" minFractionDigits="2"/>
 			  </h:outputText>
 			</span> was successfully processed.</p>
-            <p class="subtitle" style="margin-top: 0;">
+            <p class="subtitlePlans" style="margin-top: 0;">
                 Thank you for purchasing the <strong>#{membershipBean.membershipPlan.label}</strong> membership!
             </p>
-            <p class="subtitle">A confirmation email has been sent to your account.</p>
+            <p class="subtitlePlans">A confirmation email has been sent to your account.</p>
             <a href="index.xhtml" class="join-now" style="display:inline-block;margin-top:20px;">Return to Home</a>
-            <p class="subtitle" style="font-size: 13px; margin-top: 20px;">
+            <p class="subtitlePlans" style="font-size: 13px; margin-top: 20px;">
 			    You will be redirected shortly...
 			</p>
             
