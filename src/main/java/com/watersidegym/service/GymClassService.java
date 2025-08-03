@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.watersidegym.model.GymClass;
 
@@ -15,6 +16,7 @@ public class GymClassService {
     public GymClassService() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+      //  dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Dublin"));
 
         try {
             // Format: Date → Time → Name → Slots

@@ -6,7 +6,8 @@
 
 <h:head>
 	<title>Browse Classes</title>
-	<h:outputStylesheet name="css/styles.css" library="css" />
+	<h:outputStylesheet name="styles.css" library="css" />
+	
 
 </h:head>
 
@@ -16,10 +17,8 @@
 
 	<h:form>
 
-		<div class="flex-container">
-
-			<div class="calendar-box">
-				<!-- JSF date input using HTML5 native calendar -->
+			<div class="box">
+		
 				<h:outputLabel for="date" value="Select Date:" />
 				<h:inputText id="date" value="#{gymClassBean.selectedDate}">
 					<f:passThroughAttribute name="type" value="date" />
@@ -32,9 +31,8 @@
 			</div>
 
 			<h:panelGroup rendered="#{not empty gymClassBean.filteredClasses}">
-				<div class="table-box">
-					<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
-						border="1">
+				<div class="box">
+					<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls" border= "1" styleClass="jsf-table">
 
 						<h:column>
 							<f:facet name="header">Class Name</f:facet>
@@ -49,7 +47,9 @@
 						<h:column>
 							<f:facet name="header">Date</f:facet>
 							<h:outputText value="#{cls.classDate}">
-								<f:convertDateTime pattern="dd.MM.yy" />
+							<!-- 	<f:convertDateTime pattern="dd.MM.yy" />  -->
+							 <f:convertDateTime pattern="dd.MM.yy" timeZone="Europe/Dublin" />  	
+								
 							</h:outputText>
 						</h:column>
 
@@ -73,8 +73,6 @@
 					</h:dataTable>
 				</div>
 			</h:panelGroup>
-		</div>
-
 	</h:form>
 
 	<!-- Show message if list is empty -->
