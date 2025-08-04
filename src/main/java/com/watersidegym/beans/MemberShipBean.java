@@ -5,19 +5,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import java.io.IOException;
-import java.io.Serializable;
-
 
 
 @ManagedBean(name = "membershipBean")
 @SessionScoped
-public class MemberShipBean implements Serializable {
+public class MemberShipBean {
 
-    private static final long serialVersionUID = 1L;
 
     private long paymentStartTime; // for seesion timeout
-
     
     private String membershipPlan;
     private String membershipPrice;
@@ -111,8 +106,8 @@ public class MemberShipBean implements Serializable {
     }
 
     public boolean isValidPayPal() {
-    	if ("user@example.com".equals(paypalEmail)
-                && "password".equals(paypalPassword)) {
+    	if ("user@example.com".equalsIgnoreCase(paypalEmail)
+                && "password".equalsIgnoreCase(paypalPassword)) {
     		return true;
     	}
     	else {

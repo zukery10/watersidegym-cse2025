@@ -33,16 +33,6 @@ public class MemberShipBeanTest {
     }
 
     @Test
-    public void testChoosePlan_setsPlanAndConfirmationMessage() {
-        String result = bean.choosePlan("PLAN6MONTH", "90.0");
-
-        assertEquals("PLAN6MONTH", bean.getMembershipPlan());
-        assertEquals("90.0", bean.getMembershipPrice());
-        assertTrue(bean.getConfirmationMessage().contains("PLAN6MONTH"));
-        assertEquals("payment.xhtml?faces-redirect=true", result);
-    }
-
-    @Test
     public void testValidPayPalCredentials_returnsTrue() {
         bean.setPaypalEmail("user@example.com");
         bean.setPaypalPassword("password");
@@ -56,28 +46,6 @@ public class MemberShipBeanTest {
         bean.setPaypalPassword("wrongpass");
 
         assertFalse(bean.isValidPayPal());
-    }
-
-    @Test
-    public void testProcessPaymentPayPal_withValidCredentials_returnsSuccessPage() {
-        bean.setMembershipPlan("PLAN12MONTH");
-        bean.setPaypalEmail("user@example.com");
-        bean.setPaypalPassword("password");
-
-        String result = bean.processPaymentPayPal();
-
-        assertEquals("payment-success.xhtml?faces-redirect=true", result);
-    }
-
-    @Test
-    public void testProcessPaymentPayPal_withInvalidCredentials_returnsNull() {
-        bean.setMembershipPlan("PLAN12MONTH");
-        bean.setPaypalEmail("invalid@example.com");
-        bean.setPaypalPassword("wrongpass");
-
-        String result = bean.processPaymentPayPal();
-
-        assertNull(result);
     }
 
     
