@@ -23,49 +23,14 @@
 			Payment <span class="highlight">Details</span>
 		</h1>
 				<p class="subtitle">
-					You're purchasing: <strong>#{membershipBean.membershipPlan.label}</strong><br />
+					You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
 					<span style="color: #8fffa0;">Total:
-						€#{membershipBean.membershipPlan.price}</span>
+						€#{membershipBean.membershipPrice}</span>
 				</p>
 
-		<div class="plan-card payment-form">	
-			<h:messages globalOnly="true" layout="list" styleClass="feedback-message"/> <!--  if user enters wrong credentials this message will appear -->
-			<h:form styleClass="payment-grid">
-				<div class="form-field">
-					<label for="name">Cardholder's Name</label>
-					<h:inputText id="name" value="#{membershipBean.cardholderName}"
-						required="true" />
-				</div>
-
-				<div class="form-field card-input-wrapper">
-					<label for="number">Card Number</label>
-					<h:inputText id="number" value="#{membershipBean.cardNumber}"
-						required="true" maxlength="19" oninput="formatCardNumber(this)" />
-				</div>
-
-				<div class="form-row">
-					<div class="form-field">
-						<label for="expiry">Expiry</label>
-						<h:inputText id="expiry" value="#{membershipBean.expiry}"
-							required="true" maxlength="5" />
-					</div>
-					<div class="form-field">
-						<label for="cvv">CVV</label>
-						<h:inputSecret id="cvv" value="#{membershipBean.cvv}"
-							required="true" maxlength="4" />
-					</div>
-				</div>
-
-
-				<h:commandButton value="Pay Now"
-					action="#{membershipBean.processPayment}" styleClass="add-card-btn" />
-
-			</h:form>
-
-
-		</div>
-		<br>
 		<div class="plan-card payment-form">
+			<h:messages globalOnly="true" layout="list" styleClass="feedback-message"/> <!--  if user enters wrong credentials this message will appear -->
+
 			<h:form styleClass="payment-grid">
 				<div class="form-field">
 					<label for="PayPalEmail">PayPal Email</label>
@@ -87,9 +52,6 @@
 
 			</h:form>
 		</div>
-
-		</br>
-
 
 	</main>
 </h:body>
