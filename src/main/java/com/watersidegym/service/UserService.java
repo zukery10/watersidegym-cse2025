@@ -21,7 +21,7 @@ public class UserService {
         user2.setPhoneNumber("0859876543");
         user2.setDateOfBirth(new Date(95, 6, 20));
         user2.setGender("Female");
-        user2.setRole("Member");
+        user2.setRole("Non-Member");
         users.add(user2);
         
         //PT Example
