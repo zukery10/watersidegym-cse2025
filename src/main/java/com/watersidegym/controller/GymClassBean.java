@@ -1,7 +1,9 @@
 package com.watersidegym.controller;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,9 +15,7 @@ import com.watersidegym.service.GymClassService;
 
 @ManagedBean(name = "gymClassBean")
 @SessionScoped
-public class GymClassBean implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class GymClassBean {
 
 	@ManagedProperty(value = "#{gymClassService}")
 	private GymClassService gymClassService;

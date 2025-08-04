@@ -1,11 +1,9 @@
 package com.watersidegym.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class GymClass implements Serializable {
+public class GymClass  {
 
-	private static final long serialVersionUID = 1L;
 	private String nameOfClass;
 	private int noOfSlots;
 	private Date classDate; // Stores date only
