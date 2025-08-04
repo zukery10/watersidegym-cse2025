@@ -10,35 +10,39 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 public class CreateAccountBean {
-    private User user = new User();
+	private User user = new User();
 
-    public User getUser() {
-        return user;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public String register() {
-        if (!UserService.addUser(user)) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email already registered", null));
-            return null;
-        }
-        FacesContext.getCurrentInstance().addMessage(null,
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Account created successfully!", null));
+	public String register() {
+		if (!UserService.addUser(user)) {
+			addMessage("Email already registered", FacesMessage.SEVERITY_ERROR);
+			return null;
+		}
 
-        user = new User();// reset form
-       			
-        return "index";
-    }
-    public void printUsersToConsole() {
-        System.out.println("---- List of Users ----");
-        for (User u : UserService.getUsers()) {
-            System.out.println("Email: " + u.getEmail() 
-                + ", Name: " + u.getFirstName() + " " + u.getSecondName() + u.getRole());
-        }
-        System.out.println("-----------------------");
-    }
+		addMessage("Account created successfully!", FacesMessage.SEVERITY_INFO);
+		user = new User();
+		return "index";
+	}
+
+	protected void addMessage(String msg, FacesMessage.Severity severity) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(severity, msg, null));
+		}
+	}
+
+	public void printUsersToConsole() {
+		System.out.println("---- List of Users ----");
+		for (User u : UserService.getUsers()) {
+			System.out.println("Email: " + u.getEmail() + ", Name: " + u.getFirstName() + " " + u.getSecondName());
+		}
+		System.out.println("-----------------------");
+	}
 }
