@@ -1,7 +1,9 @@
 
 package com.watersidegym.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class User {
     private String email;
@@ -16,6 +18,17 @@ public class User {
     private Date dateOfBirth;
     private String gender; // "Male", "Female", "Other"
     private String role;  // "Non-Member", "Member", "PT"
+    private List<GymClass> enrolledClasses = new ArrayList<>();
+
+    public List<GymClass> getEnrolledClasses() {
+        return enrolledClasses;
+    }
+
+    public void enrollInClass(GymClass gymClass) {
+        if (!enrolledClasses.contains(gymClass)) {
+            enrolledClasses.add(gymClass);
+        }
+    }
 
 
     public String getEmail() {
@@ -46,7 +59,7 @@ public class User {
         return secondName;
     }
 
-    public void setSecondName(String secondName) {
+    public void setSecondName(String secondNaame) {
         this.secondName = secondName;
     }
 
