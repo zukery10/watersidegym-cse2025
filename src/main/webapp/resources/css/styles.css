@@ -1,3 +1,129 @@
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #0f1115;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #0a0a0a;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+}
+
+.tagline {
+    display: block;
+    font-size: 12px;
+    color: #8fffa0;
+}
+
+.main-section {
+    text-align: center;
+    
+}
+
+.main-section h1 {
+    font-size: 42px;
+}
+
+.highlight {
+    color: #28a745;
+}
+
+.error {
+	
+	font-family: 'Segoe UI', sans-serif;
+	
+	float:inherit;
+	text-align: center;
+	list-style: none;	
+	color: #ff6b6b;	
+}
+
+.form-container {
+    font-family: arial;
+    padding-top: 10px;
+    color: white;
+    text-align: center;
+     
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Arrange label + input side by side */
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Label style */
+.form-row label {
+    width: 130px; /* fixed width */
+    font-weight: bold;
+    color: white;
+}
+
+/* Input fields */
+.form-row input,
+.form-row select {
+    flex: 1; /* take remaining space */
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.choose-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid #28a745;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.choose-btn:hover {
+    background-color: #28a745;
+    color: black;
+}
+
+/* === Flex container for the plan cards === */
+.plans {
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 24px; 
+    padding: 0 20px;
+}
+
+/* === Individual plan card styling === */
+.plan-card {
+    background-color: #181a1f;
+    border-radius: 12px; /* Rounded corners */
+    padding: 30px; /* Internal spacing */
+    width: 300px; /* Fixed width for each card */
+    position: relative; /* Needed for absolute badge placement */
+    box-shadow: 0 0 10px rgba(0,255,100,0.1); /* Subtle green glow */
+    transition: transform 0.3s ease; /* Smooth animation on hover */
+
 /* === Global styles for the whole page === */
 body {
     margin: 0; /* Remove default margin around body */
@@ -120,4 +246,5 @@ body {
     color: #ff6b6b; /* Light red for visibility */
     font-size: 10px; /* Small text under the input */
     margin-left: 140px; /* Align under input, not label */
+
 }

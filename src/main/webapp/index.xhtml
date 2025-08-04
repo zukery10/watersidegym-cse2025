@@ -10,40 +10,54 @@
 </h:head>
 <h:body>
 
-	<h1>Gym That's Fit For Your Life</h1>
-	<h:form id="loginForm" styleClass="form-container">
-		<h2>Login</h2>
-
-		<h:messages style="list-style-type: none; color:red" />
-
-		<h:outputLabel for="email" value="Email:" styleClass="label" />
-		<h:inputText id="email" value="#{loginBean.email}"
-			styleClass="inputField" required="true"
-			requiredMessage="Must input Email" />
-
-		<br />
-		<br />
-		<h:outputLabel for="password" value="Password:" styleClass="label" />
-
-		<h:inputSecret id="password" value="#{loginBean.password}"
-			styleClass="inputField" />
+	<header class="navbar">
+		<div class="logo">
+			Waterside Gym <span class="tagline">A Fit for Your Life</span>
+		</div>
+	</header>
+	<main class="main-section">
+		<h1>
+			Log<span class="highlight">in</span>
+		</h1>
+		<h:form id="loginForm" styleClass="form-container">
 
 
+			<div class="plans">
+				<div class="plan-card">
+					<h:messages styleClass="error" />
 
-		<br />
-		<br />
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="email" value="Email:" />
+							<h:inputText id="email" value="#{loginBean.email}"
+								styleClass="inputField" required="true"
+								requiredMessage="Must input Email" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-row">
+							<h:outputLabel for="password" value="Password:" />
+							<h:inputSecret id="password" value="#{loginBean.password}"
+								styleClass="inputField" />
+						</div>
+					</div>
 
 
-		<!-- Functional "Login" button -->
-		<h:commandButton value="Login" action="#{loginBean.login}" />
 
 
-		<!-- Functional "Create Account" button -->
-		<h:commandButton value="Create Account"
-			action="create-account?faces-redirect=true" immediate="true" />
+					<!-- Functional "Login" button -->
+					<h:commandButton value="Login" action="#{loginBean.login}"
+						styleClass="choose-btn" />
+					<br /> <br />
+					<!-- Functional "Create Account" button -->
+					<h:commandButton value="Create Account"
+						action="create-account?faces-redirect=true" immediate="true"
+						styleClass="choose-btn" />
+				</div>
+			</div>
 
-	</h:form>
-
+		</h:form>
+	</main>
 
 </h:body>
 </html>
