@@ -4,40 +4,38 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-
 import com.watersidegym.model.GymClass;
 import com.watersidegym.service.GymClassService;
 
-@ManagedBean(name = "gymClassBean")
+@ManagedBean
 @SessionScoped
 public class GymClassBean {
 
-	@ManagedProperty(value = "#{gymClassService}")
 	private GymClassService gymClassService;
-	
 	private List<GymClass> gymClassList;
 	private Date selectedDate;
 	private String errorMessage;
 	private List<GymClass> filteredClasses = new ArrayList<>();
 
 	public GymClassBean() {
-		
 	}
 	
+	// Catch any unexpected errors during initialization to prevent app crashes 
+	// and show a user-friendly error message if loading classes fails.
 	@PostConstruct
 	public void init() {
-		try {
-			gymClassList = getGymClassService().getAllGymClasses();
-		} catch (Exception e) {
-			gymClassList = new ArrayList<>(); // fallback to empty
-			System.err.println("Failed to load classes: " + e.getMessage());
-			errorMessage = "Currently unable to load classes. Please try again later.";
-		}
+	    gymClassService = new GymClassService();  // Initialize service here
+	    try {
+	        gymClassList = gymClassService.getAllGymClasses();
+	        filteredClasses = new ArrayList<>(gymClassList); // Start with all classes shown
+	    } catch (Exception e) {
+	        gymClassList = new ArrayList<>();
+	        filteredClasses = new ArrayList<>();
+	        errorMessage = "Currently unable to load classes. Please try again later.";
+	    }
 	}
 
 	// getter setters

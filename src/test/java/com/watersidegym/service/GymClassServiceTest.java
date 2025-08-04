@@ -14,8 +14,6 @@ import com.watersidegym.model.GymClass;
 public class GymClassServiceTest {
 
     private GymClassService gymClassService;
-
-    private GymClassService service;
     private SimpleDateFormat dateFormat;
     private SimpleDateFormat timeFormat;
 
@@ -46,15 +44,18 @@ public class GymClassServiceTest {
 
     @Test
     public void testNumberOfClassesLoaded() {
-        // Confirm that 16 gym classes are loaded as hardcoded in the service
-        assertEquals(16, gymClassService.getAllGymClasses().size(), "Expected 16 classes loaded");
+        // Confirm that 18 gym classes are loaded as hardcoded in the service
+        assertEquals(18, gymClassService.getAllGymClasses().size(), "Expected 18 classes loaded");
     }
     
     @Test
-    public void tesGymClassValues() throws ParseException {
-        GymClass gymClass = service.getAllGymClasses().get(0);
+    public void testGymClassValues() throws ParseException {
+    	GymClass gymClass = gymClassService.getAllGymClasses().get(0);
+
         assertEquals("Yoga", gymClass.getNameOfClass());
-        assertEquals(dateFormat.parse("26.08.25"), gymClass.getClassDate());
+
+        assertEquals(dateFormat.parse("07.08.25"), gymClass.getClassDate());
+
         assertEquals(timeFormat.parse("08:00"), gymClass.getClassTime());
         assertEquals("1 hr", gymClass.getClassDuration());
         assertEquals(5, gymClass.getNoOfSlots());
