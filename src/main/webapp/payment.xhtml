@@ -5,6 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:metadata>
 	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+    <f:event type="preRenderView" listener="#{membershipBean.checkPaymentSession}" />	
 </f:metadata>
 
 <h:head>
@@ -21,7 +22,7 @@
 	<main class="main-section">
 		<h1>
 			Payment <span class="highlight">Details</span>
-		</h1>
+		</h1>	
 				<p class="subtitle">
 					You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
 					<span style="color: #8fffa0;">Total:
@@ -51,8 +52,12 @@
 
 
 			</h:form>
+	
 		</div>
-
+				    <p class="subtitle2" style="color: red; font-weight: bold;">
+        You have 5 minutes to complete your payment before the session expires.
+    </p>
+	
 	</main>
 </h:body>
 </html>

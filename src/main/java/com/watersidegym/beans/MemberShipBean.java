@@ -4,6 +4,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
+import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -14,6 +16,9 @@ public class MemberShipBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private long paymentStartTime; // for seesion timeout
+
+    
     private String membershipPlan;
     private String membershipPrice;
 	private String confirmationMessage;
@@ -62,13 +67,14 @@ public class MemberShipBean implements Serializable {
         try {
             this.membershipPlan = planCode;
             this.membershipPrice = price;
+            this.paymentStartTime = System.currentTimeMillis();
+            
             this.confirmationMessage = "You have selected the " + planCode + " membership plan, with price of " + price;
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Membership Selected", confirmationMessage));
 
             return "payment.xhtml?faces-redirect=true";
-
         } catch (IllegalArgumentException e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Plan", "The selected plan is not valid."));
@@ -77,6 +83,13 @@ public class MemberShipBean implements Serializable {
     }
 
     public String processPaymentPayPal() {
+        if (isPaymentTimedOut()) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Timeout",
+                            "Your payment session has expired. Please select a plan again."));
+            return "index.xhtml?faces-redirect=true";
+        }
+
         if (!isValidPayPal()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Invalid PayPal credentials."));
@@ -91,6 +104,11 @@ public class MemberShipBean implements Serializable {
         return "payment-success.xhtml?faces-redirect=true";
     }
 
+    public boolean isPaymentTimedOut() {
+        long now = System.currentTimeMillis();
+        long elapsed = now - paymentStartTime;
+        return elapsed > (5 * 60 * 1000); // 5 minutes
+    }
 
     public boolean isValidPayPal() {
     	if ("user@example.com".equals(paypalEmail)
@@ -101,4 +119,15 @@ public class MemberShipBean implements Serializable {
     		return false ;
     	}
     }
+    
+    public void checkPaymentSession() {
+        if (isPaymentTimedOut()) { //similar to login check
+        	   try {
+   	        	FacesContext.getCurrentInstance().getExternalContext().redirect("sessionExpired.xhtml");
+
+        	   } catch (Exception e) {
+   	            System.out.println("Redirect failed");
+   	        }
+        }
+    }    
 }

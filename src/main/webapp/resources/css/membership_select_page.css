@@ -240,11 +240,11 @@ ul li::before {
     gap: 12px;
 }
 
-.add-card-btn {
+.form-down-btn {
     padding: 14px;
     font-size: 16px;
     font-weight: bold;
-    background-color: #28a745;
+    background-color: #cfc339;
     color: black;
     border: none;
     border-radius: 8px;
@@ -264,7 +264,7 @@ ul li::before {
     transition: background-color 0.3s ease;
 }
 
-.add-card-btn:hover {
+.form-down-btn:hover {
     background-color: #1e7e34;
 }
 
