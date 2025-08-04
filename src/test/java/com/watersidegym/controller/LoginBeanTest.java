@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import com.watersidegym.model.User;
 
-class TestLoginBean {
+class LoginBeanTest {
 	
 	LoginBean loginbean;
 	User user;
@@ -27,10 +27,7 @@ class TestLoginBean {
 		loginbean.setPassword("");
 		assertTrue(loginbean.emptyFields());
 	}
-	@Test
-	public void testLoginSuccess() {
-		
-	}
+
 	@Test
 	public void testNoEmailFound() {
 		assertTrue(loginbean.noEmailFound(user));
