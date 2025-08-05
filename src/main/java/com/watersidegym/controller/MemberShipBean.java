@@ -1,4 +1,4 @@
-package com.watersidegym.beans;
+package com.watersidegym.controller;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -107,7 +107,7 @@ public class MemberShipBean {
 
     public boolean isValidPayPal() {
     	if ("user@example.com".equalsIgnoreCase(paypalEmail)
-                && "password".equalsIgnoreCase(paypalPassword)) {
+                && "password".equals(paypalPassword)) {
     		return true;
     	}
     	else {
