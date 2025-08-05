@@ -1,6 +1,5 @@
 package com.watersidegym.service;
 
-import com.watersidegym.model.GymClass;
 import com.watersidegym.model.User;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,16 +22,8 @@ public class UserService {
 		user2.setDateOfBirth(new Date(95, 6, 20));
 		user2.setGender("Female");
 		user2.setRole("Member");
-		// Create a GymClass instance
-		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
-				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
-		user2.enrollInClass(yogaClass);
 		users.add(user2);
-		GymClass hiitClass = new GymClass("HIIT Training", new Date(125, 7, 15), // August 15, 2025
-				new Date(0, 0, 0, 7, 0), // 7:00 AM
-				10, "30 minutes");
-		user2.enrollInClass(hiitClass);
+
 		// PT Example
 		User user3 = new User();
 		user3.setEmail("PT@example.com");

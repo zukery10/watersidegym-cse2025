@@ -6,125 +6,141 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
-    private String email;
-    private String password;
-    private String firstName;
-    private String secondName;
-    private String address1;
-    private String address2;
-    private String county;
-    private String eircode;
-    private String phoneNumber;
-    private Date dateOfBirth;
-    private String gender; // "Male", "Female", "Other"
-    private String role;  // "Non-Member", "Member", "PT"
-    private List<GymClass> enrolledClasses = new ArrayList<>();
+	private String email;
+	private String password;
+	private String firstName;
+	private String secondName;
+	private String address1;
+	private String address2;
+	private String county;
+	private String eircode;
+	private String phoneNumber;
+	private Date dateOfBirth;
+	private String gender; // "Male", "Female", "Other"
+	private String role; // "Non-Member", "Member", "PT"
+	private List<GymClass> enrolledClasses = new ArrayList<>();
 
-    public List<GymClass> getEnrolledClasses() {
-        return enrolledClasses;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void enrollInClass(GymClass gymClass) {
-        if (!enrolledClasses.contains(gymClass)) {
-            enrolledClasses.add(gymClass);
-        }
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
+	public String getPassword() {
+		return password;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getSecondName() {
+		return secondName;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setSecondName(String secondName) {
+		this.secondName = secondName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getAddress1() {
+		return address1;
+	}
 
-    public String getSecondName() {
-        return secondName;
-    }
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
+	public String getAddress2() {
+		return address2;
+	}
 
-    public String getAddress1() {
-        return address1;
-    }
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
+	public String getCounty() {
+		return county;
+	}
 
-    public String getAddress2() {
-        return address2;
-    }
+	public void setCounty(String county) {
+		this.county = county;
+	}
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
+	public String getEircode() {
+		return eircode;
+	}
 
-    public String getCounty() {
-        return county;
-    }
+	public void setEircode(String eircode) {
+		this.eircode = eircode;
+	}
 
-    public void setCounty(String county) {
-        this.county = county;
-    }
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public String getEircode() {
-        return eircode;
-    }
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public void setEircode(String eircode) {
-        this.eircode = eircode;
-    }
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+	public String getGender() {
+		return gender;
+	}
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+	public String getRole() {
+		return role;
+	}
 
-    public String getGender() {
-        return gender;
-    }
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	public List<GymClass> getEnrolledClasses() {
+		return enrolledClasses;
+	}
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
+	public void enrollInClass(GymClass gymClass) {
+	    for (GymClass enrolled : enrolledClasses) {
+	        if (isSameClass(enrolled, gymClass)) {
+	            return; // already enrolled do nothing
+	        }
+	    }
+	    enrolledClasses.add(gymClass);
+	}
+	
+	public boolean isEnrolledInClass(GymClass gymClass) {
+	    for (GymClass enrolled : enrolledClasses) {
+	        if (isSameClass(enrolled, gymClass)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	public boolean isSameClass(GymClass c1, GymClass c2) {
+	    return c1.getNameOfClass().equals(c2.getNameOfClass()) &&
+	           c1.getClassDate().equals(c2.getClassDate()) &&
+	           c1.getClassTime().equals(c2.getClassTime());
+	}
 }
