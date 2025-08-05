@@ -1,3 +1,4 @@
+
 package com.watersidegym.model;
 
 import java.util.Date;
@@ -112,4 +113,5 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
 }

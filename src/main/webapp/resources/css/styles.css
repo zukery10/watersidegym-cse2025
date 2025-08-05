@@ -1,3 +1,4 @@
+
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
@@ -122,4 +123,128 @@ body {
     position: relative; /* Needed for absolute badge placement */
     box-shadow: 0 0 10px rgba(0,255,100,0.1); /* Subtle green glow */
     transition: transform 0.3s ease; /* Smooth animation on hover */
+
+/* === Global styles for the whole page === */
+body {
+    margin: 0; /* Remove default margin around body */
+    font-family: 'Segoe UI', sans-serif; /* Set clean, modern font */
+    background-color: #0f1115; /* Dark background for sleek, modern feel */
+    color: white; /* Default text color to contrast with dark background */
+}
+
+/* === Top navigation bar === */
+.navbar {
+    display: flex; /* Use Flexbox to arrange children in a row */
+    justify-content: space-between; /* Space between left, center, right sections */
+    align-items: center; /* Vertically center the items */
+    padding: 20px 40px; /* Space inside the navbar (top/bottom 20px, sides 40px) */
+    background-color: #0a0a0a; /* Darker shade to distinguish navbar */
+}
+
+/* === Logo section in the navbar === */
+.logo {
+    font-size: 22px; /* Larger font size for the gym name */
+    font-weight: bold; /* Make logo text bold */
+    color: white; /* White text color for visibility */
+}
+
+/* === Smaller tagline under logo === */
+.tagline {
+    display: block; /* Force it to appear on a new line */
+    font-size: 12px; /* Small font for subtitle */
+    color: #8fffa0; /* Light green color to replace original blue */
+}
+
+/* === Main content container === */
+.main-section {
+    text-align: center; /* Center align all content */
+    padding: 60px 20px; /* Add vertical and horizontal spacing */
+}
+
+/* Main heading inside the section */
+.main-section h1 {
+    font-size: 42px; /* Large and bold main heading */
+}
+
+/* Highlighted green word in heading */
+.highlight {
+    color: #28a745; /* Green text to replace the original blue accent */
+}
+
+/* === Flex container for the plan cards === */
+.plans {
+    display: flex; /* Layout plan cards side-by-side */
+    justify-content: center; /* Center them horizontally */
+    flex-wrap: wrap; /* Wrap to next line on smaller screens */
+    gap: 24px; /* Space between cards */
+    padding: 0 20px;
+}
+
+/* === Individual plan card styling === */
+.plan-card {
+    background-color: #181a1f; /* Dark gray card background */
+    border-radius: 12px; /* Rounded corners */
+    padding: 30px; /* Internal spacing */
+    width: 310px; /* Fixed width for each card */
+    position: relative; /* Needed for absolute badge placement */
+    box-shadow: 0 0 10px rgba(0,255,100,0.1); /* Subtle green glow */
+    transition: transform 0.3s ease; /* Smooth animation on hover */
+}
+
+/* Choose Plan button */
+.choose-btn {
+    width: 100%; /* Full width of card */
+    padding: 10px;
+    background-color: transparent; /* No fill */
+    color: white;
+    border: 1px solid #28a745; /* Green border */
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Button hover effect */
+.choose-btn:hover {
+    background-color: #28a745; /* Fill with green */
+    color: black; /* Text turns black for contrast */
+}
+
+/* === Form Field Wrapper (each label + input + message group) === */
+.form-group {
+    display: flex; /* Layout children vertically */
+    flex-direction: column; /* Stack label/input/message */
+    margin-bottom: 20px; /* Space between fields */
+    text-align: left; /* Align content to the left */
+}
+
+/* === Row inside each form group for label + input alignment === */
+.form-row {
+    display: flex; /* Align label and input side-by-side */
+    align-items: center; /* Vertically center input and label */
+    gap: 10px; /* Space between label and input */
+}
+
+/* === Label style === */
+.form-row label {
+    width: 130px; /* Fixed width to align all labels */
+    font-weight: bold; /* Make labels bold */
+    color: white; /* Ensure label stands out on dark background */
+}
+
+/* === Input fields and dropdowns === */
+.form-row input,
+.form-row select {
+    flex: 1; /* Input grows to fill available space */
+    padding: 6px; /* Internal padding */
+    border-radius: 4px; /* Rounded corners */
+    border: 1px solid #ccc; /* Light gray border */
+    font-size: 14px; /* Standard font size */
+}
+
+/* === Error message styling === */
+.error-message {
+    color: #ff6b6b; /* Light red for visibility */
+    font-size: 10px; /* Small text under the input */
+    margin-left: 140px; /* Align under input, not label */
+
 }
