@@ -60,5 +60,15 @@ public class GymClassServiceTest {
         assertEquals("1 hr", gymClass.getClassDuration());
         assertEquals(5, gymClass.getNoOfSlots());
     }
+    
+    @Test 
+    public void testNumberOfSlotsReducedBy1() throws ParseException {
+    	GymClass gymclass1 = new GymClass("Yoga", dateFormat.parse("07.08.25"), timeFormat.parse("08:00"), 5, "1 hr");
+    	gymClassService.bookClass(gymclass1);
+    	int size =	gymclass1.getNoOfSlots();
+    
+    	assertEquals(4, size);
+    	
+    }
 }
 
