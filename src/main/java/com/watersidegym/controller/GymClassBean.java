@@ -125,36 +125,36 @@ public class GymClassBean {
 		return null; // stay on same page
 	}
 
-	// Booking logic
+	// booking logic
 	public String bookClass(GymClass cls) {
-		FacesContext context = FacesContext.getCurrentInstance();
+	    FacesContext context = FacesContext.getCurrentInstance();
 
-		// Get LoginBean and logged-in user
-		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
-		User loggedInUser = loginBean.getLoggedInUser();
+	    // get LoginBean and logged-in user
+	    LoginBean loginBean = context.getApplication().evaluateExpressionGet(
+	            context, "#{loginBean}", LoginBean.class);
+	    User loggedInUser = loginBean.getLoggedInUser();
 
-		// manually check if the user already booked this class
-		if (loggedInUser.isEnrolledInClass(cls)) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Already Booked",
-					"You have already booked this class."));
-			return null;
+	    // send to service
+	    boolean booked = gymClassService.bookClass(loggedInUser, cls);
 
-		}
+	    if (!booked) {
+	        if (loggedInUser.isEnrolledInClass(cls)) {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+	                "Already Booked", "You have already booked this class."));
+	        } else if (cls.getNoOfSlots() <= 0) {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+	                "Class Full", "No slots available."));
+	        } else {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+	                "Booking Failed", "An unexpected error occurred."));
+	        }
+	        return null;
+	    }
 
-		// Check if the class has available slots
-		if (cls.getNoOfSlots() <= 0) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Class Full", "No slots available."));
-			return null;
-		}
+	    // booking successful
+	    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+	        "Class Booked", "You have successfully booked the class."));
 
-		// Book the class
-		cls.setNoOfSlots(cls.getNoOfSlots() - 1); // Reduce available slots
-		loggedInUser.enrollInClass(cls);
-
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Class Booked",
-				"You have successfully booked the class."));
-
-		return null; // Stay on the same page
+	    return null; // stay on page
 	}
-
 }

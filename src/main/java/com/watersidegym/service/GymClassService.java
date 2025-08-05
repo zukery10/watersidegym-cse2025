@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import com.watersidegym.model.GymClass;
+import com.watersidegym.model.User;
 
 public class GymClassService {
 
@@ -71,14 +72,27 @@ public class GymClassService {
 	}
 	
 	//Book a class by reducing available slots. Returns true/false
-	public boolean bookClass(GymClass cls) {
-		if (cls.getNoOfSlots() == 0) {
-			return false; // Booking failed due to no availability
-		}
-		cls.setNoOfSlots(cls.getNoOfSlots() - 1); 	    // Decrease available slots by 1
+	public boolean bookClass(User user, GymClass cls) {
+        if (user == null || cls == null) {
+            return false;
+        }
 
-		return true; // Booking successful
-	}
+        // Already enrolled
+        if (user.isEnrolledInClass(cls)) {
+            return false;
+        }
+
+        // Class full
+        if (cls.getNoOfSlots() <= 0) {
+            return false;
+        }
+
+        // Reduce slots and enroll
+        cls.setNoOfSlots(cls.getNoOfSlots() - 1);
+        user.enrollInClass(cls);
+
+        return true;
+    }
 
 
 }

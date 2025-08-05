@@ -38,11 +38,11 @@ public class CreateAccountBean {
 		}
 	}
 
-	public void printUsersToConsole() {
-		System.out.println("---- List of Users ----");
-		for (User u : UserService.getUsers()) {
-			System.out.println("Email: " + u.getEmail() + ", Name: " + u.getFirstName() + " " + u.getSecondName());
-		}
-		System.out.println("-----------------------");
-	}
+//	public void printUsersToConsole() {
+//		System.out.println("---- List of Users ----");
+//		for (User u : UserService.getUsers()) {
+//			System.out.println("Email: " + u.getEmail() + ", Name: " + u.getFirstName() + " " + u.getSecondName());
+//		}
+//		System.out.println("-----------------------");
+//	}
 }
