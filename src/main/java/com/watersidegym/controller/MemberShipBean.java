@@ -95,7 +95,7 @@ public class MemberShipBean {
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Payment Successful",
                         "Your " + this.membershipPlan + " membership has been activated."));
-
+        
         return "payment-success.xhtml?faces-redirect=true";
     }
 
