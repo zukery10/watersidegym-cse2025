@@ -31,6 +31,8 @@
 				action="#{gymClassBean.getFilteredClassesAction}" />
 		</div>
 
+<h:messages globalOnly="true" layout="table" styleClass="message-table" />
+
 		<h:panelGroup rendered="#{not empty gymClassBean.filteredClasses}">
 			<div class="box">
 				<h:dataTable value="#{gymClassBean.filteredClasses}" var="cls"
@@ -40,8 +42,6 @@
 						<f:facet name="header">Class Name</f:facet>
                         #{cls.nameOfClass}
                     </h:column>
-
-
 
 					<h:column>
 						<f:facet name="header">Date</f:facet>
@@ -70,9 +70,11 @@
                         #{cls.noOfSlots}
                     </h:column>
 
+
 					<h:column>
-						<f:facet name="header"></f:facet>
-						<h:commandButton value=" Book Class " />
+						<f:facet name="header">Action</f:facet>
+						<h:commandButton value="Book"
+							action="#{gymClassBean.bookClass(cls)}" />
 					</h:column>
 
 				</h:dataTable>

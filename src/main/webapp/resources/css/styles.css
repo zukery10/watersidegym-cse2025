@@ -6,6 +6,13 @@ body {
     color: white;
 }
 
+.message-table {
+    color: red;
+    font-weight: bold;
+}
+
+
+
 /* === Navigation Bar === */
 .navbar {
     display: flex;
@@ -123,3 +130,4 @@ body {
     font-size: 10px;
     margin-left: 140px; /* aligns under input */
 }
+

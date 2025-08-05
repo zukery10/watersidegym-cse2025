@@ -9,6 +9,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import com.watersidegym.model.GymClass;
 import com.watersidegym.service.GymClassService;
+import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
+
 
 @ManagedBean
 @SessionScoped
@@ -125,6 +128,58 @@ public class GymClassBean {
 
 		return null; // stay on same page
 	}
+	
+	//Booking logic
+	public String bookClass(GymClass cls) {
+	    FacesContext context = FacesContext.getCurrentInstance();
 
+	    boolean booked = gymClassService.bookClass(cls);
+
+	    if (!booked) {
+	        // Show warning if class is full
+	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Class full", "No slots available."));
+	    } else {
+	        // Show confirmation if booking is successful
+	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Class Booked", "You have successfully booked the class."));
+	    }
+
+	    return null; // Stay on the same page
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
