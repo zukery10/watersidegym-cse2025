@@ -23,10 +23,9 @@ public class UserService {
         user2.setGender("Female");
         user2.setRole("Member");
         users.add(user2);
-    }
-    
-    static { //PT example
-    	User user3 = new User();
+        
+        //PT Example
+        User user3 = new User();
         user3.setEmail("PT@example.com");
         user3.setPassword("PT123456");
         user3.setFirstName("Joe");
@@ -39,8 +38,10 @@ public class UserService {
         user3.setGender("Male");
         user3.setRole("PT");
         users.add(user3);
+        
     }
-
+    
+    
     // Static method to get all users
     public static List<User> getUsers() {
         return users;
@@ -52,6 +53,7 @@ public class UserService {
             return false;
         }
         users.add(user);
+        user.setRole("Non-Member");
         return true;
     }
 

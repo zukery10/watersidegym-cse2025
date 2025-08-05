@@ -11,12 +11,29 @@
 </h:head>
 <h:body>
 
-	<h1>Personal Trainer Dashboard</h1>
-	<h2>#{loginBean.loggedInUser.firstName}
-		#{loginBean.loggedInUser.secondName}</h2>
-	<h3>Login Successful</h3>
-	<h:form>
-		<h:commandButton value="Logout" action="#{loginBean.logout}" />
-	</h:form>
+	<header class="navbar">
+		<div class="logo">
+			Waterside Gym <span class="tagline">A Fit for Your Life</span>
+		</div>
+	</header>
+	<main class="main-section">
+		<h1>Personal Trainer Dashboard</h1>
+		<h3>Login Successful</h3>
+		<h:form id="loginForm" styleClass="form-container">
+			<div class="plans">
+				<div class="plan-card">
+
+
+					<h2>#{loginBean.loggedInUser.firstName}
+						#{loginBean.loggedInUser.secondName}</h2>
+
+					<h:form>
+						<h:commandButton value="Logout" action="#{loginBean.logout}" styleClass = "choose-btn" />
+						</h:form>
+				</div>
+			</div>
+
+		</h:form>
+	</main>
 </h:body>
 </html>
