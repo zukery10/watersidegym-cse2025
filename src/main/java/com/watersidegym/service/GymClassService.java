@@ -40,12 +40,12 @@ public class GymClassService {
 			.add(new GymClass("HIIT", dateFormat.parse("10.08.25"), timeFormat.parse("10:30"), 8, "45 min"));
 
 			gymclassList
-			.add(new GymClass("CrossFit", dateFormat.parse("11.08.25"), timeFormat.parse("12:00"), 2, "1 hr"));
+			.add(new GymClass("CrossFit", dateFormat.parse("11.08.25"), timeFormat.parse("12:00"), 1, "1 hr"));
 			gymclassList.add(new GymClass("Aqua Aerobics", dateFormat.parse("11.08.25"), timeFormat.parse("14:00"), 4,
 					"50 min"));
 
 			gymclassList.add(
-					new GymClass("Dance", dateFormat.parse("12.08.25"), timeFormat.parse("16:00"), 10, "1 hr 30 min"));
+					new GymClass("Dance", dateFormat.parse("12.08.25"), timeFormat.parse("16:00"), 0, "1 hr 30 min"));
 			gymclassList.add(new GymClass("Strength Training", dateFormat.parse("12.08.25"), timeFormat.parse("18:00"),
 					1, "1 hr"));
 
