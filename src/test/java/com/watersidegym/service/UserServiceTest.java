@@ -1,14 +1,10 @@
-
 package com.watersidegym.service;
 
-import com.watersidegym.model.GymClass;
 import com.watersidegym.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Date;
 
 public class UserServiceTest {
 
@@ -58,7 +54,4 @@ public class UserServiceTest {
 
 		assertNotNull(found);
 	}
-
-	
-	
 }
