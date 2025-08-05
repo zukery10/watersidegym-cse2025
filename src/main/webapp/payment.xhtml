@@ -5,7 +5,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:metadata>
 	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
-    <f:event type="preRenderView" listener="#{membershipBean.checkPaymentSession}" />	
+	<f:event type="preRenderView"
+		listener="#{membershipBean.checkPaymentSession}" />
 </f:metadata>
 
 <h:head>
@@ -22,42 +23,46 @@
 	<main class="main-section">
 		<h1>
 			Payment <span class="highlight">Details</span>
-		</h1>	
-				<p class="subtitle">
-					You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
-					<span style="color: #8fffa0;">Total:
-						€#{membershipBean.membershipPrice}</span>
-				</p>
+		</h1>
+		<p class="subtitle">
+			You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
+			<span style="color: #8fffa0;">Total:
+				€#{membershipBean.membershipPrice}</span>
+		</p>
 
 		<div class="plan-card payment-form">
-			<h:messages globalOnly="true" layout="list" styleClass="feedback-message"/> <!--  if user enters wrong credentials this message will appear -->
+			<h:messages globalOnly="true" layout="list"
+				styleClass="feedback-message" />
+			<!--  if user enters wrong credentials this message will appear -->
 
 			<h:form styleClass="payment-grid">
 				<div class="form-field">
 					<label for="PayPalEmail">PayPal Email</label>
 					<h:inputText id="PayPalEmail" value="#{membershipBean.paypalEmail}"
-						required="true" />
+						required="true">
+						<f:passThroughAttribute name="type" value="email" />
+					</h:inputText>
 				</div>
 
-				<div class="form-field" >
+				<div class="form-field">
 					<label for="PayPalPass">PayPal Password</label>
-					<h:inputSecret id="PayPalPass" value="#{membershipBean.paypalPassword}"
-						required="true" maxlength="19" oninput="formatCardNumber(this)" />
+					<h:inputSecret id="PayPalPass"
+						value="#{membershipBean.paypalPassword}" required="true"
+						maxlength="19" oninput="formatCardNumber(this)" />
 				</div>
 
 				<h:commandButton value="Pay with PayPal"
-    action="#{membershipBean.processPaymentPayPal}"
-    styleClass="paypal-btn" />
+					action="#{membershipBean.processPaymentPayPal}"
+					styleClass="paypal-btn" />
 
 
 
 			</h:form>
-	
+
 		</div>
-				    <p class="subtitle2" style="color: red; font-weight: bold;">
-        You have 5 minutes to complete your payment before the session expires.
-    </p>
-	
+		<p class="subtitle2" style="color: red; font-weight: bold;">You
+			have 5 minutes to complete your payment before the session expires.</p>
+
 	</main>
 </h:body>
 </html>
