@@ -59,25 +59,6 @@ public class UserServiceTest {
 		assertNotNull(found);
 	}
 
-	@Test
-	public void enrolledClass() {
-		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
-				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
-		User u = new User();
-		u.enrollInClass(yogaClass);
-		assertTrue(u.getEnrolledClasses().contains(yogaClass));
-
-	}
-	@Test 
-	public void enrolledClassSpotsDecrese() {
-		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
-				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
-		User u = new User();
-		u.enrollInClass(yogaClass);
-		//method to decrease spots in class
-		
-		
-	}
+	
+	
 }

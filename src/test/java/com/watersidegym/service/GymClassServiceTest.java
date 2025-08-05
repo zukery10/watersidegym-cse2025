@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.watersidegym.model.GymClass;
+import com.watersidegym.model.User;
 
 public class GymClassServiceTest {
 
@@ -66,9 +68,44 @@ public class GymClassServiceTest {
     	GymClass gymclass1 = new GymClass("Yoga", dateFormat.parse("07.08.25"), timeFormat.parse("08:00"), 5, "1 hr");
     	gymClassService.bookClass(gymclass1);
     	int size =	gymclass1.getNoOfSlots();
-    
     	assertEquals(4, size);
-    	
     }
+    
+    @Test 
+    public void testSameClassEnrollment() {
+		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		GymClass yogaClass1 = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		User u = new User();
+		u.enrollInClass(yogaClass1);
+		assertTrue(u.isSameClass(yogaClass, yogaClass1));
+    }
+    @Test
+	public void enrolledClass() {
+		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		User u = new User();
+		u.enrollInClass(yogaClass);
+		assertTrue(u.getEnrolledClasses().contains(yogaClass));
+
+	}
+	@Test
+	public void isnotenrolledClass() {
+		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		GymClass yogaClass1 = new GymClass("Kick Boxing", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		User u = new User();
+		u.enrollInClass(yogaClass);
+		assertFalse(u.getEnrolledClasses().contains(yogaClass1));
+
+	}
+    
 }
 
