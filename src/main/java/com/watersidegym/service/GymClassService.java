@@ -71,7 +71,7 @@ public class GymClassService {
 		return gymclassList;
 	}
 	
-	//Book a class by reducing available slots. Returns true/false
+	//book a class by reducing available slots. returns true/false
 	public boolean bookClass(User user, GymClass cls) {
         if (user == null || cls == null) {
             return false;

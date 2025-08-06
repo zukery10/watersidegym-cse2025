@@ -25,7 +25,6 @@ public class GymClassBean {
 
 	public GymClassBean() {
 	}
-
 	// Catch any unexpected errors during initialization to prevent app crashes
 	// and show a user-friendly error message if loading classes fails.
 	@PostConstruct
@@ -40,8 +39,6 @@ public class GymClassBean {
 			errorMessage = "Currently unable to load classes. Please try again later.";
 		}
 	}
-
-	// getter setters
 
 	public GymClassService getGymClassService() {
 		return gymClassService;

@@ -65,19 +65,15 @@ public class GymClassServiceTest {
     
     @Test
     public void testNumberOfSlotsReducedBy1() throws ParseException {
-        // Arrange
         GymClass gymclass1 = new GymClass("Yoga", dateFormat.parse("07.08.25"), timeFormat.parse("08:00"), 5, "1 hr");
         User testUser = new User(); // create test user
 
-        // Act
         boolean booked = gymClassService.bookClass(testUser, gymclass1);
 
-        // Assert
         assertTrue(booked, "Booking should be successful");
         assertEquals(4, gymclass1.getNoOfSlots(), "Slots should be reduced by 1");
         assertTrue(testUser.getEnrolledClasses().contains(gymclass1), "User should be enrolled in class");
     }
-
     
     @Test 
     public void testSameClassEnrollment() {
@@ -112,8 +108,6 @@ public class GymClassServiceTest {
 		User u = new User();
 		u.enrollInClass(yogaClass);
 		assertFalse(u.getEnrolledClasses().contains(yogaClass1));
-
 	}
-    
 }
 
