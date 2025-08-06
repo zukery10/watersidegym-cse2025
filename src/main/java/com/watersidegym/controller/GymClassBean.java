@@ -4,54 +4,50 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-
 import com.watersidegym.model.GymClass;
+import com.watersidegym.model.User;
 import com.watersidegym.service.GymClassService;
+import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 
-@ManagedBean(name = "gymClassBean")
+@ManagedBean
 @SessionScoped
 public class GymClassBean {
 
-	@ManagedProperty(value = "#{gymClassService}")
 	private GymClassService gymClassService;
-	
 	private List<GymClass> gymClassList;
 	private Date selectedDate;
 	private String errorMessage;
 	private List<GymClass> filteredClasses = new ArrayList<>();
 
 	public GymClassBean() {
-		
 	}
-	
+	// Catch any unexpected errors during initialization to prevent app crashes
+	// and show a user-friendly error message if loading classes fails.
 	@PostConstruct
 	public void init() {
+		gymClassService = new GymClassService(); // Initialize service here
 		try {
-			gymClassList = getGymClassService().getAllGymClasses();
+			gymClassList = gymClassService.getAllGymClasses();
+			filteredClasses = new ArrayList<>(gymClassList); // Start with all classes shown
 		} catch (Exception e) {
-			gymClassList = new ArrayList<>(); // fallback to empty
-			System.err.println("Failed to load classes: " + e.getMessage());
+			gymClassList = new ArrayList<>();
+			filteredClasses = new ArrayList<>();
 			errorMessage = "Currently unable to load classes. Please try again later.";
 		}
 	}
 
-	// getter setters
-
-
 	public GymClassService getGymClassService() {
-	    return gymClassService;
+		return gymClassService;
 	}
 
 	public void setGymClassService(GymClassService gymClassService) {
-	    this.gymClassService = gymClassService;
+		this.gymClassService = gymClassService;
 	}
-	
-	
+
 	public Date getSelectedDate() {
 		return selectedDate;
 	}
@@ -122,11 +118,40 @@ public class GymClassBean {
 				// System.out.println("Selected Date: " + selectedDate);
 				// System.out.println("Class Date: " + cls.getClassDate());
 			}
-
 		}
-
 		return null; // stay on same page
 	}
 
-}
+	// booking logic
+	public String bookClass(GymClass cls) {
+	    FacesContext context = FacesContext.getCurrentInstance();
 
+	    // get LoginBean and logged-in user
+	    LoginBean loginBean = context.getApplication().evaluateExpressionGet(
+	            context, "#{loginBean}", LoginBean.class);
+	    User loggedInUser = loginBean.getLoggedInUser();
+
+	    // send to service
+	    boolean booked = gymClassService.bookClass(loggedInUser, cls);
+
+	    if (!booked) {
+	        if (loggedInUser.isEnrolledInClass(cls)) {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+	                "Already Booked", "You have already booked this class."));
+	        } else if (cls.getNoOfSlots() <= 0) {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+	                "Class Full", "No slots available."));
+	        } else {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+	                "Booking Failed", "An unexpected error occurred."));
+	        }
+	        return null;
+	    }
+
+	    // booking successful
+	    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+	        "Class Booked", "You have successfully booked the class."));
+
+	    return null; // stay on page
+	}
+}

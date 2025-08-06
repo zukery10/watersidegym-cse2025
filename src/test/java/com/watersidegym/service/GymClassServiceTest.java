@@ -4,18 +4,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.watersidegym.model.GymClass;
+import com.watersidegym.model.User;
 
 public class GymClassServiceTest {
 
     private GymClassService gymClassService;
-
-    private GymClassService service;
     private SimpleDateFormat dateFormat;
     private SimpleDateFormat timeFormat;
 
@@ -46,18 +46,68 @@ public class GymClassServiceTest {
 
     @Test
     public void testNumberOfClassesLoaded() {
-        // Confirm that 16 gym classes are loaded as hardcoded in the service
-        assertEquals(16, gymClassService.getAllGymClasses().size(), "Expected 16 classes loaded");
+        // Confirm that 18 gym classes are loaded as hardcoded in the service
+        assertEquals(18, gymClassService.getAllGymClasses().size(), "Expected 18 classes loaded");
     }
     
     @Test
-    public void tesGymClassValues() throws ParseException {
-        GymClass gymClass = service.getAllGymClasses().get(0);
+    public void testGymClassValues() throws ParseException {
+    	GymClass gymClass = gymClassService.getAllGymClasses().get(0);
+
         assertEquals("Yoga", gymClass.getNameOfClass());
-        assertEquals(dateFormat.parse("26.08.25"), gymClass.getClassDate());
+
+        assertEquals(dateFormat.parse("07.08.25"), gymClass.getClassDate());
+
         assertEquals(timeFormat.parse("08:00"), gymClass.getClassTime());
         assertEquals("1 hr", gymClass.getClassDuration());
         assertEquals(5, gymClass.getNoOfSlots());
     }
+    
+    @Test
+    public void testNumberOfSlotsReducedBy1() throws ParseException {
+        GymClass gymclass1 = new GymClass("Yoga", dateFormat.parse("07.08.25"), timeFormat.parse("08:00"), 5, "1 hr");
+        User testUser = new User(); // create test user
+
+        boolean booked = gymClassService.bookClass(testUser, gymclass1);
+
+        assertTrue(booked, "Booking should be successful");
+        assertEquals(4, gymclass1.getNoOfSlots(), "Slots should be reduced by 1");
+        assertTrue(testUser.getEnrolledClasses().contains(gymclass1), "User should be enrolled in class");
+    }
+    
+    @Test 
+    public void testSameClassEnrollment() {
+		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		GymClass yogaClass1 = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		User u = new User();
+		u.enrollInClass(yogaClass1);
+		assertTrue(u.isSameClass(yogaClass, yogaClass1));
+    }
+    @Test
+	public void enrolledClass() {
+		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		User u = new User();
+		u.enrollInClass(yogaClass);
+		assertTrue(u.getEnrolledClasses().contains(yogaClass));
+
+	}
+	@Test
+	public void isnotenrolledClass() {
+		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		GymClass yogaClass1 = new GymClass("Kick Boxing", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
+				new Date(0, 0, 0, 9, 30), // 9:30 AM
+				20, "1 hour");
+		User u = new User();
+		u.enrollInClass(yogaClass);
+		assertFalse(u.getEnrolledClasses().contains(yogaClass1));
+	}
 }
 

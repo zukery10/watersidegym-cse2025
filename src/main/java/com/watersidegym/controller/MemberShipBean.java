@@ -4,27 +4,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
 import com.watersidegym.model.User;
-import com.watersidegym.service.UserService;
-
-
 
 @ManagedBean(name = "membershipBean")
 @SessionScoped
 public class MemberShipBean {
 
-
-    private long paymentStartTime; // for seesion timeout
-    
+    private long paymentStartTime; // for session timeout
     private String membershipPlan;
     private String membershipPrice;
 	private String confirmationMessage;
-
     private String paypalEmail;
     private String paypalPassword;
 
-    
     public String getMembershipPrice() {
 		return membershipPrice;
 	}
@@ -94,16 +86,15 @@ public class MemberShipBean {
             return null;
         }
 
-        LoginBean loginBean = (LoginBean) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("loginBean");
+        // get the loggedin user from the LoginBean
+		FacesContext context = FacesContext.getCurrentInstance();
+		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+		User loggedInUser = loginBean.getLoggedInUser();
 
-        if (loginBean != null && loginBean.getLoggedInUser() != null) {
-            User user = UserService.findUserByEmail(loginBean.getLoggedInUser().getEmail());
-            if (user != null) {
-                user.setRole("Member");
-               
-            }
-        }
+		// update user role to Member
+		if (loggedInUser != null) {
+			loggedInUser.setRole("Member");
+		}
 
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,

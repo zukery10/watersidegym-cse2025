@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<f:metadata>
+	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+</f:metadata>
 <h:head>
 	<h:outputStylesheet name="styles.css" library="css" />
 	<title>Non-Member Dashboard</title>
@@ -14,7 +17,7 @@
 		</div>
 	</header>
 	<main class="main-section">
-		<h1>Non-Member Dashboard</h1>
+		<h1>Non-Member <span class="highlight">Dashboard</span></h1>
 		<h3>Login Successful</h3>
 		<h:form id="loginForm" styleClass="form-container">
 			<div class="plans">
@@ -27,12 +30,9 @@
 					</h:panelGroup>
 
 					<h:form>
-					<!-- CHANGE TO MEMBERSHIP PLANS REDIRECT -->
-						<h:commandButton value="Membership Plans"
-							action="purchase-membership.xhtml?faces-redirect=true" 
-							styleClass="choose-btn" />
-						<br></br>
-						<br></br>
+						<h:commandButton value="Membership Plans" action="purchase-membership.xhtml?faces-redirect=true" styleClass="choose-btn" />
+										<br /> <br />
+
 						<h:commandButton value="Logout" action="#{loginBean.logout}"
 							styleClass="choose-btn" />
 					</h:form>

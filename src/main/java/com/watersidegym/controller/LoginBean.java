@@ -1,9 +1,7 @@
-
 package com.watersidegym.controller;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import com.watersidegym.model.User; //importing the user java
