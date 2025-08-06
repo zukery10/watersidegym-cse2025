@@ -6,7 +6,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import com.watersidegym.model.User;
 
-@ManagedBean
+@ManagedBean(name = "membershipBean")
 @SessionScoped
 public class MemberShipBean {
 

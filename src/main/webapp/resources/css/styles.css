@@ -127,54 +127,55 @@ body {
 	box-sizing: border-box;
 }
 
-/* === Styled Class Table === */
-.class-booking-table {
-	width: 100%;
-	border-collapse: separate;
-	border-spacing: 0;
-	font-size: 14px;
-	background-color: #222;
-	border-radius: 10px;
-	overflow: hidden;
-	box-shadow: 0 0 6px rgba(0, 255, 100, 0.2);
-}
-
-.class-booking-table th, .class-booking-table td {
-	padding: 14px 18px;
-	text-align: center;
-	border-bottom: 1px solid #444;
-	color: #f0f0f0;
-}
-
-.class-booking-table th {
-	background-color: #333;
-	color: #8fffa0;
-	text-transform: uppercase;
-	font-weight: bold;
-}
-
-.class-booking-table tr:last-child td {
-	border-bottom: none;
-}
-
-.class-booking-table td button {
-	padding: 6px 12px;
-	border-radius: 4px;
-	border: none;
-	background-color: #00cc66;
-	color: #000;
-	font-weight: bold;
-	cursor: pointer;
-	transition: background-color 0.2s ease;
-}
-
-.class-booking-table td button:hover {
-	background-color: #28a745;
-}
-
 .error {
 	margin: 0 auto 20px auto;
     text-align: center;
     color: #ff6b6b;
     font-size: 16px;
+}
+
+.jsf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: #1e1f23; /* dark bg */
+    color: #fff; /* white text */
+}
+
+.jsf-table th,
+.jsf-table td {
+    border: 1px solid #444; /* subtle border */
+    padding: 12px 8px;
+}
+
+.jsf-table th {
+    background-color: #2a2d34;
+    font-weight: bold;
+    color: #8fffa0; /* green header text */
+}
+
+.jsf-table tr:nth-child(even) {
+    background-color: #2a2d34; /* alternating row */
+}
+
+.jsf-table tr:hover {
+    background-color: #33363d; /* hover row */
+}
+
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.table-card {
+	background-color: #181a1f;
+	border-radius: 12px;
+	padding: 30px;
+	width: 100%;
+	max-width: 500px; 
+	position: relative;
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
+	transition: transform 0.3s ease;
 }

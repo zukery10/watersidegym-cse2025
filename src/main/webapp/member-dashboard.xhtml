@@ -35,7 +35,7 @@
 					<h:panelGroup rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
 						<h3>Your Enrolled Classes:</h3>
 						<h:dataTable value="#{loginBean.loggedInUser.enrolledClasses}"
-							var="gymClass" styleClass="class-table" border="1" cellpadding="8" cellspacing="0">
+							var="gymClass" border="1" styleClass="jsf-table">
 							<h:column>
 								<f:facet name="header">Class Name</f:facet> #{gymClass.nameOfClass}</h:column>
 							<h:column>
