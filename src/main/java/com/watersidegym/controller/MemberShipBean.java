@@ -5,6 +5,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.watersidegym.model.User;
+import com.watersidegym.service.UserService;
+
 
 
 @ManagedBean(name = "membershipBean")
@@ -91,14 +94,25 @@ public class MemberShipBean {
             return null;
         }
 
+        LoginBean loginBean = (LoginBean) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("loginBean");
+
+        if (loginBean != null && loginBean.getLoggedInUser() != null) {
+            User user = UserService.findUserByEmail(loginBean.getLoggedInUser().getEmail());
+            if (user != null) {
+                user.setRole("Member");
+               
+            }
+        }
+
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Payment Successful",
                         "Your " + this.membershipPlan + " membership has been activated."));
-        
+
         return "payment-success.xhtml?faces-redirect=true";
     }
-
+    
     public boolean isPaymentTimedOut() {
         long now = System.currentTimeMillis();
         long elapsed = now - paymentStartTime;
