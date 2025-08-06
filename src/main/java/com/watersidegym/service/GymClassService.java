@@ -93,6 +93,4 @@ public class GymClassService {
 
         return true;
     }
-
-
 }

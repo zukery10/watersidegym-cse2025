@@ -30,10 +30,7 @@
 					</h:panelGroup>
 
 					<h:form>
-					<!-- CHANGE TO MEMBERSHIP PLANS REDIRECT -->
-						<h:commandButton value="Membership Plans"
-							action="purchase-membership"  
-							styleClass="choose-btn" />
+						<h:commandButton value="Membership Plans" action="purchase-membership.xhtml?faces-redirect=true" styleClass="choose-btn" />
 										<br /> <br />
 
 						<h:commandButton value="Logout" action="#{loginBean.logout}"
