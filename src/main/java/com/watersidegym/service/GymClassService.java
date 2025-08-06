@@ -4,14 +4,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+
 import com.watersidegym.model.GymClass;
 import com.watersidegym.model.User;
 
 public class GymClassService {
 
-	private List<GymClass> gymclassList = new ArrayList<>();
+	private List<GymClass> gymclassList;
 
 	public GymClassService() {
+		gymclassList = new ArrayList<>();
+		init();
+	}
+
+	public void init() {
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
@@ -65,32 +74,36 @@ public class GymClassService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
 	}
+
 
 	public List<GymClass> getAllGymClasses() {
 		return gymclassList;
 	}
-	
-	//book a class by reducing available slots. returns true/false
+
+	//Book a class by reducing available slots. Returns true/false
 	public boolean bookClass(User user, GymClass cls) {
-        if (user == null || cls == null) {
-            return false;
-        }
+		if (user == null || cls == null) {
+			return false;
+		}
 
-        // Already enrolled
-        if (user.isEnrolledInClass(cls)) {
-            return false;
-        }
+		// Already enrolled
+		if (user.isEnrolledInClass(cls)) {
+			return false;
+		}
 
-        // Class full
-        if (cls.getNoOfSlots() <= 0) {
-            return false;
-        }
+		// Class full
+		if (cls.getNoOfSlots() <= 0) {
+			return false;
+		}
 
-        // Reduce slots and enroll
-        cls.setNoOfSlots(cls.getNoOfSlots() - 1);
-        user.enrollInClass(cls);
+		// Reduce slots and enroll
+		cls.setNoOfSlots(cls.getNoOfSlots() - 1);
+		user.enrollInClass(cls);
 
-        return true;
-    }
+		return true;
+	}
+
+
 }
