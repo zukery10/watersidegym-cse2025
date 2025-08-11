@@ -1,6 +1,7 @@
 package com.watersidegym.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,9 @@ public class GymClassBean {
 	private Date selectedDate;
 	private String errorMessage;
 	private List<GymClass> filteredClasses = new ArrayList<>();
+	private List<GymClass> cart = new ArrayList<>();
+	int totalPrice = 0;
+	
 
 	public GymClassBean() {
 	}
@@ -29,15 +33,20 @@ public class GymClassBean {
 	// and show a user-friendly error message if loading classes fails.
 	@PostConstruct
 	public void init() {
+
 		gymClassService = new GymClassService(); // Initialize service here
 		try {
 			gymClassList = gymClassService.getAllGymClasses();
 			filteredClasses = new ArrayList<>(gymClassList); // Start with all classes shown
+			cart = new ArrayList<>(); // start with empty cart
 		} catch (Exception e) {
 			gymClassList = new ArrayList<>();
 			filteredClasses = new ArrayList<>();
 			errorMessage = "Currently unable to load classes. Please try again later.";
 		}
+		
+		isMember();
+		showPrice();
 	}
 
 	public GymClassService getGymClassService() {
@@ -79,8 +88,10 @@ public class GymClassBean {
 		return filteredClasses; // show only filtered results after selection
 	}
 
-	// filter for matching dates -> selectedDate
+							// filter for matching dates -> selectedDate
 
+	
+	
 	public String getFilteredClassesAction() {
 		filteredClasses = new ArrayList<>();
 
@@ -121,6 +132,10 @@ public class GymClassBean {
 		}
 		return null; // stay on same page
 	}
+	
+	public List<GymClass> getCart() {
+		return cart;
+	}
 
 	// booking logic
 	public String bookClass(GymClass cls) {
@@ -130,9 +145,15 @@ public class GymClassBean {
 	    LoginBean loginBean = context.getApplication().evaluateExpressionGet(
 	            context, "#{loginBean}", LoginBean.class);
 	    User loggedInUser = loginBean.getLoggedInUser();
+	    
+	    
+
 
 	    // send to service
 	    boolean booked = gymClassService.bookClass(loggedInUser, cls);
+	    
+	    
+	    if(loggedInUser.getRole().equals("Member")) {
 
 	    if (!booked) {
 	        if (loggedInUser.isEnrolledInClass(cls)) {
@@ -151,7 +172,47 @@ public class GymClassBean {
 	    // booking successful
 	    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 	        "Class Booked", "You have successfully booked the class."));
+	    
+	    }
+	    
+
 
 	    return null; // stay on page
 	}
+	
+	
+	
+	public boolean isMember() {
+		 FacesContext context = FacesContext.getCurrentInstance();
+
+		    // get LoginBean and logged-in user
+		    LoginBean loginBean = context.getApplication().evaluateExpressionGet(
+		            context, "#{loginBean}", LoginBean.class);
+		    User loggedInUser = loginBean.getLoggedInUser();
+		    
+		    if(loggedInUser.getRole().equals("Non-Member")) { // show price
+		    	return false;
+		    } else
+		    
+		    return true;
+		
+	}
+	
+	public boolean showPrice() {
+		
+		if(isMember()) {
+			return false;
+		}
+		
+		return true;
+	}
+	public String addToCart(GymClass cls) {
+		
+		cart.add(cls);
+		totalPrice = totalPrice + cls.getPrice();
+		cls.setNoOfSlots(cls.getNoOfSlots() - 1);
+		System.out.println(cart.toString());
+		return null;
+	}
 }
+
