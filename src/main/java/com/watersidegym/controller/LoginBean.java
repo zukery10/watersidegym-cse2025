@@ -4,8 +4,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
+import com.watersidegym.model.PTSession;
 import com.watersidegym.model.User; //importing the user java
+import com.watersidegym.service.PTSessionService;
 import com.watersidegym.service.UserService; //importing the userservice java
+
+import java.util.Arrays;
+import java.util.List;
 
 @ManagedBean
 @SessionScoped
@@ -14,23 +20,20 @@ public class LoginBean {
 	private String email;
 	private String password;
 	private User loggedInUser;
+    private PTSessionService ptSessionService = new PTSessionService();
 
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public String login() {
 
 		if (emptyFields()) {// made a method below, tried to use for testing
@@ -72,7 +75,6 @@ public class LoginBean {
 		}
 
 	}
-
 	public String redirect(User loggedInUser) {
 		String redirect = "";
 		switch (loggedInUser.getRole()) { // checks if user is member or non member
@@ -92,7 +94,6 @@ public class LoginBean {
 		return redirect;
 
 	}
-
 	public boolean noEmailFound(User user) { // returns true if user is null
 		if (user == null) {
 			return true;
@@ -100,14 +101,12 @@ public class LoginBean {
 		} else
 			return false;
 	}
-
 	public boolean passwordMismatch(User user) { // returns true if password mismatches
 		if (!user.getPassword().equals(password)) {
 			return true;
 		} else
 			return false;
 	}
-
 	public boolean emptyFields() { // to test
 		if (email == null || "".equals(email) || password == null || "".equals(password)) { // if email or password is
 																							// null or blank
@@ -117,31 +116,50 @@ public class LoginBean {
 		} else
 			return false;
 	}
-
 	public String logout() { // resets all inputs fields and user
 		loggedInUser = null;
 		email = null;
 		password = null;
 		return "index"; // redirects back to index
 	}
-
 	public boolean isLoggedIn() {
 		return loggedInUser != null;
 	}
-
 	public void checkLoggedIn() {
-		if (!isLoggedIn()) { // check the method isLoggedIn= if false
-			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?faces-redirect=true");
-			} catch (Exception e) {
-				System.out.println("Redirect failed");
-			}
-		}
-	}
+	    if (!isLoggedIn()) {
+	        try {
+	            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+	        } catch (Exception e) {
+	            System.out.println("Redirect failed");
+	        }
+	        return;
+	    }
+	    String currentPage = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+	    String expectedPage = "/" + redirect(loggedInUser) + ".xhtml";
 
+	    // List pages that are allowed for members besides their dashboard
+	    List<String> allowedPagesForMembers = Arrays.asList("/browseClasses.xhtml");
+	   
+	    boolean isAllowedPage = false;
+	    if ("Member".equals(loggedInUser.getRole())) {
+	        isAllowedPage = allowedPagesForMembers.contains(currentPage);
+	    }
+
+	    if (!currentPage.equals(expectedPage) && !isAllowedPage) {
+	        try {
+	            FacesContext.getCurrentInstance().getExternalContext().redirect(expectedPage);
+	        } catch (Exception e) {
+	            System.out.println("Redirect failed");
+	        }
+	    }
+	}
 	public User getLoggedInUser() {
-
 		return loggedInUser;
-
 	}
+	public List<PTSession> getMyPTSessions() {
+        if (loggedInUser != null && "PT".equalsIgnoreCase(loggedInUser.getRole())) {
+            return ptSessionService.getSessionsForTrainer(loggedInUser);
+        }
+        return null;
+    }
 }

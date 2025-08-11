@@ -3,15 +3,13 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:metadata>
-	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+    	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 </f:metadata>
 <h:head>
 	<h:outputStylesheet name="styles.css" library="css" />
 	<title>Member Dashboard</title>
 </h:head>
 <h:body>
-
-
 	<header class="navbar">
 		<div class="logo">
 			Waterside Gym <span class="tagline">A Fit for Your Life</span>
@@ -19,22 +17,42 @@
 	</header>
 	<main class="main-section">
 		<h1>Personal Trainer Dashboard</h1>
-		<h3>Login Successful</h3>
-		<h:form id="loginForm" styleClass="form-container">
-			<div class="plans">
-				<div class="plan-card">
-
-
-					<h2>#{loginBean.loggedInUser.firstName}
-						#{loginBean.loggedInUser.secondName}</h2>
-
-					<h:form>
-						<h:commandButton value="Logout" action="#{loginBean.logout}" styleClass = "choose-btn" />
-						</h:form>
-				</div>
+		<div class="plans">
+			<div class="plan-card">
+				<h2>#{loginBean.loggedInUser.firstName}
+					#{loginBean.loggedInUser.secondName}</h2>
+				<p>Email: #{loginBean.loggedInUser.email}</p>
+				<h:panelGroup rendered="#{not empty loginBean.myPTSessions}">
+					<h3>Your Upcoming Sessions:</h3>
+					<h:dataTable value="#{loginBean.myPTSessions}" var="ptSession"
+						border="1" styleClass="jsf-table">
+						<h:column>
+							<f:facet name="header">Member</f:facet>#{ptSession.member.firstName} #{ptSession.member.secondName}
+    					</h:column>
+						<h:column>
+							<f:facet name="header">Date</f:facet>
+							<h:outputText value="#{ptSession.sessionDate}">
+								<f:convertDateTime pattern="EEE, MMM d, yyyy" />
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Time</f:facet>
+							<h:outputText value="#{ptSession.startTime}">
+								<f:convertDateTime pattern="h:mm a" />
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Duration</f:facet>
+        #{ptSession.durationMinutes} minutes
+    </h:column>
+					</h:dataTable>
+				</h:panelGroup>
+				<h:form>
+					<h:commandButton value="Logout" action="#{loginBean.logout}"
+						styleClass="choose-btn" />
+				</h:form>
 			</div>
-
-		</h:form>
+		</div>
 	</main>
 </h:body>
 </html>
