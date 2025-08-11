@@ -19,7 +19,9 @@
 	</header>
 
 	<main class="main-section">
-		<h1>Member <span class="highlight">Dashboard</span></h1>
+		<h1>
+			Member <span class="highlight">Dashboard</span>
+		</h1>
 		<h3>Login Successful</h3>
 		<h:form id="loginForm" styleClass="form-container">
 
@@ -32,7 +34,8 @@
 						<p>Email: #{loginBean.loggedInUser.email}</p>
 						<p>Role: #{loginBean.loggedInUser.role}</p>
 					</h:panelGroup>
-					<h:panelGroup rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
+					<h:panelGroup
+						rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
 						<h3>Your Enrolled Classes:</h3>
 						<h:dataTable value="#{loginBean.loggedInUser.enrolledClasses}"
 							var="gymClass" border="1" styleClass="jsf-table">
@@ -62,6 +65,10 @@
 						<h:commandButton value="View Classes"
 							action="browseClasses?faces-redirect=true"
 							styleClass="choose-btn" />
+						<br></br>
+						<br></br>
+						<h:commandButton value="Book PT Session"
+							action="book-pt-session?faces-redirect=true" styleClass="choose-btn" />
 						<br></br>
 						<br></br>
 						<h:commandButton value="Logout" action="#{loginBean.logout}"
