@@ -143,6 +143,17 @@ body {
     background-color: #1e1f23; /* dark bg */
     color: #fff; /* white text */
 }
+.jsf-table-cart {
+	float:left;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: #1e1f23; /* dark bg */
+    color: #fff; /* white text */
+}
+
 
 .jsf-table th,
 .jsf-table td {

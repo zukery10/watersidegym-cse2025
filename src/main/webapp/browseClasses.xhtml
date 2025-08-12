@@ -17,6 +17,7 @@
 		<h1>
 			Book <span class="highlight">Classes</span>
 		</h1>
+
 		<h:form>
 			<div class="plans">
 				<div class="table-card">
@@ -66,16 +67,26 @@
 							<h:column>
 								<f:facet name="header">Action</f:facet>
 								<h:commandButton value="Book" styleClass="choose-btn"
-									action="#{gymClassBean.bookClass(cls)}" rendered="#{gymClassBean.isMember()}"/>
-									
-									
+									action="#{gymClassBean.bookClass(cls)}"
+									rendered="#{gymClassBean.isMember()}" />
+
+
 								<h:commandButton value="Add To Cart"
-									rendered="#{not gymClassBean.member}" action="#{gymClassBean.addToCart(cls)}" styleClass="choose-btn" >
-									</h:commandButton>
+									rendered="#{not gymClassBean.member}"
+									action="#{gymClassBean.addToCart(cls)}" styleClass="choose-btn">
+								</h:commandButton>
 							</h:column>
 
-					</h:dataTable>	
-					</h:panelGroup> 
+						</h:dataTable>
+					</h:panelGroup>
+
+
+
+
+
+
+
+
 					<!-- Show message if list is empty -->
 					<h:panelGroup
 						rendered="#{not empty gymClassBean.selectedDate and empty gymClassBean.filteredClasses}">
@@ -95,29 +106,26 @@
 				</div>
 			</div>
 		</h:form>
-<h:form float="top">
-<h:dataTable value="#{gymClassBean.cart}" var= "classAdded" styleClass="table-card"
-							 border="1">
-<h:column>
 
-<f:facet name="header"> Class Name </f:facet>
+
+
+
+
+		<h:dataTable value="#{gymClassBean.cart}" var="classAdded"
+			styleClass="jsf-table-cart" border="1">
+			<h:column>
+
+				<f:facet name="header"> Class Name </f:facet>
 #{classAdded.nameOfClass}
 </h:column>
 
-<h:column>
-<f:facet name="header"> Price </f:facet>
+			<h:column>
+				<f:facet name="header"> Price </f:facet>
 €#{classAdded.price}
 </h:column>
+		</h:dataTable>
 
 
-
-</h:dataTable>
-</h:form>
-
-
-
-
-		
 
 	</main>
 </h:body>
