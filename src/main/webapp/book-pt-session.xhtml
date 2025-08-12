@@ -6,23 +6,29 @@
 
 <h:head>
     <title>Book PT Session</title>
-    <h:outputStylesheet name="styles.css" library="css" />
+   <h:outputStylesheet name="styles.css" library="css" />
 </h:head>
 
 <h:body>
-    <h2>Book Personal Training Session</h2>
+
+	<main class="main-section">
+		<div class="logo">
+			Book Personal Training Session
+		</div>
+	
+   
 
     <form>
-        <div class="box">
-
-<h3>Member: #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.lastName}</h3>
+       <div class="plans">
+				<div class="plan-card">
+	<h3>Member: #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.lastName}</h3>
 
            
             <label for="trainer">Choose Trainer</label>
             <select id="trainer" name="trainer">
                 <option value="">-- Select Trainer --</option>
                 <option value="T3">Joe Soundman (Cardio)</option>
-                <option value="T1">Alex Byrne (Strength)</option>
+				<option value="T1">Alex Byrne (Strength)</option>
                 <option value="T2">Priya Shah (Mobility)</option>                
             </select>
             <br/><br/>
@@ -33,7 +39,7 @@
             <br/><br/>
 
           
-           <label>Time</label><br/>
+            <label>Time</label><br/>
             <input type="radio"  name="time" value="08:00" />
             <label for="time8">8:00 AM</label><br/>
 
@@ -47,8 +53,14 @@
             <label for="time18">6:00 PM</label><br/><br/>
 
            
-            <button type="submit">Book</button>
+           <!--  <button type="submit">Book</button>  -->
+            
+             <h:commandButton value="Book"
+                         action="#{ptSessionBean.book}"
+                         onclick="alert('Your booking is confirmed!');" />
+        </div>
         </div>
     </form>
+    </main>
 </h:body>
 </html>
