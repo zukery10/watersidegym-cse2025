@@ -52,10 +52,13 @@
             <input type="radio"  name="time" value="18:00" />
             <label for="time18">6:00 PM</label><br/><br/>
 
-           
+           <label for="notes">Notes (optional)</label><br/>
+			<textarea id="notes" name="notes" rows="3" cols="30"
+          	placeholder="Any special requirements or comments?"></textarea>
+			<br/><br/>
            <!--  <button type="submit">Book</button>  -->
             
-             <h:commandButton value="Book"
+             <h:commandButton value="Book Session"
                          action="#{ptSessionBean.book}"
                          onclick="alert('Your booking is confirmed!');" />
         </div>
