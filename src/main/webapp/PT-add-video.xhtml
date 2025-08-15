@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- Pure HTML/CSS mock: shows a video library with your 3 online videos
+     and a non-functional "Add Video" button that only opens the file picker. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upload Video • Waterside Gym (Mock)</title>
+<link rel="stylesheet" href="resources/css/membership_select_page.css" />
+</head>
+<body>
+      <main class="main-section">
+        <h1>Upload your <span class="highlight">Video</span></h1>
+<div class="video-gallery">
+  <div class="page">
+    <h1>Upload Video</h1>
+
+    <div class="grid">
+      <div class="card">
+        <div class="hd">New Upload</div>
+        <div class="bd">
+          <p style="margin-top:0;color:#cbd5e1">Click or drag a video into the frame to pick a file. (No upload logic yet.)</p>
+
+          <div class="dropzone" aria-label="Upload area: click or drag a video file here">
+            <div class="dz-icon">📹</div>
+            <div class="dz-title">Drag a video here or click to choose</div>
+            <div class="dz-hint">MP4 or MOV • Max 200MB</div>
+            <!-- Hidden file input covering the frame -->
+            <input class="dz-input" type="file" accept="video/mp4,video/quicktime" />
+          </div>
+
+          <div class="row">
+            <!-- Non-functional: just opens the file dialog -->
+            <div class="file-wrap">
+              <button class="btn primary" type="button">Add Video</button>
+              <input class="file-input" type="file" accept="video/mp4,video/quicktime" />
+            </div>
+            <button class="btn muted" type="reset">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd">Your Video Library (Mock)</div>
+        <div class="bd">
+          <div class="videos">
+            <div class="vcard">
+<video controls="true" preload="metadata">
+                <source src="https://videocdn.cdnpk.net/videos/83f413e2-8be6-5e5f-bf58-68425a1ea623/horizontal/previews/clear/large.mp4?token=exp=1755210505~hmac=531055c3e23f55c7669f29af8ee6e6741fbbb8e9a5aca18b244ab474ff9b82fd" type="video/mp4" />
+              </video>
+              <h3>Warm-up Routine</h3>
+            </div>
+            <div class="vcard">
+<video controls="true" preload="metadata">
+                <source src="https://videocdn.cdnpk.net/videos/f0b35ea2-1a24-4162-86c5-7eb4bcc80905/horizontal/previews/clear/large.mp4?token=exp=1755210580~hmac=d592e70a9752114565de1f4c25a4b312c741b03f4a81ca8c40dab67b5b8245fa" type="video/mp4" />
+              </video>
+              <h3>Core Blast Intro</h3>
+            </div>
+            <div class="vcard">
+<video controls="true" preload="metadata">
+                <source src="https://videocdn.cdnpk.net/videos/213c0a5f-5c8b-42ba-af11-8f2d3dfee269/horizontal/previews/clear/large.mp4?token=exp=1755210615~hmac=604f14f512b2a742bd520debb2b73d444584b3d5db3a05d855f9c6b74ac2cad7" type="video/mp4" />
+              </video>
+              <h3>Mobility Flow</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+      </main>
+</body>
+</html>
