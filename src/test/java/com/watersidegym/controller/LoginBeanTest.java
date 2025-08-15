@@ -12,18 +12,18 @@ import org.junit.jupiter.api.Test;
 import com.watersidegym.model.User;
 
 class LoginBeanTest {
-	
+
 	LoginBean loginbean;
 	User user;
+
 	@BeforeEach
-	public void setUp(){
-		loginbean = new LoginBean();  //create an instance before each test
+	public void setUp() {
+		loginbean = new LoginBean(); // create an instance before each test
 	}
-	
 
 	@Test
 	public void testEmptyFields() {
-		loginbean.setEmail("");  // sets empty fields 
+		loginbean.setEmail(""); // sets empty fields
 		loginbean.setPassword("");
 		assertTrue(loginbean.emptyFields());
 	}
@@ -31,33 +31,60 @@ class LoginBeanTest {
 	@Test
 	public void testNoEmailFound() {
 		assertTrue(loginbean.noEmailFound(user));
-		
+
 	}
-	
+
 	@Test
 	public void testPasswordMismatch() {
 		User user2 = new User();
-       
-        user2.setPassword("Member123");
-        
+
+		user2.setPassword("Member123");
+
 		assertTrue(loginbean.passwordMismatch(user2));
 	}
+
 	@Test
 	public void testRedirectDashboard() {
 		User user1 = new User();
-        user1.setRole("Member");
-		assertEquals("member-dashboard",loginbean.redirect(user1));
+		user1.setRole("Member");
+		assertEquals("member-dashboard", loginbean.redirect(user1));
 		User user2 = new User();
-        user2.setRole("Non-Member");		
-		assertEquals("nonmember-dashboard",loginbean.redirect(user2));
+		user2.setRole("Non-Member");
+		assertEquals("nonmember-dashboard", loginbean.redirect(user2));
 		User user3 = new User();
-        user3.setRole("PT");
-		assertEquals("personal-trainer-dashboard",loginbean.redirect(user3));
-	}
-	@Test 
-	public void testLogout() {	
-		assertEquals("index", loginbean.logout());		
+		user3.setRole("PT");
+		assertEquals("personal-trainer-dashboard", loginbean.redirect(user3));
 	}
 
+	@Test
+	public void testLogout() {
+		User mockUser = new User();
+		mockUser.setEmail("test@example.com");
+		mockUser.setPassword("password123");
+		loginbean.setEmail("test@example.com");
+		loginbean.setPassword("password123");
+		loginbean.logout();
+		String result = loginbean.logout();
+		assertEquals("index", result, "Logout should redirect to index page");
+		assertNull(loginbean.getLoggedInUser(), "User should be logged out (null)");
+		assertNull(loginbean.getEmail(), "Email should be cleared");
+		assertNull(loginbean.getPassword(), "Password should be cleared");
+	}
 
+	@Test
+	public void testLogoutClearsState() {
+		User user = new User();
+		user.setEmail("member@example.com");
+		user.setPassword("pass");
+		loginbean.setEmail("member@example.com");
+		loginbean.setPassword("pass");
+		loginbean.setLoggedInUser(user); // add setter in LoginBean for testing
+
+		String result = loginbean.logout();
+
+		assertEquals("index", result);
+		assertNull(loginbean.getLoggedInUser());
+		assertNull(loginbean.getEmail());
+		assertNull(loginbean.getPassword());
+	}
 }
