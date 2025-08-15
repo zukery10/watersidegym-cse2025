@@ -59,7 +59,6 @@
 								<f:facet name="header">Slots Available</f:facet>
                       #{cls.noOfSlots}
                     </h:column>
-
 							<h:column rendered="#{gymClassBean.showPrice()}">
 								<f:facet name="header">Price </f:facet>
 							 €#{cls.price}
@@ -69,24 +68,14 @@
 								<h:commandButton value="Book" styleClass="choose-btn"
 									action="#{gymClassBean.bookClass(cls)}"
 									rendered="#{gymClassBean.isMember()}" />
-
-
 								<h:commandButton value="Add To Cart"
-									rendered="#{not gymClassBean.member}"
+									rendered="#{not gymClassBean.isMember()}"
 									action="#{gymClassBean.addToCart(cls)}" styleClass="choose-btn">
 								</h:commandButton>
 							</h:column>
 
 						</h:dataTable>
 					</h:panelGroup>
-
-
-
-
-
-
-
-
 					<!-- Show message if list is empty -->
 					<h:panelGroup
 						rendered="#{not empty gymClassBean.selectedDate and empty gymClassBean.filteredClasses}">
@@ -101,32 +90,10 @@
 					</h:panelGroup>
 					<br /> <br />
 					<h:commandButton value="Back to Dashboard"
-						action="member-dashboard?faces-redirect=true" immediate="true"
-						styleClass="choose-btn" />
+						action="#{gymClassBean.backToDashboard()}" styleClass="choose-btn" />
 				</div>
 			</div>
 		</h:form>
-
-
-
-
-
-		<h:dataTable value="#{gymClassBean.cart}" var="classAdded"
-			styleClass="jsf-table-cart" border="1">
-			<h:column>
-
-				<f:facet name="header"> Class Name </f:facet>
-#{classAdded.nameOfClass}
-</h:column>
-
-			<h:column>
-				<f:facet name="header"> Price </f:facet>
-€#{classAdded.price}
-</h:column>
-		</h:dataTable>
-
-
-
 	</main>
 </h:body>
 </html>
