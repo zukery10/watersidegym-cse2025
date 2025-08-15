@@ -5,14 +5,14 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:metadata>
 	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
-	<f:event type="preRenderView"
-		listener="#{membershipBean.checkPaymentSession}" />
+
 </f:metadata>
 
 <h:head>
 	<title>Payment</title>
 	<link rel="stylesheet" type="text/css"
 		href="resources/css/membership_select_page.css" />
+	<h:outputStylesheet name="styles.css" library="css" />
 </h:head>
 
 <h:body>
@@ -24,11 +24,28 @@
 		<h1>
 			Payment <span class="highlight">Details</span>
 		</h1>
-		<p class="subtitle">
-			You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
-			<span style="color: #8fffa0;">Total:
-				€#{membershipBean.membershipPrice}</span>
-		</p>
+
+		<!--PAYING FOR MEMBERSHIP-->
+
+		<h:panelGroup rendered="#{not gymClassBean.classPayment}">
+			<p class="subtitle">
+				You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
+				<span style="color: #8fffa0;">Total:
+					€#{membershipBean.membershipPrice}</span>
+			</p>
+		</h:panelGroup>
+
+		<!--PAYING FOR MEMBERSHIP-->
+
+		<h:panelGroup rendered="#{gymClassBean.classPayment}">
+			<p class="subtitle">
+				<span style="color: #8fffa0;">Total:
+					€#{gymClassBean.totalPrice}</span>
+			</p>
+
+		</h:panelGroup>
+
+
 
 		<div class="plan-card payment-form">
 			<h:messages globalOnly="true" layout="list"
@@ -55,11 +72,15 @@
 					action="#{membershipBean.processPaymentPayPal}"
 					styleClass="paypal-btn" />
 
-
+		<h:commandButton value="Back to Dashboard"
+						rendered="#{not gymClassBean.member}"
+						action="nonmember-dashboard?faces-redirect=true"
+						styleClass="choose-btn" />
 
 			</h:form>
 
 		</div>
+
 		<p class="subtitle2" style="color: red; font-weight: bold;">You
 			have 5 minutes to complete your payment before the session expires.</p>
 

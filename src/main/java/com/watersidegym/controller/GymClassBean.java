@@ -17,15 +17,18 @@ import javax.faces.application.FacesMessage;
 @ManagedBean
 @SessionScoped
 public class GymClassBean {
-
+	
+	
 	private GymClassService gymClassService;
 	private List<GymClass> gymClassList;
 	private Date selectedDate;
 	private String errorMessage;
 	private List<GymClass> filteredClasses = new ArrayList<>();
 	private List<GymClass> cart = new ArrayList<>();
-	int totalPrice = 0;
-	
+	private int totalPrice = 0;
+	private List<GymClass> disabledButtons = new ArrayList<>();	
+	private User loggedInUser;
+	private static boolean classPayment = false;
 
 	public GymClassBean() {
 	}
@@ -44,9 +47,10 @@ public class GymClassBean {
 			filteredClasses = new ArrayList<>();
 			errorMessage = "Currently unable to load classes. Please try again later.";
 		}
-		
+
 		isMember();
 		showPrice();
+		
 	}
 
 	public GymClassService getGymClassService() {
@@ -88,10 +92,10 @@ public class GymClassBean {
 		return filteredClasses; // show only filtered results after selection
 	}
 
-							// filter for matching dates -> selectedDate
+	// filter for matching dates -> selectedDate
 
-	
-	
+
+
 	public String getFilteredClassesAction() {
 		filteredClasses = new ArrayList<>();
 
@@ -132,87 +136,139 @@ public class GymClassBean {
 		}
 		return null; // stay on same page
 	}
-	
+
+
 	public List<GymClass> getCart() {
 		return cart;
 	}
 
 	// booking logic
 	public String bookClass(GymClass cls) {
-	    FacesContext context = FacesContext.getCurrentInstance();
+		FacesContext context = FacesContext.getCurrentInstance();
 
-	    // get LoginBean and logged-in user
-	    LoginBean loginBean = context.getApplication().evaluateExpressionGet(
-	            context, "#{loginBean}", LoginBean.class);
-	    User loggedInUser = loginBean.getLoggedInUser();
-	    
-	    
+		// get LoginBean and logged-in user
+		LoginBean loginBean = context.getApplication().evaluateExpressionGet(
+				context, "#{loginBean}", LoginBean.class);
+		User loggedInUser = loginBean.getLoggedInUser();
 
 
-	    // send to service
-	    boolean booked = gymClassService.bookClass(loggedInUser, cls);
-	    
-	    
-	    if(loggedInUser.getRole().equals("Member")) {
-
-	    if (!booked) {
-	        if (loggedInUser.isEnrolledInClass(cls)) {
-	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-	                "Already Booked", "You have already booked this class."));
-	        } else if (cls.getNoOfSlots() <= 0) {
-	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
-	                "Class Full", "No slots available."));
-	        } else {
-	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-	                "Booking Failed", "An unexpected error occurred."));
-	        }
-	        return null;
-	    }
-
-	    // booking successful
-	    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
-	        "Class Booked", "You have successfully booked the class."));
-	    
-	    }
-	    
 
 
-	    return null; // stay on page
+		// send to service
+		boolean booked = gymClassService.bookClass(loggedInUser, cls);
+
+
+		if(loggedInUser.getRole().equals("Member")) {
+
+			if (!booked) {
+				if (loggedInUser.isEnrolledInClass(cls)) {
+					context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+							"Already Booked", "You have already booked this class."));
+				} else if (cls.getNoOfSlots() <= 0) {
+					context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+							"Class Full", "No slots available."));
+				} else {
+					context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Booking Failed", "An unexpected error occurred."));
+				}
+				return null;
+			}
+
+			// booking successful
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					"Class Booked", "You have successfully booked the class."));
+
+		}
+
+
+
+		return null; // stay on page
 	}
-	
-	
-	
+
+
+
 	public boolean isMember() {
-		 FacesContext context = FacesContext.getCurrentInstance();
+		FacesContext context = FacesContext.getCurrentInstance();
 
-		    // get LoginBean and logged-in user
-		    LoginBean loginBean = context.getApplication().evaluateExpressionGet(
-		            context, "#{loginBean}", LoginBean.class);
-		    User loggedInUser = loginBean.getLoggedInUser();
-		    
-		    if(loggedInUser.getRole().equals("Non-Member")) { // show price
-		    	return false;
-		    } else
-		    
-		    return true;
-		
+		// get LoginBean and logged-in user
+		LoginBean loginBean = context.getApplication().evaluateExpressionGet(
+				context, "#{loginBean}", LoginBean.class);
+		loggedInUser = loginBean.getLoggedInUser();
+
+		if(loggedInUser.getRole().equals("Non-Member")) { // show price
+			return false;
+		} else
+
+			return true;
+
 	}
-	
+
 	public boolean showPrice() {
-		
 		if(isMember()) {
 			return false;
 		}
-		
 		return true;
 	}
+
+
+	public boolean buttonDisabled(GymClass cls) {
+		return disabledButtons.contains(cls);
+	}
+
+	public boolean cartEmpty() {
+		if(cart.size()==0) {
+			return true;
+		}
+		return false;
+	}
+
 	public String addToCart(GymClass cls) {
 		
-		cart.add(cls);
-		totalPrice = totalPrice + cls.getPrice();
-		cls.setNoOfSlots(cls.getNoOfSlots() - 1);
-		System.out.println(cart.toString());
+		
+		
+		
+		if (!disabledButtons.contains(cls)) {
+
+			cart.add(cls);
+			totalPrice += cls.getPrice();
+			disabledButtons.add(cls); // mark disabled for this session
+			
+
+		}
 		return null;
 	}
+
+	public String removeItemFromCart(GymClass cls) {
+		cart.remove(cls);
+		disabledButtons.remove(cls);
+		totalPrice -= cls.getPrice();
+		return null;
+	}
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	public boolean isClassPayment() {
+		return classPayment;
+	}
+
+	public static void setClassPayment(boolean classPayment1) {
+		classPayment = classPayment1;
+	}
+
+	public static String toPayment() {
+		if(!classPayment) {
+			classPayment = true;
+		} 
+		return "payment.xhmtl";
+	}
+
+	
+	
+	
+
 }
+
+
+
 

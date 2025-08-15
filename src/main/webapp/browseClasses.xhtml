@@ -5,7 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <f:metadata>
-	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" /> 
+
 </f:metadata>
 
 <h:head>
@@ -73,18 +74,14 @@
 
 								<h:commandButton value="Add To Cart"
 									rendered="#{not gymClassBean.member}"
-									action="#{gymClassBean.addToCart(cls)}" styleClass="choose-btn">
+									action="#{gymClassBean.addToCart(cls)}" styleClass="choose-btn"
+									disabled="#{gymClassBean.buttonDisabled(cls)}">
+
 								</h:commandButton>
 							</h:column>
 
 						</h:dataTable>
 					</h:panelGroup>
-
-
-
-
-
-
 
 
 					<!-- Show message if list is empty -->
@@ -101,30 +98,63 @@
 					</h:panelGroup>
 					<br /> <br />
 					<h:commandButton value="Back to Dashboard"
+						rendered="#{gymClassBean.isMember()}"
 						action="member-dashboard?faces-redirect=true" immediate="true"
 						styleClass="choose-btn" />
+
+					<h:commandButton value="Back to Dashboard"
+						rendered="#{not gymClassBean.member}"
+						action="nonmember-dashboard?faces-redirect=true"
+						styleClass="choose-btn" />
+
 				</div>
+
+
+				<h:panelGroup class="table-card-cart"
+					rendered="#{not gymClassBean.cartEmpty()}">
+					<h3>Cart</h3>
+					<h:dataTable value="#{gymClassBean.cart}" var="classAdded"
+						styleClass="jsf-table" border="1"
+						rendered="#{not gymClassBean.member}">
+						<h:column>
+
+							<f:facet name="header"> Class Name </f:facet>
+							#{classAdded.nameOfClass}
+							
+							   <f:facet name="footer">
+								<strong>Total</strong>
+							</f:facet>
+						</h:column>
+
+						<h:column>
+							<f:facet name="header"> Price </f:facet>
+						€#{classAdded.price}
+						 <f:facet name="footer">
+								<strong>€#{gymClassBean.totalPrice}</strong>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Remove</f:facet>
+							<h:commandButton value="❌"
+								action="#{gymClassBean.removeItemFromCart(classAdded)}">
+							</h:commandButton>
+						</h:column>
+
+
+
+
+					</h:dataTable>
+
+
+
+					<h:commandButton value="Checkout" rendered="true"
+						action="#{gymClassBean.toPayment()}" styleClass="choose-btn" />
+
+				</h:panelGroup>
 			</div>
+			<p class="subtitle2" style="color: red; font-weight: bold;">You
+				have 5 minutes to complete your payment before the session expires.</p>
 		</h:form>
-
-
-
-
-
-		<h:dataTable value="#{gymClassBean.cart}" var="classAdded"
-			styleClass="jsf-table-cart" border="1">
-			<h:column>
-
-				<f:facet name="header"> Class Name </f:facet>
-#{classAdded.nameOfClass}
-</h:column>
-
-			<h:column>
-				<f:facet name="header"> Price </f:facet>
-€#{classAdded.price}
-</h:column>
-		</h:dataTable>
-
 
 
 	</main>

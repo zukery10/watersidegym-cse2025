@@ -16,10 +16,13 @@ public class MemberShipBean {
 	private String confirmationMessage;
     private String paypalEmail;
     private String paypalPassword;
-
+    
+    
+    
     public String getMembershipPrice() {
 		return membershipPrice;
 	}
+
 
 	public void setMembershipPrice(String membershipPrice) {
 		this.membershipPrice = membershipPrice;
@@ -53,6 +56,7 @@ public class MemberShipBean {
         this.paypalPassword = paypalPassword;
     }
 
+
     public String choosePlan(String planCode, String price) {
         try {
             this.membershipPlan = planCode;
@@ -63,7 +67,7 @@ public class MemberShipBean {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Membership Selected", confirmationMessage));
-
+            GymClassBean.setClassPayment(false);
             return "payment.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException e) {
             FacesContext.getCurrentInstance().addMessage(null,
