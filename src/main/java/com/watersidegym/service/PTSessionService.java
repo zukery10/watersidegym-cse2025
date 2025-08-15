@@ -23,15 +23,15 @@ public class PTSessionService {
 
         try {
             sessions.add(new PTSession(member, trainer,
-                    dateFormat.parse("12.08.2025"),
+                    dateFormat.parse("15.08.2025"),
                     timeFormat.parse("09:00"), 60));
 
             sessions.add(new PTSession(member, trainer,
-                    dateFormat.parse("13.08.2025"),
+                    dateFormat.parse("16.08.2025"),
                     timeFormat.parse("11:00"), 45));
 
             sessions.add(new PTSession(member, trainer,
-                    dateFormat.parse("14.08.2025"),
+                    dateFormat.parse("17.08.2025"),
                     timeFormat.parse("15:30"), 30));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -46,6 +46,7 @@ public class PTSessionService {
         }
         return result;
     }
+
     public List<PTSession> getAllSessions() {
         return sessions;
     }

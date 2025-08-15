@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:metadata>
-    	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+    <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 </f:metadata>
 <h:head>
-	<h:outputStylesheet name="styles.css" library="css" />
-	<title>Member Dashboard</title>
+    <h:outputStylesheet name="styles.css" library="css" />
+    <title>Personal Trainer Dashboard</title>
 </h:head>
 <h:body>
-	<header class="navbar">
-		<div class="logo">
-			Waterside Gym <span class="tagline">A Fit for Your Life</span>
-		</div>
-	</header>
-	<main class="main-section">
-		<h1>Personal Trainer Dashboard</h1>
-		<div class="plans">
-			<div class="plan-card">
-				<h2>#{loginBean.loggedInUser.firstName}
-					#{loginBean.loggedInUser.secondName}</h2>
-				<p>Email: #{loginBean.loggedInUser.email}</p>
-				<h:panelGroup rendered="#{not empty loginBean.myPTSessions}">
-					<h3>Your Upcoming Sessions:</h3>
-					<h:dataTable value="#{loginBean.myPTSessions}" var="ptSession"
-						border="1" styleClass="jsf-table">
-						<h:column>
-							<f:facet name="header">Member</f:facet>#{ptSession.member.firstName} #{ptSession.member.secondName}
-    					</h:column>
-						<h:column>
-							<f:facet name="header">Date</f:facet>
-							<h:outputText value="#{ptSession.sessionDate}">
-								<f:convertDateTime pattern="EEE, MMM d, yyyy" />
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">Time</f:facet>
-							<h:outputText value="#{ptSession.startTime}">
-								<f:convertDateTime pattern="h:mm a" />
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">Duration</f:facet>
-        #{ptSession.durationMinutes} minutes
-    </h:column>
-					</h:dataTable>
-				</h:panelGroup>
-				<h:form>
-					<h:commandButton value="Logout" action="#{loginBean.logout}"
-						styleClass="choose-btn" />
-				</h:form>
-			</div>
-		</div>
-	</main>
+    <header class="navbar">
+        <div class="logo">
+            Waterside Gym <span class="tagline">A Fit for Your Life</span>
+        </div>
+    </header>
+    <main class="main-section">
+        <h1>Personal Trainer Dashboard</h1>
+        <div class="plans">
+            <div class="plan-card">
+                <h2>#{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.secondName}</h2>
+                <p>Email: #{loginBean.loggedInUser.email}</p>
+
+                <h:form>
+                    <h:outputLabel for="date" value="Select Date:" />
+                    <h:inputText id="date" value="#{ptSessionBean.selectedDate}">
+                        <f:passThroughAttribute name="type" value="date" />
+                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+                    </h:inputText>
+                    <h:commandButton value="Filter" action="#{ptSessionBean.filterSessionsByDate}" />
+
+
+                    <br/><br/>
+
+                    <h:panelGroup rendered="#{not empty ptSessionBean.filteredSessions}">
+                        <h:dataTable value="#{ptSessionBean.filteredSessions}" var="ptSession" border="1" styleClass="jsf-table">
+                            <h:column>
+                                <f:facet name="header">Member</f:facet>
+                                #{ptSession.member.firstName} #{ptSession.member.secondName}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Date</f:facet>
+                                <h:outputText value="#{ptSession.sessionDate}">
+                                    <f:convertDateTime pattern="EEE, MMM d, yyyy" />
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Time</f:facet>
+                                <h:outputText value="#{ptSession.startTime}">
+                                    <f:convertDateTime pattern="h:mm a" />
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Duration</f:facet>
+                                #{ptSession.durationMinutes} minutes
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{empty ptSessionBean.filteredSessions}">
+                        <h:outputText value="No PT sessions scheduled for this date." style="color: red;" />
+                    </h:panelGroup>
+
+                    <br/><br/>
+                    <h:commandButton value="Logout" action="#{loginBean.logout}" styleClass="choose-btn" />
+                </h:form>
+            </div>
+        </div>
+    </main>
 </h:body>
 </html>
