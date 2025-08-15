@@ -6,22 +6,28 @@ public class PTSession {
     
     private String memberName;
     private String trainerName;
-    private Date sessionDate;
+    private String trainerEmail;   
+	private Date sessionDate;
     private String sessionTime;
     private String duration; 
 
     public PTSession() {
     }
 
-    public PTSession(String memberName, String trainerName, Date sessionDate, String sessionTime, String duration) {
-        this.memberName = memberName;
-        this.trainerName = trainerName;
-        this.sessionDate = sessionDate;
-        this.sessionTime = sessionTime;
-        this.duration = duration;
-    }
+   
+	public PTSession(String memberName, String trainerName, String trainerEmail, Date sessionDate, String sessionTime,
+			String duration) {
+		super();
+		this.memberName = memberName;
+		this.trainerName = trainerName;
+		this.trainerEmail = trainerEmail;
+		this.sessionDate = sessionDate;
+		this.sessionTime = sessionTime;
+		this.duration = duration;
+	}
 
-    public String getMemberName() {
+
+	public String getMemberName() {
         return memberName;
     }
     public void setMemberName(String memberName) {
@@ -55,4 +61,12 @@ public class PTSession {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+    
+    public String getTrainerEmail() {
+		return trainerEmail;
+	}
+
+	public void setTrainerEmail(String trainerEmail) {
+		this.trainerEmail = trainerEmail;
+	}
 }

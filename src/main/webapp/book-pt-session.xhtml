@@ -21,11 +21,11 @@
 					<div class="plan-card">
 						<h3>Member: #{loginBean.loggedInUser.firstName}
 							#{loginBean.loggedInUser.lastName}</h3>
-
+						<h:messages globalOnly="true" />
 
 						<label for="trainer">Choose Trainer</label><br />
 						<h:selectOneMenu id="trainer"
-							value="#{ptSessionBean.currentSession.trainerEmail}">
+							value="#{ptSession.trainerEmail}">
 							<f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
 							<!-- Static options: label = nice name, value = PT email to store -->
 							<f:selectItem itemLabel="Joe Soundman (Cardio)"
@@ -38,16 +38,16 @@
 
 						<h:outputLabel for="date" value="Select Date:" />
 						<h:inputText id="date"
-							value="#{ptSessionBean.ptCurrentSession.sessionDate}">
+							value="#{ptSession.ptsessionDate}">
 							<f:passThroughAttribute name="type" value="date" />
 							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
 						</h:inputText>
 
 
-						<label>Time</label><br />
+						<label for="time">Time</label><br />
 
-						<h:selectOneRadio
-							value=#{ptSessionBean.currentSession.sessionTime}>
+						<h:selectOneRadio id="time"
+							value="#{ptSession.sessionTime}">
 							<f:selectItem itemValue="08:00" itemLabel="8:00 AM" />
 							<f:selectItem itemValue="09:00" itemLabel="9:00 AM" />
 							<f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
@@ -56,7 +56,7 @@
 
 						<label for="dur">Duration</label><br />
 						<h:selectOneMenu id="dur"
-							value="#{ptSessionBean.currentSession.duration}">
+							value="#{ptSession.duration}">
 							<f:selectItem itemLabel="30 min" itemValue="30 min" />
 							<f:selectItem itemLabel="45 min" itemValue="45 min" />
 							<f:selectItem itemLabel="60 min" itemValue="60 min" />
@@ -65,7 +65,7 @@
 						<br />
 
 						<h:commandButton value="Book Session"
-							action="#{ptSessionBean.book}"
+							action="#{ptSessionService.book(ptSession)}"
 							onclick="alert('Your booking is confirmed!');" />
 					</div>
 				</div>
