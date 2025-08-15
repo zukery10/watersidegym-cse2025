@@ -14,16 +14,16 @@
 	<main class="main-section">
 		<div class="logo">Book Personal Training Session</div>
 
-		<h:messages globalOnly="true" layout="list" />
+		<h:messages globalOnly="true" layout="list" /> 
 
-		<h:form>
+		<h:form id="ptForm">
 
 			<div class="plans">
 				<div class="plan-card">
 					<h3>Member: #{loginBean.loggedInUser.firstName}
 						#{loginBean.loggedInUser.lastName}</h3>
 
-
+					<h:message for="trainer" styleClass="field-error" />
 					<label for="trainer">Choose Trainer</label><br />
 					<h:selectOneMenu id="trainer"
 						value="#{ptSessionBean.ptSession.trainerEmail}">
@@ -38,6 +38,7 @@
 					</h:selectOneMenu>
 					<br /> <br />
 
+					<h:message for="date" styleClass="field-error" />
 					<h:outputLabel for="date" value="Select Date:" />
 					<h:inputText id="date"
 						value="#{ptSessionBean.ptSession.sessionDate}">
@@ -46,6 +47,7 @@
 					</h:inputText>
 					<br /> <br /> <label for="time">Time</label><br />
 
+					<h:message for="time" styleClass="field-error" />
 					<h:selectOneRadio id="time"
 						value="#{ptSessionBean.ptSession.sessionTime}">
 						<f:selectItem itemValue="08:00" itemLabel="8:00 AM" />
@@ -53,7 +55,10 @@
 						<f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
 						<f:selectItem itemValue="18:00" itemLabel="6:00 PM" />
 					</h:selectOneRadio>
-					<br /> <br /> <label for="dur">Duration</label><br />
+					<br /> <br />
+					
+					<h:message for="dur" styleClass="field-error" />
+					<label for="dur">Duration</label><br />
 					<h:selectOneMenu id="dur"
 						value="#{ptSessionBean.ptSession.duration}">
 						<f:selectItem itemLabel="30 min" itemValue="30 min" />
@@ -62,9 +67,8 @@
 					</h:selectOneMenu>
 					<br /> <br />
 
-					<h:commandButton value="Book Session"
-						action="#{ptSessionBean.book}"
-						onclick="alert('Your booking is confirmed!');" />
+					<h:commandButton value="Book Session" action="#{ptSessionBean.book}"/>
+
 					<br /> <br />
 
 				</div>
