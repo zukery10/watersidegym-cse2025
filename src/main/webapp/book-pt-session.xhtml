@@ -14,62 +14,62 @@
 	<main class="main-section">
 		<div class="logo">Book Personal Training Session</div>
 
+		<h:messages globalOnly="true" layout="list" />
+
 		<h:form>
 
-			<form>
-				<div class="plans">
-					<div class="plan-card">
-						<h3>Member: #{loginBean.loggedInUser.firstName}
-							#{loginBean.loggedInUser.lastName}</h3>
-						<h:messages globalOnly="true" />
-
-						<label for="trainer">Choose Trainer</label><br />
-						<h:selectOneMenu id="trainer"
-							value="#{ptSession.trainerEmail}">
-							<f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
-							<!-- Static options: label = nice name, value = PT email to store -->
-							<f:selectItem itemLabel="Joe Soundman (Cardio)"
-								itemValue="PT@example.com" />
-							<f:selectItem itemLabel="Alex Byrne (Strength)"
-								itemValue="trainer.alex@example.com" />
-							<f:selectItem itemLabel="Priya Shah (Mobility)"
-								itemValue="trainer.priya@example.com" />
-						</h:selectOneMenu>
-
-						<h:outputLabel for="date" value="Select Date:" />
-						<h:inputText id="date"
-							value="#{ptSession.ptsessionDate}">
-							<f:passThroughAttribute name="type" value="date" />
-							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
-						</h:inputText>
+			<div class="plans">
+				<div class="plan-card">
+					<h3>Member: #{loginBean.loggedInUser.firstName}
+						#{loginBean.loggedInUser.lastName}</h3>
 
 
-						<label for="time">Time</label><br />
+					<label for="trainer">Choose Trainer</label><br />
+					<h:selectOneMenu id="trainer"
+						value="#{ptSessionBean.ptSession.trainerEmail}">
+						<f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
+						<!-- Static options: label = nice name, value = PT email to store -->
+						<f:selectItem itemLabel="Joe Soundman (Cardio)"
+							itemValue="PT@example.com" />
+						<f:selectItem itemLabel="Alex Byrne (Strength)"
+							itemValue="trainer.alex@example.com" />
+						<f:selectItem itemLabel="Priya Shah (Mobility)"
+							itemValue="trainer.priya@example.com" />
+					</h:selectOneMenu>
+					<br /> <br />
 
-						<h:selectOneRadio id="time"
-							value="#{ptSession.sessionTime}">
-							<f:selectItem itemValue="08:00" itemLabel="8:00 AM" />
-							<f:selectItem itemValue="09:00" itemLabel="9:00 AM" />
-							<f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
-							<f:selectItem itemValue="18:00" itemLabel="6:00 PM" />
-						</h:selectOneRadio>
+					<h:outputLabel for="date" value="Select Date:" />
+					<h:inputText id="date"
+						value="#{ptSessionBean.ptSession.sessionDate}">
+						<f:passThroughAttribute name="type" value="date" />
+						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+					</h:inputText>
+					<br /> <br /> <label for="time">Time</label><br />
 
-						<label for="dur">Duration</label><br />
-						<h:selectOneMenu id="dur"
-							value="#{ptSession.duration}">
-							<f:selectItem itemLabel="30 min" itemValue="30 min" />
-							<f:selectItem itemLabel="45 min" itemValue="45 min" />
-							<f:selectItem itemLabel="60 min" itemValue="60 min" />
-						</h:selectOneMenu>
-						<br />
-						<br />
+					<h:selectOneRadio id="time"
+						value="#{ptSessionBean.ptSession.sessionTime}">
+						<f:selectItem itemValue="08:00" itemLabel="8:00 AM" />
+						<f:selectItem itemValue="09:00" itemLabel="9:00 AM" />
+						<f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
+						<f:selectItem itemValue="18:00" itemLabel="6:00 PM" />
+					</h:selectOneRadio>
+					<br /> <br /> <label for="dur">Duration</label><br />
+					<h:selectOneMenu id="dur"
+						value="#{ptSessionBean.ptSession.duration}">
+						<f:selectItem itemLabel="30 min" itemValue="30 min" />
+						<f:selectItem itemLabel="45 min" itemValue="45 min" />
+						<f:selectItem itemLabel="60 min" itemValue="60 min" />
+					</h:selectOneMenu>
+					<br /> <br />
 
-						<h:commandButton value="Book Session"
-							action="#{ptSessionService.book(ptSession)}"
-							onclick="alert('Your booking is confirmed!');" />
-					</div>
+					<h:commandButton value="Book Session"
+						action="#{ptSessionBean.book}"
+						onclick="alert('Your booking is confirmed!');" />
+					<br /> <br />
+
 				</div>
-			</form>
+			</div>
+
 		</h:form>
 	</main>
 </h:body>
