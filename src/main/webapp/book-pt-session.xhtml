@@ -28,7 +28,6 @@
 					<h:selectOneMenu id="trainer"
 						value="#{ptSessionBean.ptSession.trainerEmail}">
 						<f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
-						<!-- Static options: label = nice name, value = PT email to store -->
 						<f:selectItem itemLabel="Joe Soundman (Cardio)"
 							itemValue="PT@example.com" />
 						<f:selectItem itemLabel="Alex Byrne (Strength)"
@@ -61,13 +60,16 @@
 					<label for="dur">Duration</label><br />
 					<h:selectOneMenu id="dur"
 						value="#{ptSessionBean.ptSession.duration}">
+						<f:selectItem itemLabel=" " itemValue="" />
 						<f:selectItem itemLabel="30 min" itemValue="30 min" />
 						<f:selectItem itemLabel="45 min" itemValue="45 min" />
 						<f:selectItem itemLabel="60 min" itemValue="60 min" />
 					</h:selectOneMenu>
 					<br /> <br />
-
+					
 					<h:commandButton value="Book Session" action="#{ptSessionBean.book}"/>
+					
+					
 
 					<br /> <br />
 

@@ -59,6 +59,8 @@ public class PTSessionBean {
 		 if (hasError) {
 	            return null; // if error - stay on the same page
 	        }
+		 
+		 
 		 fc.addMessage(null, new FacesMessage("Booking Confirmed"));
 		//return null;
 		 return "member-dashboard?faces-redirect=true";
