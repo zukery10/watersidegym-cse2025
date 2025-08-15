@@ -179,6 +179,12 @@ public class GymClassBean {
 					"Class Booked", "You have successfully booked the class."));
 
 		}
+		
+		
+//		if(loggedInUser.getRole().equals("Non-Member")) {
+//			loggedInUser.enrollInClass(cls);
+//			cls.setNoOfSlots(cls.getNoOfSlots()-1);
+//		}
 
 
 

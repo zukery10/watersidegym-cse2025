@@ -35,7 +35,7 @@
 			</p>
 		</h:panelGroup>
 
-		<!--PAYING FOR MEMBERSHIP-->
+		<!--PAYING FOR CLASS-->
 
 		<h:panelGroup rendered="#{gymClassBean.classPayment}">
 			<p class="subtitle">
@@ -67,15 +67,22 @@
 						value="#{membershipBean.paypalPassword}" required="true"
 						maxlength="19" oninput="formatCardNumber(this)" />
 				</div>
-
-				<h:commandButton value="Pay with PayPal"
+<!--PAYING FOR MEMBERSHIP-->
+				<h:commandButton value="Pay with PayPal" rendered="#{not gymClassBean.classPayment}"
 					action="#{membershipBean.processPaymentPayPal}"
 					styleClass="paypal-btn" />
+					
+<!--PAYING FOR CLASS-->
 
-		<h:commandButton value="Back to Dashboard"
-						rendered="#{not gymClassBean.member}"
-						action="nonmember-dashboard?faces-redirect=true"
-						styleClass="choose-btn" />
+
+				<h:commandButton value="Pay with PayPal" var="cls" rendered="#{gymClassBean.classPayment}"
+					action="#{gymClassBean.bookClass(cls)}"
+					styleClass="paypal-btn" />
+
+				<h:commandButton value="Back to Dashboard"
+					rendered="#{not gymClassBean.member}"
+					action="nonmember-dashboard?faces-redirect=true"
+					styleClass="choose-btn" />
 
 			</h:form>
 
