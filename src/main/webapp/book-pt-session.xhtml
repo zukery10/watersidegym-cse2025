@@ -1,69 +1,76 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-    <title>Book PT Session</title>
-   <h:outputStylesheet name="styles.css" library="css" />
+	<title>Book PT Session</title>
+	<h:outputStylesheet name="styles.css" library="css" />
 </h:head>
 
 <h:body>
 
 	<main class="main-section">
-		<div class="logo">
-			Book Personal Training Session
-		</div>
-	
-   
+		<div class="logo">Book Personal Training Session</div>
 
-    <form>
-       <div class="plans">
-				<div class="plan-card">
-	<h3>Member: #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.lastName}</h3>
+		<h:form>
 
-           
-            <label for="trainer">Choose Trainer</label>
-            <select id="trainer" name="trainer">
-                <option value="">-- Select Trainer --</option>
-                <option value="T3">Joe Soundman (Cardio)</option>
-				<option value="T1">Alex Byrne (Strength)</option>
-                <option value="T2">Priya Shah (Mobility)</option>                
-            </select>
-            <br/><br/>
+			<form>
+				<div class="plans">
+					<div class="plan-card">
+						<h3>Member: #{loginBean.loggedInUser.firstName}
+							#{loginBean.loggedInUser.lastName}</h3>
 
-           
-            <label for="date">Date</label>
-            <input type="date" id="date" name="date" />
-            <br/><br/>
 
-          
-            <label>Time</label><br/>
-            <input type="radio"  name="time" value="08:00" />
-            <label for="time8">8:00 AM</label><br/>
+						<label for="trainer">Choose Trainer</label><br />
+						<h:selectOneMenu id="trainer"
+							value="#{ptSessionBean.currentSession.trainerEmail}">
+							<f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
+							<!-- Static options: label = nice name, value = PT email to store -->
+							<f:selectItem itemLabel="Joe Soundman (Cardio)"
+								itemValue="PT@example.com" />
+							<f:selectItem itemLabel="Alex Byrne (Strength)"
+								itemValue="trainer.alex@example.com" />
+							<f:selectItem itemLabel="Priya Shah (Mobility)"
+								itemValue="trainer.priya@example.com" />
+						</h:selectOneMenu>
 
-            <input type="radio" id="time9" name="time" value="09:00" />
-            <label for="time9">9:00 AM</label><br/>
+						<h:outputLabel for="date" value="Select Date:" />
+						<h:inputText id="date"
+							value="#{ptSessionBean.ptCurrentSession.sessionDate}">
+							<f:passThroughAttribute name="type" value="date" />
+							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+						</h:inputText>
 
-            <input type="radio" name="time" value="17:00" />
-            <label for="time17">5:00 PM</label><br/>
 
-            <input type="radio"  name="time" value="18:00" />
-            <label for="time18">6:00 PM</label><br/><br/>
+						<label>Time</label><br />
 
-           <label for="notes">Notes (optional)</label><br/>
-			<textarea id="notes" name="notes" rows="3" cols="30"
-          	placeholder="Any special requirements or comments?"></textarea>
-			<br/><br/>
-           <!--  <button type="submit">Book</button>  -->
-            
-             <h:commandButton value="Book Session"
-                         action="#{ptSessionBean.book}"
-                         onclick="alert('Your booking is confirmed!');" />
-        </div>
-        </div>
-    </form>
-    </main>
+						<h:selectOneRadio
+							value=#{ptSessionBean.currentSession.sessionTime}>
+							<f:selectItem itemValue="08:00" itemLabel="8:00 AM" />
+							<f:selectItem itemValue="09:00" itemLabel="9:00 AM" />
+							<f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
+							<f:selectItem itemValue="18:00" itemLabel="6:00 PM" />
+						</h:selectOneRadio>
+
+						<label for="dur">Duration</label><br />
+						<h:selectOneMenu id="dur"
+							value="#{ptSessionBean.currentSession.duration}">
+							<f:selectItem itemLabel="30 min" itemValue="30 min" />
+							<f:selectItem itemLabel="45 min" itemValue="45 min" />
+							<f:selectItem itemLabel="60 min" itemValue="60 min" />
+						</h:selectOneMenu>
+						<br />
+						<br />
+
+						<h:commandButton value="Book Session"
+							action="#{ptSessionBean.book}"
+							onclick="alert('Your booking is confirmed!');" />
+					</div>
+				</div>
+			</form>
+		</h:form>
+	</main>
 </h:body>
 </html>
