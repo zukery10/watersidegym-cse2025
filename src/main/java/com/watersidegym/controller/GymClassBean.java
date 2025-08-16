@@ -26,8 +26,8 @@ public class GymClassBean {
 	private int totalPrice = 0;
 	private List<GymClass> disabledButtons = new ArrayList<>();
 	private User loggedInUser;
-	private static boolean classPayment = false;
-	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 10 * 1000;
+	private boolean classPayment = false;
+	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 5 * 60 * 1000;
 	private long classPaymentDeadline;
 
 	public GymClassBean() {
@@ -48,7 +48,6 @@ public class GymClassBean {
 			filteredClasses = new ArrayList<>();
 			errorMessage = "Currently unable to load classes. Please try again later.";
 		}
-
 		isMember();
 		showPrice();
 		//checkClassPaymentSession();
@@ -228,16 +227,7 @@ public class GymClassBean {
 	public int getTotalPrice() {
 		return totalPrice;
 	}
-
-	public boolean isClassPayment() {
-		return classPayment;
-	}
-
-	public static void setClassPayment(boolean classPayment1) {
-		classPayment = classPayment1;
-	}
 	// the actual purchasing of the class and enrolling the non member \/\/\/\/
-
 	public String purchaseClass() {
 	    FacesContext context = FacesContext.getCurrentInstance();
 	    MemberShipBean membershipBean = context.getApplication()
@@ -268,10 +258,23 @@ public class GymClassBean {
 	    }
 	    return null;
 	}
-
-	public boolean isClassPaymentTimedOut() {
-		return System.currentTimeMillis() > classPaymentDeadline;
+	
+	public boolean isClassPayment() {
+	    return classPayment;
 	}
+
+	public void setClassPayment(boolean classPayment) {
+	    this.classPayment = classPayment;
+	} 
+	public boolean isClassPaymentTimedOut() {
+	    if (classPaymentDeadline <= 0) {
+	        return false; // timer not started
+	    }
+	    long now = System.currentTimeMillis();
+	    return now > classPaymentDeadline;
+	}
+
+
 	public void checkClassPaymentSession() {
 	    if (!isMember() && isClassPaymentTimedOut() && !cart.isEmpty()) {
 	        try {
@@ -291,7 +294,6 @@ public class GymClassBean {
 	        }
 	    }
 	}
-
 	public String getClassPaymentRemainingTime() {
 		if (classPaymentDeadline == 0) {
 			return ""; // nothing shown if no active timer

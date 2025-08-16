@@ -4,9 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-
 import com.watersidegym.model.GymClass;
 import com.watersidegym.model.User;
 
@@ -99,24 +97,15 @@ public class GymClassService {
 		if (cls.getNoOfSlots() <= 0) {
 			return false;
 		}
-		
 		if(user.getRole().equals("Member")) {
 		// Reduce slots and enroll
 		cls.setNoOfSlots(cls.getNoOfSlots() - 1);
 		user.enrollInClass(cls);
 		return true;
 		} 
-		
 		if(user.getRole().equals("Non-Member")) {
 			return true;
 		}
-		
-
-		return false;
-		
+		return false;	
 	}
-	
-
-
-
 }
