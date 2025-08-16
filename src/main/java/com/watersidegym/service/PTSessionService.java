@@ -48,7 +48,6 @@ public class PTSessionService {
 	    for (PTSession s : bookedSessionsList) {
 	        if (s.getMemberName() != null && s.getMemberName().equalsIgnoreCase(memberName)) {
 	            result.add(s);
-	            System.out.println(s.toString());
 	        }
 	    }
 

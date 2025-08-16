@@ -73,9 +73,11 @@ public class PTSessionBean {
 		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 		User loggedInUser = loginBean.getLoggedInUser();
 
+		try {
 		boolean sessionOk = ptSessionService.book(ptSession, loggedInUser);
 
 		if (sessionOk) {
+			 ptSession = new PTSession();
 			context.addMessage(null, new FacesMessage(
 					"Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions()));
 			return "member-dashboard?faces-redirect=true";
@@ -83,13 +85,20 @@ public class PTSessionBean {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Booking failed: no sessions left or invalid details.", null));
 			return null;
 		}
+		}catch (Exception e) {
+	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	                "System error: booking failed. Please try again later.", null));
+	        return null;
+	    }
 
 	}
 	
 	public List<PTSession> getMemberBookedSessions() {
-	    FacesContext ctx = FacesContext.getCurrentInstance();
-	    User member = (User) ctx.getExternalContext().getSessionMap().get("loggedInUser");
+		FacesContext ctx = FacesContext.getCurrentInstance();
+	    LoginBean loginBean = ctx.getApplication()
+	            .evaluateExpressionGet(ctx, "#{loginBean}", LoginBean.class);
 
+	    User member = (loginBean != null) ? loginBean.getLoggedInUser() : null;
 	    if (member == null) {
 	        return new ArrayList<>();
 	    }

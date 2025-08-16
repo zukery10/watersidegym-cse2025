@@ -69,13 +69,4 @@ public class PTSession {
 	public void setTrainerEmail(String trainerEmail) {
 		this.trainerEmail = trainerEmail;
 	}
-
-
-	@Override
-	public String toString() {
-		return "PTSession [memberName=" + memberName + ", trainerName=" + trainerName + ", trainerEmail=" + trainerEmail
-				+ ", sessionDate=" + sessionDate + ", sessionTime=" + sessionTime + ", duration=" + duration + "]";
-	}
-	
-	
 }
