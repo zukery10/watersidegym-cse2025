@@ -1,177 +1,159 @@
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<head>
-<meta charset="UTF-8" />
-<title>Waterside Gym Video Gallery</title>
-<!-- Main site stylesheet -->
-<link rel="stylesheet" type="text/css"
-	href="resources/css/membership_select_page.css" />
-<!-- Page-specific styles -->
-<link rel="stylesheet" type="text/css"
-	href="resources/css/video_gallery.css" />
-</head>
-<body>
-	<!-- Include the site header/navigation -->
-	<!--<ui:include src="header.xhtml" /> -->
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-	<main class="vg-container">
-		<!-- Page title -->
-		<div class="vg-titlebar">
-			<h1 class="vg-page-title">Videos</h1>
-		</div>
+<h:head>
+    <title>Payment</title>
+    <h:outputStylesheet library="css" name="membership_select_page.css" />
+</h:head>
 
-		<!-- Section: Recently Added -->
-		<section class="vg-section">
-			<div class="vg-section-head">
-				<h2 class="vg-section-title">Recently Added</h2>
-			</div>
-			<div class="vg-grid">
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/213c0a5f-5c8b-42ba-af11-8f2d3dfee269/horizontal/previews/clear/large.mp4?token=exp=1755210615~hmac=604f14f512b2a742bd520debb2b73d444584b3d5db3a05d855f9c6b74ac2cad7"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">45:10</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Full Body Resistance</h3>
-						<p class="vg-by">by George Jones</p>
-					</div>
-				</article>
+<h:body>
+    <!-- Global header -->
+    <ui:include src="/includes/header.xhtml" />
 
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata"
-							poster="resources/videos/poster-yoga.jpg">
-							<source src="resources/videos/yoga.mp4" type="video/mp4" />
-						</video>
+    <main class="main-section">
+      <div class="vg-container">
+        <!-- Page title -->
+        <div class="vg-titlebar">
+          <h1 class="vg-page-title">Videos</h1>
+        </div>
 
-						<span class="vg-duration">30:03</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Full Body Resistance</h3>
-						<p class="vg-by">by Albert Flores</p>
-					</div>
-				</article>
+        <!-- Section: Recently Added -->
+        <section class="vg-section">
+          <div class="vg-section-head">
+            <h2 class="vg-section-title">Recently Added</h2>
+          </div>
 
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/c2b94320-7924-57bf-a925-78870023662d/horizontal/previews/clear/large.mp4?token=exp=1755251947~hmac=c75b26327d1499bf33118dcc47bcafe43bea6760cc275ecbb0fe24649f77a713"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">40:21</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Full Body Resistance</h3>
-						<p class="vg-by">by Kristin Watson</p>
-					</div>
-				</article>
-			</div>
-		</section>
+          <div class="vg-grid">
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Anna_Tabata.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">45:10</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Full Body Resistance</h3>
+                <p class="vg-by">by George Jones</p>
+              </div>
+            </article>
 
-		<!-- Section: Yoga only -->
-		<section class="vg-section">
-			<div class="vg-section-head">
-				<h2 class="vg-section-title">Yoga only</h2>
-			</div>
-			<div class="vg-grid">
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/c2b94320-7924-57bf-a925-78870023662d/horizontal/previews/clear/large.mp4?token=exp=1755251947~hmac=c75b26327d1499bf33118dcc47bcafe43bea6760cc275ecbb0fe24649f77a713"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">45:00</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Gentle Yoga Flow</h3>
-						<p class="vg-by">by Jenny Wilson</p>
-					</div>
-				</article>
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Francine_Cipollone_Yoga.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">30:03</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Full Body Resistance</h3>
+                <p class="vg-by">by Albert Flores</p>
+              </div>
+            </article>
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Kaleigh_Cohen_Core_Strength.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">40:21</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Full Body Resistance</h3>
+                <p class="vg-by">by Kristin Watson</p>
+              </div>
+            </article>
+          </div>
+        </section>
 
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/b37756c4-cec6-546c-affd-f0f6d26e3e60/vertical/previews/clear/large.mp4?token=exp=1755251971~hmac=ae3d89436b663a69a478de414ebae3dcff80b33264d97278c49d6f405917d3e4"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">25:40</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Yoga For Complete Beginners</h3>
-						<p class="vg-by">by Jacob Jones</p>
-					</div>
-				</article>
+        <!-- Section: Yoga only -->
+        <section class="vg-section">
+          <div class="vg-section-head">
+            <h2 class="vg-section-title">Yoga only</h2>
+          </div>
 
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/10a0f415-813e-4f09-92a5-72d670788f6c/horizontal/previews/clear/large.mp4?token=exp=1755252072~hmac=63f71d7dca9c1b41cb38a91e304968a13e97db2749d9caa923d3bd52b0ae71dc"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">30:10</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">30 Minute Power Yoga Class</h3>
-						<p class="vg-by">by Cody Fisher</p>
-					</div>
-				</article>
+          <div class="vg-grid">
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/CrossFit_Dan%20Bailey.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">45:00</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Gentle Yoga Flow</h3>
+                <p class="vg-by">by Jenny Wilson</p>
+              </div>
+            </article>
 
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/d0ae2d7f-6c99-4c2a-8610-b6434275138e/horizontal/previews/clear/large.mp4?token=exp=1755298713~hmac=31c1b23b4800bb649e1663be1379752ba2695678e867fd953a941edca33ba0bc"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">32:18</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Mobility Flow</h3>
-						<p class="vg-by">by Sam Lee</p>
-					</div>
-				</article>
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Pooja_Aqua_Aerobics.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">25:40</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Yoga For Complete Beginners</h3>
+                <p class="vg-by">by Jacob Jones</p>
+              </div>
+            </article>
 
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/d0ae2d7f-6c99-4c2a-8610-b6434275138e/horizontal/previews/clear/large.mp4?token=exp=1755298713~hmac=31c1b23b4800bb649e1663be1379752ba2695678e867fd953a941edca33ba0bc"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">18:22</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Stretch &amp; Breathe</h3>
-						<p class="vg-by">by Alex Kim</p>
-					</div>
-				</article>
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Kickboxing_Rebecca_Louise.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">30:10</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">30 Minute Power Yoga Class</h3>
+                <p class="vg-by">by Cody Fisher</p>
+              </div>
+            </article>
 
-				<article class="vg-card">
-					<div class="vg-thumb">
-						<video controls="controls" preload="metadata">
-							<source
-								src="https://videocdn.cdnpk.net/videos/d0ae2d7f-6c99-4c2a-8610-b6434275138e/horizontal/previews/clear/large.mp4?token=exp=1755298713~hmac=31c1b23b4800bb649e1663be1379752ba2695678e867fd953a941edca33ba0bc"
-								type="video/mp4" />
-						</video>
-						<span class="vg-duration">21:09</span>
-					</div>
-					<div class="vg-meta">
-						<h3 class="vg-title">Morning Flow</h3>
-						<p class="vg-by">by Taylor Reed</p>
-					</div>
-				</article>
-			</div>
-		</section>
-	</main>
-</body>
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Jimmi_Chan_Tai_chi.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">32:18</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Mobility Flow</h3>
+                <p class="vg-by">by Sam Lee</p>
+              </div>
+            </article>
+
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Rachel_Lawrence_pilates.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">18:22</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Stretch &amp; Breathe</h3>
+                <p class="vg-by">by Alex Kim</p>
+              </div>
+            </article>
+
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}/resources/videos/Zumba_Holly_Corrente.mp4" type="video/mp4" />
+                </video>
+                <span class="vg-duration">21:09</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">Morning Flow</h3>
+                <p class="vg-by">by Taylor Reed</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </h:body>
 </html>
