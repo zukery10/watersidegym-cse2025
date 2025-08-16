@@ -70,13 +70,15 @@
 								<f:facet name="header">Action</f:facet>
 								<h:commandButton value="Book" styleClass="choose-btn"
 									action="#{gymClassBean.bookClass(cls)}"
-									rendered="#{gymClassBean.member}" />
+									rendered="#{gymClassBean.member}"
+									disabled="#{gymClassBean.buttonDisabled(cls)}" />
 
 								<h:commandButton value="Add To Cart"
 									rendered="#{not gymClassBean.member}"
 									action="#{gymClassBean.addToCart(cls)}" styleClass="choose-btn"
 									disabled="#{gymClassBean.buttonDisabled(cls)}">
 								</h:commandButton>
+
 
 							</h:column>
 
@@ -104,7 +106,8 @@
 
 					<h:commandButton value="Back to Dashboard"
 						rendered="#{not gymClassBean.member}"
-						action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}" styleClass="choose-btn"/>
+						action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}"
+						styleClass="choose-btn" />
 				</div>
 				<h:panelGroup styleClass="table-card-cart"
 					rendered="#{not gymClassBean.cartEmpty}">

@@ -27,8 +27,6 @@ public class GymClassBean {
 	private List<GymClass> disabledButtons = new ArrayList<>();
 	private User loggedInUser;
 	private static boolean classPayment = false;
-	private String paypalEmail = "user@example.com";
-	private String paypalPassword = "password";
 	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 5 * 60 * 1000;
 	private long classPaymentDeadline;
 
@@ -194,6 +192,7 @@ public class GymClassBean {
 	    return false;
 	}
 
+
 	public boolean isCartEmpty() {
 		return cart.isEmpty();
 	}
@@ -240,35 +239,36 @@ public class GymClassBean {
 	}
 	// the actual purchasing of the class and enrolling the non member \/\/\/\/
 
-	public boolean isValidPayPal() {
-		if ("user@example.com".equalsIgnoreCase(paypalEmail) && "password".equals(paypalPassword)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public String purchaseClass() {
-		if (isClassPaymentTimedOut()) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Payment Timeout", "Your cart session has expired. Please add classes again."));
-			cart.clear();
-			return "browse-classes.xhtml?faces-redirect=true";
-		}
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    MemberShipBean membershipBean = context.getApplication()
+	            .evaluateExpressionGet(context, "#{membershipBean}", MemberShipBean.class);
 
-		if (isValidPayPal()) {
-			for (GymClass gymClass : cart) {
-				loggedInUser.enrollInClass(gymClass);
-				int slots = gymClass.getNoOfSlots();
-				gymClass.setNoOfSlots(slots - 1);
-			}
-			cart.clear();
-			return "payment-success.xhtml";
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Invalid PayPal credentials."));
-		}
-		return null;
+	    if (isClassPaymentTimedOut()) {
+	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	                "Payment Timeout", "Your cart session has expired. Please add classes again."));
+	        cart.clear();
+	        return "browse-classes.xhtml?faces-redirect=true";
+	    }
+
+	    // Check PayPal credentials from membershipBean
+	    if ("user@example.com".equalsIgnoreCase(membershipBean.getPaypalEmail()) &&
+	        "password".equals(membershipBean.getPaypalPassword())) {
+
+	        for (GymClass gymClass : cart) {
+	            loggedInUser.enrollInClass(gymClass);
+	            int slots = gymClass.getNoOfSlots();
+	            gymClass.setNoOfSlots(slots - 1);
+	        }
+	        cart.clear();
+	        return "payment-success.xhtml";
+
+	    } else {
+	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	                "Payment Failed", "Invalid PayPal credentials."));
+	    }
+
+	    return null;
 	}
 
 	public boolean isClassPaymentTimedOut() {
