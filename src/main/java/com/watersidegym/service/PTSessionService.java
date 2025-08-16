@@ -29,29 +29,29 @@ public class PTSessionService {
 		if (member.getRemainingPTSessions() <= 0) {
 			return false;
 		}
-		
-		String fullName = member.getFirstName() + " " + member.getSecondName();
-	    ptSession.setMemberName(fullName);
 
-		 bookedSessionsList.add(ptSession);
-		 
+		String fullName = member.getFirstName() + " " + member.getSecondName();
+		ptSession.setMemberName(fullName);
+
+		bookedSessionsList.add(ptSession);
+
 		member.setRemainingPTSessions(member.getRemainingPTSessions() - 1);
 		return true;
 	}
 
 	public List<PTSession> getBookedSessionsForMember(String memberName) {
-	    List<PTSession> result = new ArrayList<>();
-	    if (memberName == null) {
-	        return result;
-	    }
+		List<PTSession> result = new ArrayList<>();
+		if (memberName == null) {
+			return result;
+		}
 
-	    for (PTSession s : bookedSessionsList) {
-	        if (s.getMemberName() != null && s.getMemberName().equalsIgnoreCase(memberName)) {
-	            result.add(s);
-	        }
-	    }
+		for (PTSession s : bookedSessionsList) {
+			if (s.getMemberName() != null && s.getMemberName().equalsIgnoreCase(memberName)) {
+				result.add(s);
+			}
+		}
 
-	    return result;
+		return result;
 	}
 
 }
