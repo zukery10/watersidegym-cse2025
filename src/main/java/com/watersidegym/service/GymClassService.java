@@ -14,8 +14,6 @@ public class GymClassService {
 
 	private List<GymClass> gymclassList;
 	
-	
-
 	public GymClassService() {
 		gymclassList = new ArrayList<>();
 		init();
@@ -101,9 +99,6 @@ public class GymClassService {
 		if (cls.getNoOfSlots() <= 0) {
 			return false;
 		}
-		
-		
-		
 		
 		if(user.getRole().equals("Member")) {
 		// Reduce slots and enroll

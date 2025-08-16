@@ -11,13 +11,12 @@ import com.watersidegym.model.User;
 public class MemberShipBean {
 
     private long paymentStartTime; // for session timeout
+    private final long paymentTimeoutMillis = 5 * 60 * 1000;
     private String membershipPlan;
     private String membershipPrice;
 	private String confirmationMessage;
     private String paypalEmail;
     private String paypalPassword;
-    
-    
     
     public String getMembershipPrice() {
 		return membershipPrice;
@@ -55,7 +54,6 @@ public class MemberShipBean {
     public void setPaypalPassword(String paypalPassword) {
         this.paypalPassword = paypalPassword;
     }
-
 
     public String choosePlan(String planCode, String price) {
         try {
@@ -133,5 +131,24 @@ public class MemberShipBean {
    	            System.out.println("Redirect failed");
    	        }
         }
-    }    
+    }
+    public String getMembershipPaymentRemainingTime() {
+        if (paymentStartTime == 0) {
+            return "";
+        }
+
+        long now = System.currentTimeMillis();
+        long elapsed = now - paymentStartTime;
+        long remaining = paymentTimeoutMillis - elapsed;
+
+        if (remaining <= 0) {
+            return "00:00";
+        }
+
+        long minutes = (remaining / 1000) / 60;
+        long seconds = (remaining / 1000) % 60;
+
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
 }
