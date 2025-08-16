@@ -17,8 +17,8 @@ import javax.faces.application.FacesMessage;
 @ManagedBean
 @SessionScoped
 public class GymClassBean {
-	
-	
+
+
 	private GymClassService gymClassService;
 	private List<GymClass> gymClassList;
 	private Date selectedDate;
@@ -29,6 +29,8 @@ public class GymClassBean {
 	private List<GymClass> disabledButtons = new ArrayList<>();	
 	private User loggedInUser;
 	private static boolean classPayment = false;
+	private String paypalEmail ="user@example.com";
+	private String paypalPassword = "password";
 
 	public GymClassBean() {
 	}
@@ -50,7 +52,7 @@ public class GymClassBean {
 
 		isMember();
 		showPrice();
-		
+
 	}
 
 	public GymClassService getGymClassService() {
@@ -102,10 +104,8 @@ public class GymClassBean {
 		if (selectedDate == null) {
 			return null; // nothing to filter
 		}
-
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(selectedDate);
-
 		// Reset time part to midnight - mismatches due to time zones
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
@@ -142,24 +142,17 @@ public class GymClassBean {
 		return cart;
 	}
 
-	// booking logic
+	// booking logic - member booking a class
+
 	public String bookClass(GymClass cls) {
 		FacesContext context = FacesContext.getCurrentInstance();
-
 		// get LoginBean and logged-in user
 		LoginBean loginBean = context.getApplication().evaluateExpressionGet(
 				context, "#{loginBean}", LoginBean.class);
 		User loggedInUser = loginBean.getLoggedInUser();
-
-
-
-
 		// send to service
 		boolean booked = gymClassService.bookClass(loggedInUser, cls);
-
-
 		if(loggedInUser.getRole().equals("Member")) {
-
 			if (!booked) {
 				if (loggedInUser.isEnrolledInClass(cls)) {
 					context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
@@ -173,27 +166,16 @@ public class GymClassBean {
 				}
 				return null;
 			}
-
 			// booking successful
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
 					"Class Booked", "You have successfully booked the class."));
-
-		}
-		
-		
-//		if(loggedInUser.getRole().equals("Non-Member")) {
-//			loggedInUser.enrollInClass(cls);
-//			cls.setNoOfSlots(cls.getNoOfSlots()-1);
-//		}
-
-
-
+		}		
 		return null; // stay on page
 	}
 
 
 
-	public boolean isMember() {
+	public boolean isMember() { //for displaying price and what button
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		// get LoginBean and logged-in user
@@ -229,25 +211,19 @@ public class GymClassBean {
 	}
 
 	public String addToCart(GymClass cls) {
-		
-		
-		
-		
 		if (!disabledButtons.contains(cls)) {
-
 			cart.add(cls);
 			totalPrice += cls.getPrice();
 			disabledButtons.add(cls); // mark disabled for this session
-			
 
 		}
 		return null;
 	}
 
 	public String removeItemFromCart(GymClass cls) {
-		cart.remove(cls);
-		disabledButtons.remove(cls);
-		totalPrice -= cls.getPrice();
+		cart.remove(cls); //removes from cart
+		disabledButtons.remove(cls); //removes from disabled buttons
+		totalPrice -= cls.getPrice(); // minus's price from total
 		return null;
 	}
 	public int getTotalPrice() {
@@ -262,16 +238,45 @@ public class GymClassBean {
 		classPayment = classPayment1;
 	}
 
-	public static String toPayment() {
+	public static String toPayment() { // sets the payment option on the payment success page to the class payment
 		if(!classPayment) {
 			classPayment = true;
 		} 
 		return "payment.xhmtl";
 	}
 
+	//the actual purchasing of the class and enrolling the non member \/\/\/\/
 	
-	
-	
+	public boolean isValidPayPal() {
+		if ("user@example.com".equalsIgnoreCase(paypalEmail)
+				&& "password".equals(paypalPassword)) {
+			return true;
+		}
+		else {
+			return false ;
+		}
+	}
+
+	public String purchaseClass() {
+
+
+		if(isValidPayPal()) {
+			for(int i = 0 ; i < cart.size() ; i++) {	
+				loggedInUser.enrollInClass(cart.get(i));
+				int slots = cart.get(i).getNoOfSlots();
+				cart.get(i).setNoOfSlots(slots-1);
+				
+				
+			}
+			cart.clear();
+			return "payment-success.xhtml";
+		} else {
+			System.out.println("Unsuccessfull"); //debug
+		}
+		
+
+		return null;
+	}
 
 }
 

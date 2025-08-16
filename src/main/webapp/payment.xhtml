@@ -71,12 +71,12 @@
 				<h:commandButton value="Pay with PayPal" rendered="#{not gymClassBean.classPayment}"
 					action="#{membershipBean.processPaymentPayPal}"
 					styleClass="paypal-btn" />
+				
+				
 					
 <!--PAYING FOR CLASS-->
-
-
 				<h:commandButton value="Pay with PayPal" var="cls" rendered="#{gymClassBean.classPayment}"
-					action="#{gymClassBean.bookClass(cls)}"
+					action="#{gymClassBean.purchaseClass()}"
 					styleClass="paypal-btn" />
 
 				<h:commandButton value="Back to Dashboard"

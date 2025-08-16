@@ -5,7 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <f:metadata>
-	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" /> 
+	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 
 </f:metadata>
 
@@ -110,7 +110,7 @@
 				</div>
 
 
-				<h:panelGroup class="table-card-cart"
+				<h:panelGroup styleClass="table-card-cart"
 					rendered="#{not gymClassBean.cartEmpty()}">
 					<h3>Cart</h3>
 					<h:dataTable value="#{gymClassBean.cart}" var="classAdded"
@@ -149,11 +149,12 @@
 
 					<h:commandButton value="Checkout" rendered="true"
 						action="#{gymClassBean.toPayment()}" styleClass="choose-btn" />
-
+					<p class="subtitle2" style="color: red; font-weight: bold;">You
+						have 5 minutes to complete your payment before the session
+						expires.</p>
 				</h:panelGroup>
 			</div>
-			<p class="subtitle2" style="color: red; font-weight: bold;">You
-				have 5 minutes to complete your payment before the session expires.</p>
+
 		</h:form>
 
 
