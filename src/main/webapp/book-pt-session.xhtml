@@ -1,82 +1,99 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<title>Book PT Session</title>
-	<h:outputStylesheet name="styles.css" library="css" />
+    <title>Book PT Session</title>
+    <h:outputStylesheet name="styles.css" library="css" />
 </h:head>
 
 <h:body>
+    <main class="main-section">
+        <h1>Book Personal <span class="highlight">Training Session</span></h1>
 
-	<main class="main-section">
-		<div class="logo">Book Personal Training Session</div>
+        <h:messages globalOnly="true" layout="list" />
 
-		<h:messages globalOnly="true" layout="list" /> 
+        <h:form id="ptForm">
+            <div class="plans">
+                <div class="table-card">
 
-		<h:form id="ptForm">
+                    <h3>
+                        Member: #{loginBean.loggedInUser.firstName}
+                        #{loginBean.loggedInUser.secondName}
+                    </h3>
 
-			<div class="plans">
-				<div class="plan-card">
-					<h3>Member: #{loginBean.loggedInUser.firstName}
-						#{loginBean.loggedInUser.secondName}</h3>
+                   
+                    <div class="form-group">
+                        <label class="form-label" for="trainer">Choose Trainer</label>
+                        <h:selectOneMenu id="trainer"
+                                         value="#{ptSessionBean.ptSession.trainerEmail}"
+                                         styleClass="form-control">
+                            <f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
+                            <f:selectItem itemLabel="Joe Soundman (Cardio)" itemValue="PT@example.com" />
+                            <f:selectItem itemLabel="Alex Byrne (Strength)" itemValue="trainer.alex@example.com" />
+                            <f:selectItem itemLabel="Priya Shah (Mobility)" itemValue="trainer.priya@example.com" />
+                        </h:selectOneMenu>
+                        <h:message for="trainer" styleClass="field-error" />
+                    </div>
 
-					<h:message for="trainer" styleClass="field-error" />
-					<label for="trainer">Choose Trainer</label><br />
-					<h:selectOneMenu id="trainer"
-						value="#{ptSessionBean.ptSession.trainerEmail}">
-						<f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
-						<f:selectItem itemLabel="Joe Soundman (Cardio)"
-							itemValue="PT@example.com" />
-						<f:selectItem itemLabel="Alex Byrne (Strength)"
-							itemValue="trainer.alex@example.com" />
-						<f:selectItem itemLabel="Priya Shah (Mobility)"
-							itemValue="trainer.priya@example.com" />
-					</h:selectOneMenu>
-					<br /> <br />
+                  
+                    <div class="form-group">
+                        <h:outputLabel for="date" value="Select Date:" styleClass="form-label" />
+                        <h:inputText id="date"
+                                     value="#{ptSessionBean.ptSession.sessionDate}"
+                                     styleClass="form-control">
+                            <f:passThroughAttribute name="type" value="date" />
+                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+                        </h:inputText>
+                        <h:message for="date" styleClass="field-error" />
+                    </div>
 
-					<h:message for="date" styleClass="field-error" />
-					<h:outputLabel for="date" value="Select Date:" />
-					<h:inputText id="date"
-						value="#{ptSessionBean.ptSession.sessionDate}">
-						<f:passThroughAttribute name="type" value="date" />
-						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
-					</h:inputText>
-					<br /> <br /> <label for="time">Time</label><br />
+                  
+                    <div class="form-group">
+                        <label class="form-label" for="time">Time</label>
+                        <h:selectOneRadio id="time"
+                                          value="#{ptSessionBean.ptSession.sessionTime}"
+                                          layout="pageDirection"
+                                          styleClass="radio-group">
+                            <f:selectItem itemValue="08:00" itemLabel="8:00 AM" />
+                            <f:selectItem itemValue="09:00" itemLabel="9:00 AM" />
+                            <f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
+                            <f:selectItem itemValue="18:00" itemLabel="6:00 PM" />
+                        </h:selectOneRadio>
+                        <h:message for="time" styleClass="field-error" />
+                    </div>
 
-					<h:message for="time" styleClass="field-error" />
-					<h:selectOneRadio id="time"
-						value="#{ptSessionBean.ptSession.sessionTime}">
-						<f:selectItem itemValue="08:00" itemLabel="8:00 AM" />
-						<f:selectItem itemValue="09:00" itemLabel="9:00 AM" />
-						<f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
-						<f:selectItem itemValue="18:00" itemLabel="6:00 PM" />
-					</h:selectOneRadio>
-					<br /> <br />
-					
-					<h:message for="dur" styleClass="field-error" />
-					<label for="dur">Duration</label><br />
-					<h:selectOneMenu id="dur"
-						value="#{ptSessionBean.ptSession.duration}">
-						<f:selectItem itemLabel=" " itemValue="" />
-						<f:selectItem itemLabel="30 min" itemValue="30 min" />
-						<f:selectItem itemLabel="45 min" itemValue="45 min" />
-						<f:selectItem itemLabel="60 min" itemValue="60 min" />
-					</h:selectOneMenu>
-					<br /> <br />
-					
-					<h:commandButton value="Book Session" action="#{ptSessionBean.book}"/>
-					
-					
+                  
+                    <div class="form-group">
+                        <label class="form-label" for="dur">Duration</label>
+                        <h:selectOneMenu id="dur"
+                                         value="#{ptSessionBean.ptSession.duration}"
+                                         styleClass="form-control">
+                            <f:selectItem itemLabel=" " itemValue="" />
+                            <f:selectItem itemLabel="30 min" itemValue="30 min" />
+                            <f:selectItem itemLabel="45 min" itemValue="45 min" />
+                            <f:selectItem itemLabel="60 min" itemValue="60 min" />
+                        </h:selectOneMenu>
+                        <h:message for="dur" styleClass="field-error" />
+                    </div>
 
-					<br /> <br />
+                  
+                    <div class="form-actions">
+                        <h:commandButton value="Book Session"
+                                         action="#{ptSessionBean.book}"
+                                         styleClass="choose-btn" />
+                                        <br/><br/>
+                        <h:commandButton value="Back to Dashboard"
+                                         action="member-dashboard?faces-redirect=true"
+                                         immediate="true"
+                                         styleClass="choose-btn btn-secondary" />
+                    </div>
 
-				</div>
-			</div>
-
-		</h:form>
-	</main>
+                </div>
+            </div>
+        </h:form>
+    </main>
 </h:body>
 </html>

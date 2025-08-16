@@ -67,6 +67,47 @@
 							styleClass="choose-btn" />
 						<br></br>
 						<br></br>
+						
+						//=====================================================================================================================
+			
+			<!-- PT Sessions Section -->
+<h2>Your 1:1 PT Sessions</h2>
+
+<!-- Empty state -->
+<h:panelGroup rendered="#{empty ptSessionBean.myBookedSessions}">
+  <div class="box info">No PT sessions booked yet.</div>
+</h:panelGroup>
+
+<!-- Table of sessions -->
+<h:panelGroup rendered="#{not empty ptSessionBean.myBookedSessions}">
+  <h:dataTable value="#{ptSessionBean.myBookedSessions}" var="s" styleClass="pt-table">
+    <h:column>
+      <f:facet name="header">#</f:facet>
+      #{ptSessionBean.myBookedSessions.indexOf(s) + 1}
+    </h:column>
+
+    <h:column>
+      <f:facet name="header">Trainer</f:facet>
+      #{s.trainerName}
+    </h:column>
+
+    <h:column>
+      <f:facet name="header">Date</f:facet>
+      <h:outputText value="#{s.sessionDate}">
+        <f:convertDateTime pattern="dd MMM yyyy" timeZone="Europe/Dublin"/>
+      </h:outputText>
+    </h:column>
+
+    <h:column>
+      <f:facet name="header">Time</f:facet>
+      <h:outputText value="#{s.sessionTime}">
+        <f:convertDateTime pattern="HH:mm" timeZone="Europe/Dublin"/>
+      </h:outputText>
+    </h:column>
+
+  </h:dataTable>
+</h:panelGroup>
+			
 						<h:commandButton value="Book PT Session"
 							action="book-pt-session?faces-redirect=true" styleClass="choose-btn" />
 						<br></br>
