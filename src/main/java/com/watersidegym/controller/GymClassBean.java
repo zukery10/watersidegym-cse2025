@@ -27,7 +27,7 @@ public class GymClassBean {
 	private List<GymClass> disabledButtons = new ArrayList<>();
 	private User loggedInUser;
 	private static boolean classPayment = false;
-	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 5 * 60 * 1000;
+	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 10 * 1000;
 	private long classPaymentDeadline;
 
 	public GymClassBean() {
@@ -51,7 +51,7 @@ public class GymClassBean {
 
 		isMember();
 		showPrice();
-
+		//checkClassPaymentSession();
 	}
 
 	public GymClassService getGymClassService() {
@@ -211,7 +211,6 @@ public class GymClassBean {
 
 	public String toPayment() {
 		classPayment = true;
-		// startClassPaymentTimer(); // set deadline again when payment page starts
 		return "payment.xhtml?faces-redirect=true";
 	}
 
@@ -267,22 +266,30 @@ public class GymClassBean {
 	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 	                "Payment Failed", "Invalid PayPal credentials."));
 	    }
-
 	    return null;
 	}
 
 	public boolean isClassPaymentTimedOut() {
 		return System.currentTimeMillis() > classPaymentDeadline;
 	}
-
 	public void checkClassPaymentSession() {
-		if (isClassPaymentTimedOut()) {
-			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("sessionExpired.xhtml");
-			} catch (Exception e) {
-				System.out.println("Redirect failed");
-			}
-		}
+	    if (!isMember() && isClassPaymentTimedOut() && !cart.isEmpty()) {
+	        try {
+	            // Clear cart and reset class payment state
+	            cart.clear();
+	            disabledButtons.clear();
+	            totalPrice = 0;
+	            classPaymentDeadline = 0;
+
+	            // **Set classPayment = true** to indicate this is a class cart timeout
+	            classPayment = true;
+
+	            FacesContext.getCurrentInstance().getExternalContext()
+	                .redirect("sessionExpired.xhtml");
+	        } catch (Exception e) {
+	            System.out.println("Redirect failed: " + e.getMessage());
+	        }
+	    }
 	}
 
 	public String getClassPaymentRemainingTime() {

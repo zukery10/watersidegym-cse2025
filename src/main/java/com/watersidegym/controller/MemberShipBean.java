@@ -11,7 +11,7 @@ import com.watersidegym.model.User;
 public class MemberShipBean {
 
     private long paymentStartTime; // for session timeout
-    private final long paymentTimeoutMillis = 5 * 60 * 1000;
+    private final long paymentTimeoutMillis = 10 * 1000;
     private String membershipPlan;
     private String membershipPrice;
 	private String confirmationMessage;
@@ -109,7 +109,7 @@ public class MemberShipBean {
     public boolean isPaymentTimedOut() {
         long now = System.currentTimeMillis();
         long elapsed = now - paymentStartTime;
-        return elapsed > (5 * 60 * 1000); // 5 minutes
+        return elapsed > (10 * 1000); // 5 minutes
     }
 
     public boolean isValidPayPal() {
