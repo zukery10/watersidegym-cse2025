@@ -5,6 +5,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -84,6 +85,17 @@ public class PTSessionBean {
 
 	}
 	
-	
+	public List<PTSession> getMemberBookedSessions() {
+	    FacesContext ctx = FacesContext.getCurrentInstance();
+	    User member = (User) ctx.getExternalContext().getSessionMap().get("loggedInUser");
+
+	    if (member == null) {
+	        return new ArrayList<>();
+	    }
+
+	    String fullName = member.getFirstName() + " " + member.getSecondName();
+	    return ptSessionService.getBookedSessionsForMember(fullName);
+	}
+
 
 }
