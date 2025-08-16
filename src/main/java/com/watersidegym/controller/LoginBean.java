@@ -32,46 +32,25 @@ public class LoginBean {
 	}
 
 	public String login() {
+	    if (emptyFields()) {
+	        addMessage("Fill in all fields", FacesMessage.SEVERITY_ERROR);
+	        return null;
+	    }
 
-		if (emptyFields()) {// made a method below, tried to use for testing
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must fill all fields", null)); // output this message
-			return null;
-		}
+	    User user = UserService.findUserByEmail(email);
 
-		User user = UserService.findUserByEmail(email); // creates an object called user - once method is used, a user
-		// object is made and checks
-		// if it's email is in the array in userservice
+	    if (user == null || passwordMismatch(user)) {
+	        // Single generic message for any login failure
+	        addMessage("Username or password is incorrect", FacesMessage.SEVERITY_ERROR);
+	        return null;
+	    }
 
-		if (noEmailFound(user)) { // if no email is found
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed, Email Not Recognised")); // input
-																														// error
-																														// //
-																														// message
-			return null;
-		}
+	    loggedInUser = user;
+	    addMessage("Login successful!", FacesMessage.SEVERITY_INFO);
 
-		if (passwordMismatch(user)) { // if the inputted password doesnt match the passaword in the array
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed: Incorrect password", null));
-			return null;
-		}
-
-		loggedInUser = user; // if username and password match, creates saves the user in the bean
-
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Login successful!", null)); // success message
-
-		if (loggedInUser == null) {
-			email = null;// Clear the login form fields
-			password = null;
-			return null;
-		} else {
-
-			return redirect(loggedInUser);// method to redirect to respective dashboard
-		}
-
+	    return redirect(loggedInUser);
 	}
+
 
 	public String redirect(User loggedInUser) {
 		String redirect = "";
@@ -142,6 +121,12 @@ public class LoginBean {
 	public User getLoggedInUser() {
 
 		return loggedInUser;
+	}
 
+	protected void addMessage(String msg, FacesMessage.Severity severity) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(severity, msg, null));
+		}
 	}
 }

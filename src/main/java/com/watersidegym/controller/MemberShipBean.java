@@ -62,8 +62,8 @@ public class MemberShipBean {
 
 			this.confirmationMessage = "You have selected the " + planCode + " membership plan, with price of " + price;
 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Membership Selected", confirmationMessage));
+			addMessage("You have selected the " + membershipPlan + " membership plan, with price of " + membershipPrice,
+			           FacesMessage.SEVERITY_INFO);
 
 			// reset classPayment to false because the user is paying for a membership,
 			// not a class, so the class payment flow should be disabled.
@@ -74,22 +74,19 @@ public class MemberShipBean {
 
 			return "payment.xhtml?faces-redirect=true";
 		} catch (IllegalArgumentException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Plan", "The selected plan is not valid."));
+			addMessage("The selected plan is not valid.", FacesMessage.SEVERITY_ERROR);
 			return null;
 		}
 	}
 
 	public String processPaymentPayPal() {
 		if (isPaymentTimedOut()) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Payment Timeout", "Your payment session has expired. Please select a plan again."));
+			addMessage("Your payment session has expired. Please select a plan again.", FacesMessage.SEVERITY_ERROR);
 			return "index.xhtml?faces-redirect=true";
 		}
 
 		if (!isValidPayPal()) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Invalid PayPal credentials."));
+			addMessage("Invalid PayPal credentials.", FacesMessage.SEVERITY_ERROR);
 			return null;
 		}
 
@@ -103,9 +100,7 @@ public class MemberShipBean {
 			loggedInUser.setRole("Member");
 		}
 
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Payment Successful", "Your " + this.membershipPlan + " membership has been activated."));
-
+		addMessage("Your " + membershipPlan + " membership has been activated.", FacesMessage.SEVERITY_INFO);
 		return "payment-success.xhtml?faces-redirect=true";
 	}
 
@@ -138,7 +133,6 @@ public class MemberShipBean {
 		if (paymentStartTime == 0) {
 			return "";
 		}
-
 		long now = System.currentTimeMillis();
 		long elapsed = now - paymentStartTime;
 		long remaining = paymentTimeoutMillis - elapsed;
@@ -146,11 +140,21 @@ public class MemberShipBean {
 		if (remaining <= 0) {
 			return "00:00";
 		}
-
 		long minutes = (remaining / 1000) / 60;
 		long seconds = (remaining / 1000) % 60;
 
 		return String.format("%02d:%02d", minutes, seconds);
 	}
-
+	
+	protected void addMessage(String msg, FacesMessage.Severity severity) {
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    if (context != null) {
+	        context.addMessage(null, new FacesMessage(severity, msg, null));
+	    }
+	}
+	
+	public void setPaymentStartTime(long time) {
+	    this.paymentStartTime = time;
+	}
+	
 }
