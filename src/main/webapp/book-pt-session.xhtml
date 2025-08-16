@@ -13,7 +13,8 @@
     <main class="main-section">
         <h1>Book Personal <span class="highlight">Training Session</span></h1>
 
-        <h:messages globalOnly="true" layout="list" />
+        <h:messages globalOnly="true" layout="list" errorClass="message-error" />
+
 
         <h:form id="ptForm">
             <div class="plans">
@@ -28,14 +29,14 @@
                     <div class="form-group">
                         <label class="form-label" for="trainer">Choose Trainer</label>
                         <h:selectOneMenu id="trainer"
-                                         value="#{ptSessionBean.ptSession.trainerEmail}"
+                                         value="#{ptSessionBean.ptSession.trainerName}"
                                          styleClass="form-control">
                             <f:selectItem itemLabel="-- Select Trainer --" itemValue="" />
-                            <f:selectItem itemLabel="Joe Soundman (Cardio)" itemValue="PT@example.com" />
-                            <f:selectItem itemLabel="Alex Byrne (Strength)" itemValue="trainer.alex@example.com" />
-                            <f:selectItem itemLabel="Priya Shah (Mobility)" itemValue="trainer.priya@example.com" />
+                            <f:selectItem itemLabel="Joe Soundman (Cardio)" itemValue="Joe Soundman" />
+                            <f:selectItem itemLabel="Alex Byrne (Strength)" itemValue="Alex Byrne" />
+                            <f:selectItem itemLabel="Priya Shah (Mobility)" itemValue="Priya Shah" />
                         </h:selectOneMenu>
-                        <h:message for="trainer" styleClass="field-error" />
+                        <h:message for="trainer" errorClass="field-error" />
                     </div>
 
                   
@@ -47,7 +48,7 @@
                             <f:passThroughAttribute name="type" value="date" />
                             <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
                         </h:inputText>
-                        <h:message for="date" styleClass="field-error" />
+                        <h:message for="date" errorClass="field-error" />
                     </div>
 
                   
@@ -62,7 +63,7 @@
                             <f:selectItem itemValue="17:00" itemLabel="5:00 PM" />
                             <f:selectItem itemValue="18:00" itemLabel="6:00 PM" />
                         </h:selectOneRadio>
-                        <h:message for="time" styleClass="field-error" />
+                        <h:message for="time" errorClass="field-error" />
                     </div>
 
                   
@@ -76,7 +77,7 @@
                             <f:selectItem itemLabel="45 min" itemValue="45 min" />
                             <f:selectItem itemLabel="60 min" itemValue="60 min" />
                         </h:selectOneMenu>
-                        <h:message for="dur" styleClass="field-error" />
+                        <h:message for="dur" errorClass="field-error" />
                     </div>
 
                   

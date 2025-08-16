@@ -29,7 +29,12 @@ public class PTSessionService {
 		if (member.getRemainingPTSessions() <= 0) {
 			return false;
 		}
+		
+		String fullName = member.getFirstName() + " " + member.getSecondName();
+	    ptSession.setMemberName(fullName);
 
+		 bookedSessionsList.add(ptSession);
+		 
 		member.setRemainingPTSessions(member.getRemainingPTSessions() - 1);
 		return true;
 	}
@@ -43,6 +48,7 @@ public class PTSessionService {
 	    for (PTSession s : bookedSessionsList) {
 	        if (s.getMemberName() != null && s.getMemberName().equalsIgnoreCase(memberName)) {
 	            result.add(s);
+	            System.out.println(s.toString());
 	        }
 	    }
 

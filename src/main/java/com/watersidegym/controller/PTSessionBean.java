@@ -40,26 +40,27 @@ public class PTSessionBean {
 		boolean hasError = false;
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (ptSession.getTrainerEmail() == null || ptSession.getTrainerEmail().isEmpty()) {
-			context.addMessage("ptForm:trainer", new FacesMessage("Please choose a trainer."));
-			hasError = true;
-
+		if (ptSession.getTrainerName() == null || ptSession.getTrainerName().isEmpty()) {
+		    context.addMessage("ptForm:trainer",
+		        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please choose a trainer.", null));
+		    hasError = true;
 		}
 
+
 		if (ptSession.getSessionDate() == null) {
-			context.addMessage("ptForm:date", new FacesMessage("Please select a date"));
+			context.addMessage("ptForm:date", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Please select a date", null));
 			hasError = true;
 
 		}
 
 		if (ptSession.getSessionTime() == null || ptSession.getSessionTime().isEmpty()) {
-			context.addMessage("ptForm:time", new FacesMessage("Please select a time."));
+			context.addMessage("ptForm:time", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Please select a time.", null));
 			hasError = true;
 
 		}
 
 		if (ptSession.getDuration() == null || ptSession.getDuration().isEmpty()) {
-			context.addMessage("ptForm:dur", new FacesMessage("Please select a duration."));
+			context.addMessage("ptForm:dur", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Please select a duration.", null));
 			hasError = true;
 
 		}
@@ -79,7 +80,7 @@ public class PTSessionBean {
 					"Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions()));
 			return "member-dashboard?faces-redirect=true";
 		} else {
-			context.addMessage(null, new FacesMessage("Booking failed: no sessions left or invalid details."));
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Booking failed: no sessions left or invalid details.", null));
 			return null;
 		}
 
