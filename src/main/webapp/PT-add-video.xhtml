@@ -16,65 +16,61 @@
     <div class="vg-container">
       <h1>Upload your <span class="highlight">Video</span></h1>
 
+      <!-- Global messages for success/error/canceled -->
+      <h:messages globalOnly="true" style="margin:12px 0;color:#cbd5e1" />
+
       <div class="video-gallery">
         <div class="page">
           <div class="grid">
 
-            <!-- LEFT CARD: New Upload -->
+            <!-- LEFT CARD -->
             <div class="card">
               <div class="hd">New Upload</div>
               <div class="bd">
                 <p style="margin-top:0;color:#cbd5e1">
-                  Click or drag a video into the frame to pick a file. (No upload logic.)
+                  Click or drag a video into the frame to pick a file.
                 </p>
 
-                <!-- Keep your dropzone visuals exactly -->
-                <div class="dropzone" aria-label="Upload area: click or drag a video file here">
-                  <div class="dz-icon">📹</div>
-                  <div class="dz-title">Drag a video here or click to choose</div>
-                  <div class="dz-hint">MP4 or MOV • Max 200MB</div>
-                  <input class="dz-input" type="file" accept="video/mp4,video/quicktime" />
-                </div>
+                <!-- UPLOAD FORM -->
+                <h:form id="uploadForm" enctype="multipart/form-data">
+                  
+                  <div class="dropzone" aria-label="Upload area">
+                    <div class="dz-icon">📹</div>
+                    <div class="dz-title">Drag a video here or click to choose</div>
+                    <div class="dz-hint">MP4 or MOV • Max 200MB</div>
+                    
+                    <h:inputFile id="file" value="#{videoControllerBean.uploadedFile}"
+                                 styleClass="dz-input" />
+                  </div>
 
-                <!-- PURE JSF FORM (small, styled with your classes) -->
-                <h:form id="uploadForm">
-                  <div class="row" style="flex-direction:column; gap:10px; margin-top:12px">
-                    <h:outputLabel for="title" value="Title"/>
+                 
+                  <div class="row" style="flex-direction:column;gap:10px;margin-top:12px">
+                    <h:outputLabel for="title" value="Title (optional)" />
                     <h:inputText id="title" value="#{videoControllerBean.formTitle}" styleClass="input" />
 
-                    <h:outputLabel for="link" value="Link (e.g. /resources/videos/My_File.mp4)"/>
-                    <h:inputText id="link" value="#{videoControllerBean.formLink}" styleClass="input" />
-
-                    <h:outputLabel for="date" value="Date (YYYY-MM-DD)"/>
+                    <h:outputLabel for="date" value="Date (YYYY-MM-DD, optional)" />
                     <h:inputText id="date" value="#{videoControllerBean.formDate}" styleClass="input" />
 
-                    <h:outputLabel for="desc" value="Description"/>
+                    <h:outputLabel for="desc" value="Description (optional)" />
                     <h:inputTextarea id="desc" value="#{videoControllerBean.formDescription}" rows="3" styleClass="input" />
 
-                    <h:outputLabel for="rule" value="Rule"/>
+                    <h:outputLabel for="rule" value="Rule" />
                     <h:selectOneMenu id="rule" value="#{videoControllerBean.formRule}">
-                      <f:selectItem itemLabel="Non-Member" itemValue="Non-Member"/>
-                      <f:selectItem itemLabel="Member" itemValue="Member"/>
+                      <f:selectItem itemLabel="Non-Member" itemValue="Non-Member" />
+                      <f:selectItem itemLabel="Member" itemValue="Member" />
                     </h:selectOneMenu>
 
-                    <h:outputLabel for="cat" value="Category"/>
+                    <h:outputLabel for="cat" value="Category" />
                     <h:inputText id="cat" value="#{videoControllerBean.formCategory}" styleClass="input" />
                   </div>
 
                   <div class="row" style="margin-top:12px">
-                    <h:commandButton value="Add Video" styleClass="btn primary"
-                                     action="#{videoControllerBean.addFromForm}" />
-                    <h:commandButton value="Refresh Library" styleClass="btn muted"
-                                     action="#{videoControllerBean.rescanAndStay}" />
+                    <h:commandButton value="Upload" styleClass="btn primary"
+                                     action="#{videoControllerBean.upload}" />
+                    <h:commandButton value="Cancel" styleClass="btn muted"
+                                     action="#{videoControllerBean.cancelUpload}" immediate="true" />
                   </div>
                 </h:form>
-
-                <!-- Your original bottom buttons remain visually the same -->
-                <div class="row" style="margin-top:10px">
-  <button class="btn primary" type="button" disabled="disabled">Add Video</button>
-  <button class="btn muted" type="reset">Clear</button>
-</div>
-
               </div>
             </div>
 

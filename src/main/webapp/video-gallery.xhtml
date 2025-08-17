@@ -55,6 +55,48 @@
           </ui:repeat>
         </div>
       </section>
+      
+      
+      <section class="vg-section">
+        <div class="vg-section-head"><h2 class="vg-section-title">Zumba only</h2></div>
+        <div class="vg-grid">
+          <ui:repeat value="#{videoControllerBean.zumbaOnly}" var="v">
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+                </video>
+                <span class="vg-duration">#{v.date}</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">#{v.title}</h3>
+                <p class="vg-by">#{v.category} • #{v.rule}</p>
+              </div>
+            </article>
+          </ui:repeat>
+        </div>
+      </section>
+      
+      
+      <section class="vg-section">
+        <div class="vg-section-head"><h2 class="vg-section-title">Core Strength only</h2></div>
+        <div class="vg-grid">
+          <ui:repeat value="#{videoControllerBean.coreOnly}" var="v">
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+                </video>
+                <span class="vg-duration">#{v.date}</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">#{v.title}</h3>
+                <p class="vg-by">#{v.category} • #{v.rule}</p>
+              </div>
+            </article>
+          </ui:repeat>
+        </div>
+      </section>
     </div>
   </main>
 </h:body>
