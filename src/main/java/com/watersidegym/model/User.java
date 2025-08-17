@@ -18,10 +18,9 @@ public class User {
 	private Date dateOfBirth;
 	private String gender; // "Male", "Female", "Other"
 	private String role; // "Non-Member", "Member", "PT"
-	private int remainingPTSessions;
 	private List<GymClass> enrolledClasses = new ArrayList<>();
+	private int remainingPTSessions;
 	private List<PTSession> bookedPTSession = new ArrayList<>();
-
 	
 
 	public String getEmail() {
