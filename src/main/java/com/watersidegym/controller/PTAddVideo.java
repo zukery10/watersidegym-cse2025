@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Part;     // used for file upload
 
 import com.watersidegym.model.User;
+import com.watersidegym.model.Video;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -17,56 +18,6 @@ import java.util.*;
 @ManagedBean(name = "videoControllerBean")
 @ApplicationScoped
 public class PTAddVideo {
-
-	
-	// ===== Inner class to represent a Video =====
-	public static class Video {
-		private int id;
-		private String title;
-		private String link;        // Path to file (ex: /resources/videos/file.mp4)
-		private String date;        // Date in YYYY-MM-DD
-		private String description;
-		private String rule;        // Who can watch: Member / Non-Member
-		private String category;    // Group name (ex: Recently Added)
-		private String uploadedBy;
-		
-		public Video(int id, String title, String link, String date,
-				String description, String rule, String category, String uploaderUsername) {
-			this.id = id;
-			this.title = title;
-			this.link = link;
-			this.date = date;
-			this.description = description;
-			this.rule = rule;
-			this.category = category;
-			this.uploadedBy = uploaderUsername;
-		}
-
-		// Getters + Setters
-		public int getId() { return id; }
-		public String getTitle() { return title; }
-		public String getLink() { return link; }
-		public String getDate() { return date; }
-		public String getDescription() { return description; }
-		public String getRule() { return rule; }
-		public String getCategory() { return category; }
-
-		public String getUploadedBy() {
-			return uploadedBy;
-		}
-
-		public void setUploadedBy(String uploadedBy) {
-			this.uploadedBy = uploadedBy;
-		}
-
-		public void setId(int id) { this.id = id; }
-		public void setTitle(String title) { this.title = title; }
-		public void setLink(String link) { this.link = link; }
-		public void setDate(String date) { this.date = date; }
-		public void setDescription(String description) { this.description = description; }
-		public void setRule(String rule) { this.rule = rule; }
-		public void setCategory(String category) { this.category = category; }
-	}
 
 	// ===== List of all videos =====
 	private List<Video> videos = new ArrayList<>();
@@ -95,8 +46,8 @@ public class PTAddVideo {
 		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Non-Member", "Recently Added", "PT@example.com");
 		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Non-Member", "Recently Added", "PT@example.com");
 		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Member", "Recently Added", "PT2@example.com");
-//------------------------------------------
-		
+		//------------------------------------------
+
 		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Non-Member", "Tai Chi", "PT@example.com");
 		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Non-Member", "Yoga", "PT@example.com");
 		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Core Strength", "PTXYZ@example.com");
@@ -163,12 +114,12 @@ public class PTAddVideo {
 			String date = (formDate == null || formDate.isEmpty()) ? LocalDate.now().toString() : formDate;
 			String desc = (formDescription == null) ? "Uploaded by trainer." : formDescription;
 
-	        // get the loggedin user from the LoginBean
+			// get the loggedin user from the LoginBean
 			FacesContext context = FacesContext.getCurrentInstance();
 			LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 			User loggedInUser = loginBean.getLoggedInUser();
 
-			
+
 			addVideo(title, link, date, desc, formRule, formCategory, loggedInUser.getEmail());
 
 			// 7. Reset form fields
@@ -217,58 +168,82 @@ public class PTAddVideo {
 		}
 		// newest-first by date string (YYYY-MM-DD)
 		for (int i = 0; i < out.size() - 1; i++) {
-		    for (int j = 0; j < out.size() - i - 1; j++) {
-		        Video a = out.get(j);
-		        Video b = out.get(j + 1);
+			for (int j = 0; j < out.size() - i - 1; j++) {
+				Video a = out.get(j);
+				Video b = out.get(j + 1);
 
-		        String da = (a.getDate() == null) ? "" : a.getDate();
-		        String db = (b.getDate() == null) ? "" : b.getDate();
+				String da = (a.getDate() == null) ? "" : a.getDate();
+				String db = (b.getDate() == null) ? "" : b.getDate();
 
-		        // if current item is "older" than the next, swap them
-		        if (da.compareTo(db) < 0) {
-		            out.set(j, b);
-		            out.set(j + 1, a);
-		        }
-		    }
+				// if current item is "older" than the next, swap them
+				if (da.compareTo(db) < 0) {
+					out.set(j, b);
+					out.set(j + 1, a);
+				}
+			}
 		}
 
 		return out;
 	}
 
 	public List<Video> getMyVideos() {
-	    List<Video> mine = new ArrayList<>();
+		List<Video> mine = new ArrayList<>();
 
-	    FacesContext context = FacesContext.getCurrentInstance();
-	    LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
-	    User loggedInUser = loginBean.getLoggedInUser();
+		FacesContext context = FacesContext.getCurrentInstance();
+		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+		User loggedInUser = loginBean.getLoggedInUser();
 
-	    if (loggedInUser == null) return mine;
+		if (loggedInUser == null) return mine;
 
-	    String email = loggedInUser.getEmail();
-	    for (Video v : videos) {
-	        if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
-	            mine.add(v);
-	        }
-	    }
-	    return mine;
+		String email = loggedInUser.getEmail();
+		for (Video v : videos) {
+			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
+				mine.add(v);
+			}
+		}
+		return mine;
 	}
 
 	// ===== Getters/Setters =====
 	public List<Video> getVideos() { return videos; }
 
-	public Part getUploadedFile() { return uploadedFile; }
-	public void setUploadedFile(Part uploadedFile) { this.uploadedFile = uploadedFile; }
+	public Part getUploadedFile() { 
+		return uploadedFile; 
+	}
+	public void setUploadedFile(Part uploadedFile) { 
+		this.uploadedFile = uploadedFile; 
+	}
 
-	public String getFormTitle() { return formTitle; }
-	public void setFormTitle(String formTitle) { this.formTitle = formTitle; }
-	public String getFormDate() { return formDate; }
-	public void setFormDate(String formDate) { this.formDate = formDate; }
-	public String getFormDescription() { return formDescription; }
-	public void setFormDescription(String formDescription) { this.formDescription = formDescription; }
-	public String getFormRule() { return formRule; }
-	public void setFormRule(String formRule) { this.formRule = formRule; }
-	public String getFormCategory() { return formCategory; }
-	public void setFormCategory(String formCategory) { this.formCategory = formCategory; }
+	public String getFormTitle() { 
+		return formTitle; 
+	}
+	public void setFormTitle(String formTitle) { 
+		this.formTitle = formTitle; }
+	public String getFormDate() { return formDate; 
+	}
+	public void setFormDate(String formDate) { 
+		this.formDate = formDate; }
+	public String getFormDescription() { 
+		return formDescription; 
+	}
+	public void setFormDescription(String formDescription) { 
+		this.formDescription = formDescription; 
+	}
+	public String getFormRule() { 
+		return formRule; 
+	}
+	public void setFormRule(String formRule) { 
+		this.formRule = formRule; 
+	}
+	public String getFormCategory() { 
+		return formCategory; 
+	}
+	public void setFormCategory(String formCategory) { 
+		this.formCategory = formCategory; 
+	}
+
+	//------------------------------------------------
+
 	public List<Video> getRecentlyAdded() {
 		return byCategory("Recently Added");
 	}
@@ -276,35 +251,35 @@ public class PTAddVideo {
 	public List<Video> getYogaOnly() {
 		return byCategory("Yoga");
 	}
-	
+
 	public List<Video> getZumbaOnly() {
 		return byCategory("Zumba");
 	}
-	
+
 	public List<Video> getCoreOnly() {
 		return byCategory("Core Strength");
 	}
-	
+
 	public List<Video> getTaichiOnly() {
 		return byCategory("Tai Chi");
 	}
-	
+
 	public List<Video> getKickboxingOnly() {
 		return byCategory("Kickboxing");
 	}
-	
+
 	public List<Video> getCrossfitOnly() {
 		return byCategory("CrossFit");
 	}
-	
+
 	public List<Video> getAquaaerobicsOnly() {
 		return byCategory("Aqua Aerobics");
 	}
-	
+
 	public List<Video> getPilatesOnly() {
 		return byCategory("Pilates");
 	}
-	
+
 	public List<Video> getTabataOnly() {
 		return byCategory("Tabata");
 	}
