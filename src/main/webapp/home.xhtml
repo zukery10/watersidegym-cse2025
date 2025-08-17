@@ -9,35 +9,72 @@
 </h:head>
 
 <h:body>
-
   <ui:include src="/includes/header.xhtml"/>
 
-  <section class="home"
+    <section class="home"
          style="background-image:url('#{request.contextPath}/resources/images/bg_image.png');
                 background-size:cover;background-position:center;background-repeat:no-repeat;">
-  <div class="home__overlay">
-    <div class="home__content">
-      <span class="home__badge">Re-launching September 2025</span>
-      <h1 class="home__title">
-        A Gym That's a <span class="highlight">Fit For Your Life</span>
-      </h1>
-      <p class="home__subtitle">
-        Discover personalized fitness programs, expert personal training,
-        and wellness classes designed around your lifestyle. Join the Waterside Gym community today.
-      </p>
-      <div class="home__actions">
-        <h:link outcome="memberships" value="View Memberships" styleClass="btn primary"/>
-        <h:link outcome="tour"         value="Virtual Tour"     styleClass="btn secondary"/>
-      </div>
-      <div class="home__stats">
-        <div class="home__stat"><span>9+</span> Years of Excellence</div>
-        <div class="home__stat"><span>500+</span> Happy Members</div>
-        <div class="home__stat"><span>15+</span> Expert Trainers</div>
+
+    <div class="home__overlay">
+      <div class="home__grid"> <!-- NEW GRID CONTAINER -->
+        
+        <!-- LEFT: home content -->
+        <div class="home__content">
+          <span class="home__badge">Re-launching September 2025</span>
+
+          <h1 class="home__title">
+            A Gym That's a <span class="highlight">Fit For Your Life</span>
+          </h1>
+
+          <p class="home__subtitle">
+            Discover personalized fitness programs, expert personal training,
+            and wellness classes designed around your lifestyle. Join the Waterside Gym community today.
+          </p>
+
+          <div class="home__actions">
+            <h:link outcome="memberships" value="View Memberships" styleClass="btn primary"/>
+            <h:link outcome="tour"         value="Virtual Tour"     styleClass="btn secondary"/>
+          </div>
+
+          <div class="home__stats">
+            <div class="home__stat"><span>9+</span> Years of Excellence</div>
+            <div class="home__stat"><span>500+</span> Happy Members</div>
+            <div class="home__stat"><span>15+</span> Expert Trainers</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Login box -->
+        <div class="home__login">
+          <h:form id="loginForm">
+            <div class="login-card">
+              <h2 class="login-title">Log<span class="highlight">in</span></h2>
+
+              <h:messages styleClass="error" layout="table" />
+
+              <div class="form-group">
+                <h:outputLabel for="email" value="Email:" />
+                <h:inputText id="email" value="#{loginBean.email}" styleClass="inputField" required="true"
+                             requiredMessage="Must input Email" />
+              </div>
+
+              <div class="form-group">
+                <h:outputLabel for="password" value="Password:" />
+                <h:inputSecret id="password" value="#{loginBean.password}" styleClass="inputField" />
+              </div>
+
+              <h:commandButton value="Login" action="#{loginBean.login}" styleClass="choose-btn full-btn" />
+              <br/><br/>
+              <h:commandButton value="Create Account"
+                               action="create-account?faces-redirect=true"
+                               immediate="true"
+                               styleClass="choose-btn full-btn" />
+            </div>
+          </h:form>
+        </div>
+
       </div>
     </div>
-  </div>
-</section>
-
+  </section>
 
 </h:body>
 </html>
