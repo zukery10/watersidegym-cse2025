@@ -3,26 +3,17 @@ package com.watersidegym.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.watersidegym.model.GymClass;
 import com.watersidegym.model.PTSession;
 import com.watersidegym.model.User;
 
 public class PTSessionService {
 
-	private List<PTSession> bookedSessionsList;
-
-	public PTSessionService() {
-		bookedSessionsList = new ArrayList<>();
-
-	}
-
-	public List<PTSession> getAllBookedSession() {
-		return bookedSessionsList;
-	}
 
 	//adds session to list and decrement session number
 	public boolean bookSession(PTSession ptSession, User member) {
 
+		
+		
 		if (member == null || ptSession == null) {
 			return false;
 		}
@@ -33,21 +24,32 @@ public class PTSessionService {
 
 		String fullName = member.getFirstName() + " " + member.getSecondName();
 		ptSession.setMemberName(fullName);
+	
+		for (PTSession s : member.getBookedPTSession()) {
+	        if (s.getMemberName().equalsIgnoreCase(fullName)
+	                && s.getTrainerName().equalsIgnoreCase(ptSession.getTrainerName())
+	                && s.getSessionDate().toString().equalsIgnoreCase(ptSession.getSessionDate().toString())
+	                && s.getSessionTime().equalsIgnoreCase(ptSession.getSessionTime())) {
+	            return false;
+	        }
+	    }
 
-		bookedSessionsList.add(ptSession);
+		member.addBookedPTSession(ptSession);
 
 		member.setRemainingPTSessions(member.getRemainingPTSessions() - 1);
 		return true;
 	}
 	
+	
+	
 	//Returns all sessions booked by a specific member name
-	public List<PTSession> getBookedSessionsForMember(String memberName) {
+	public List<PTSession> getBookedSessionsForMember(User member) {
 		List<PTSession> result = new ArrayList<>();
-		if (memberName == null) {
-			return result;
-		}
+		
+		String memberName = member.getFirstName() + " " + member.getSecondName();
 
-		for (PTSession s : bookedSessionsList) {
+
+		for (PTSession s : member.getBookedPTSession()) {
 			if (s.getMemberName() != null && s.getMemberName().equalsIgnoreCase(memberName)) {
 				result.add(s);
 			}

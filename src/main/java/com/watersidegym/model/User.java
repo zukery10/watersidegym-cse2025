@@ -167,8 +167,8 @@ public class User {
 	
 	
 	public void addBookedPTSession(PTSession ptSession) {
+		
 		bookedPTSession.add(ptSession);		
 	}
-	
 	
 }

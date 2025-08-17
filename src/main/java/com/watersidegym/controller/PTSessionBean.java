@@ -3,7 +3,6 @@ package com.watersidegym.controller;
 import javax.faces.bean.ManagedBean;
 
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +80,7 @@ public class PTSessionBean {
 		        return "member-dashboard?faces-redirect=true";
 		    } else {
 		        addMessage(null, FacesMessage.SEVERITY_ERROR,
-		                "Booking failed: no sessions left or invalid details.");
+		                "This session has been already booked. Try another.");
 		        return null;
 		    }
 		} catch (Exception e) {
@@ -91,6 +90,7 @@ public class PTSessionBean {
 		}
 
 	}
+	
 	//returns member’s booked sessions- linked to service	
 	public List<PTSession> getMemberBookedSessions() {
 
@@ -101,8 +101,7 @@ public class PTSessionBean {
 			return new ArrayList<>();
 		}
 
-		String fullName = member.getFirstName() + " " + member.getSecondName();
-		return ptSessionService.getBookedSessionsForMember(fullName);
+		return ptSessionService.getBookedSessionsForMember(member);
 	}
 
 	//calling login bean- whenever need to use loginBean object

@@ -23,7 +23,7 @@ public class UserService {
 		user2.setGender("Female");
 		user2.setRole("Non-Member");
 		users.add(user2);
-		
+
 		User user3 = new User();
 		user3.setEmail("member@example.com");
 		user3.setPassword("Member123");
@@ -53,6 +53,22 @@ public class UserService {
 		user4.setGender("Male");
 		user4.setRole("PT");
 		users.add(user4);
+
+		// PT Example 2
+		User user5 = new User();
+		user5.setEmail("PT2@example.com");
+		user5.setPassword("PT123456");
+		user5.setFirstName("Alex");
+		user5.setSecondName("Byrne");
+		user5.setAddress1("65 Elm Road");
+		user5.setCounty("Wicklow");
+		user5.setEircode("T12ABC1");
+		user5.setPhoneNumber("0859876543");
+		user5.setDateOfBirth(new Date(95, 6, 20));
+		user5.setGender("Male");
+		user5.setRole("PT");
+		users.add(user5);
+
 
 	}
 
