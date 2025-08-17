@@ -7,6 +7,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;     // used for file upload
+
+import com.watersidegym.model.User;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -24,10 +27,10 @@ public class PTAddVideo {
 		private String description;
 		private String rule;        // Who can watch: Member / Non-Member
 		private String category;    // Group name (ex: Recently Added)
-		private String uploaderUsername;
+		private String uploadedBy;
 		
 		public Video(int id, String title, String link, String date,
-				String description, String rule, String category) {
+				String description, String rule, String category, String uploaderUsername) {
 			this.id = id;
 			this.title = title;
 			this.link = link;
@@ -35,6 +38,7 @@ public class PTAddVideo {
 			this.description = description;
 			this.rule = rule;
 			this.category = category;
+			this.uploadedBy = uploaderUsername;
 		}
 
 		// Getters + Setters
@@ -45,6 +49,14 @@ public class PTAddVideo {
 		public String getDescription() { return description; }
 		public String getRule() { return rule; }
 		public String getCategory() { return category; }
+
+		public String getUploadedBy() {
+			return uploadedBy;
+		}
+
+		public void setUploadedBy(String uploadedBy) {
+			this.uploadedBy = uploadedBy;
+		}
 
 		public void setId(int id) { this.id = id; }
 		public void setTitle(String title) { this.title = title; }
@@ -73,15 +85,15 @@ public class PTAddVideo {
 	// ===== Adding some sample videos at startup =====
 	@PostConstruct
 	public void preload() {
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Non-Member", "Recently Added");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Non-Member", "Recently Added");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Recently Added");
-		addVideo("Core Strength1", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Recently Added");
+		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Non-Member", "Recently Added", "PT@example.com");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Non-Member", "Recently Added", "PT@example.com");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Recently Added", "PTXYZ@example.com");
+		addVideo("Core Strength1", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Recently Added", "PT2@example.com");
 	}
 
 	// ===== Adding video to the list =====
-	private void addVideo(String title, String link, String date, String desc, String rule, String category) {
-		videos.add(new Video(nextId++, title, link, date, desc, rule, category));
+	private void addVideo(String title, String link, String date, String desc, String rule, String category, String uploaderUsername) {
+		videos.add(new Video(nextId++, title, link, date, desc, rule, category, uploaderUsername));
 	}
 
 	// ===== Main upload logic =====
@@ -134,7 +146,13 @@ public class PTAddVideo {
 			String date = (formDate == null || formDate.isEmpty()) ? LocalDate.now().toString() : formDate;
 			String desc = (formDescription == null) ? "Uploaded by trainer." : formDescription;
 
-			addVideo(title, link, date, desc, formRule, formCategory);
+	        // get the loggedin user from the LoginBean
+			FacesContext context = FacesContext.getCurrentInstance();
+			LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+			User loggedInUser = loginBean.getLoggedInUser();
+
+			
+			addVideo(title, link, date, desc, formRule, formCategory, loggedInUser.getEmail());
 
 			// 7. Reset form fields
 			uploadedFile = null;
@@ -200,6 +218,24 @@ public class PTAddVideo {
 		return out;
 	}
 
+	public List<Video> getMyVideos() {
+	    List<Video> mine = new ArrayList<>();
+
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+	    User loggedInUser = loginBean.getLoggedInUser();
+
+	    if (loggedInUser == null) return mine;
+
+	    String email = loggedInUser.getEmail();
+	    for (Video v : videos) {
+	        if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
+	            mine.add(v);
+	        }
+	    }
+	    return mine;
+	}
+
 	// ===== Getters/Setters =====
 	public List<Video> getVideos() { return videos; }
 
@@ -231,4 +267,6 @@ public class PTAddVideo {
 	public List<Video> getCoreOnly() {
 		return byCategory("Core Strength");
 	}
+	
+	
 }
