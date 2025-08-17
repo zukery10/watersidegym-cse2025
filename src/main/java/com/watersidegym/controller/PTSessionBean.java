@@ -127,4 +127,9 @@ public class PTSessionBean {
 		}
 
 	}
+	
+	public String getTodayIso() {
+	    return new java.text.SimpleDateFormat("yyyy-MM-dd")
+	            .format(new java.util.Date());
+	}
 }
