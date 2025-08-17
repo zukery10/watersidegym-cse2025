@@ -1,91 +1,104 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-	<title>Video Galary</title>
-	<link rel="stylesheet" type="text/css"
-		href="resources/css/membership_select_page.css" />
+  <title>Upload your Video</title>
+  <h:outputStylesheet library="css" name="membership_select_page.css" />
 </h:head>
 
 <h:body>
+  <ui:include src="/includes/header.xhtml" />
 
-	<!--  the nav to be incuded in all pages -->
-	<ui:include src="/includes/header.xhtml" />
+  <main class="main-section">
+    <div class="vg-container">
+      <h1>Upload your <span class="highlight">Video</span></h1>
 
-	<main class="main-section">
-      <div class="vg-container">
-        <h1>
-          Upload your <span class="highlight">Video</span>
-        </h1>
+      <div class="video-gallery">
+        <div class="page">
+          <div class="grid">
 
-        <div class="video-gallery">
-          <div class="page">
-            <h1>Upload Video</h1>
+            <!-- LEFT CARD: New Upload -->
+            <div class="card">
+              <div class="hd">New Upload</div>
+              <div class="bd">
+                <p style="margin-top:0;color:#cbd5e1">
+                  Click or drag a video into the frame to pick a file. (No upload logic.)
+                </p>
 
-            <div class="grid">
-              <!-- Card: New Upload -->
-              <div class="card">
-                <div class="hd">New Upload</div>
-                <div class="bd">
-                  <p style="margin-top:0;color:#cbd5e1">
-                    Click or drag a video into the frame to pick a file. (No upload logic yet.)
-                  </p>
+                <!-- Keep your dropzone visuals exactly -->
+                <div class="dropzone" aria-label="Upload area: click or drag a video file here">
+                  <div class="dz-icon">📹</div>
+                  <div class="dz-title">Drag a video here or click to choose</div>
+                  <div class="dz-hint">MP4 or MOV • Max 200MB</div>
+                  <input class="dz-input" type="file" accept="video/mp4,video/quicktime" />
+                </div>
 
-                  <div class="dropzone" aria-label="Upload area: click or drag a video file here">
-                    <div class="dz-icon">📹</div>
-                    <div class="dz-title">Drag a video here or click to choose</div>
-                    <div class="dz-hint">MP4 or MOV • Max 200MB</div>
-                    <!-- Hidden file input covering the frame -->
-                    <input class="dz-input" type="file" accept="video/mp4,video/quicktime" />
+                <!-- PURE JSF FORM (small, styled with your classes) -->
+                <h:form id="uploadForm">
+                  <div class="row" style="flex-direction:column; gap:10px; margin-top:12px">
+                    <h:outputLabel for="title" value="Title"/>
+                    <h:inputText id="title" value="#{videoControllerBean.formTitle}" styleClass="input" />
+
+                    <h:outputLabel for="link" value="Link (e.g. /resources/videos/My_File.mp4)"/>
+                    <h:inputText id="link" value="#{videoControllerBean.formLink}" styleClass="input" />
+
+                    <h:outputLabel for="date" value="Date (YYYY-MM-DD)"/>
+                    <h:inputText id="date" value="#{videoControllerBean.formDate}" styleClass="input" />
+
+                    <h:outputLabel for="desc" value="Description"/>
+                    <h:inputTextarea id="desc" value="#{videoControllerBean.formDescription}" rows="3" styleClass="input" />
+
+                    <h:outputLabel for="rule" value="Rule"/>
+                    <h:selectOneMenu id="rule" value="#{videoControllerBean.formRule}">
+                      <f:selectItem itemLabel="Non-Member" itemValue="Non-Member"/>
+                      <f:selectItem itemLabel="Member" itemValue="Member"/>
+                    </h:selectOneMenu>
+
+                    <h:outputLabel for="cat" value="Category"/>
+                    <h:inputText id="cat" value="#{videoControllerBean.formCategory}" styleClass="input" />
                   </div>
 
-                  <div class="row">
-                    <!-- Non-functional: just opens the file dialog -->
-                    <div class="file-wrap">
-                      <button class="btn primary" type="button">Add Video</button>
-                      <input class="file-input" type="file" accept="video/mp4,video/quicktime" />
+                  <div class="row" style="margin-top:12px">
+                    <h:commandButton value="Add Video" styleClass="btn primary"
+                                     action="#{videoControllerBean.addFromForm}" />
+                    <h:commandButton value="Refresh Library" styleClass="btn muted"
+                                     action="#{videoControllerBean.rescanAndStay}" />
+                  </div>
+                </h:form>
+
+                <!-- Your original bottom buttons remain visually the same -->
+                <div class="row" style="margin-top:10px">
+  <button class="btn primary" type="button" disabled="disabled">Add Video</button>
+  <button class="btn muted" type="reset">Clear</button>
+</div>
+
+              </div>
+            </div>
+
+            <!-- RIGHT CARD: Library -->
+            <div class="card">
+              <div class="hd">Your Video Library</div>
+              <div class="bd">
+                <div class="videos">
+                  <ui:repeat value="#{videoControllerBean.videos}" var="v">
+                    <div class="vcard">
+                      <video controls="controls" preload="metadata">
+                        <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+                      </video>
+                      <h3>#{v.title}</h3>
                     </div>
-                    <button class="btn muted" type="reset">Clear</button>
-                  </div>
+                  </ui:repeat>
                 </div>
               </div>
+            </div>
 
-              <!-- Card: Library -->
-              <div class="card">
-                <div class="hd">Your Video Library</div>
-                <div class="bd">
-                  <div class="videos">
-                    <div class="vcard">
-                      <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}/resources/videos/Jimmi_Chan_Tai_chi.mp4" type="video/mp4" />
-                      </video>
-                      <h3>Warm-up Routine</h3>
-                    </div>
-
-                    <div class="vcard">
-                      <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}/resources/videos/Rachel_Lawrence_pilates.mp4" type="video/mp4" />
-                      </video>
-                      <h3>Core Blast Intro</h3>
-                    </div>
-
-                    <div class="vcard">
-                      <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}/resources/videos/Zumba_Holly_Corrente.mp4" type="video/mp4" />
-                      </video>
-                      <h3>Mobility Flow</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /Card: Library -->
-            </div> <!-- /.grid -->
-          </div> <!-- /.page -->
-        </div> <!-- /.video-gallery -->
-      </div> <!-- /.vg-container -->
-    </main>
-  </h:body>
+          </div><!-- /.grid -->
+        </div><!-- /.page -->
+      </div><!-- /.video-gallery -->
+    </div><!-- /.vg-container -->
+  </main>
+</h:body>
 </html>
