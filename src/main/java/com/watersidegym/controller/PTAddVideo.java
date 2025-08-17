@@ -18,6 +18,7 @@ import java.util.*;
 @ApplicationScoped
 public class PTAddVideo {
 
+	
 	// ===== Inner class to represent a Video =====
 	public static class Video {
 		private int id;
@@ -88,7 +89,23 @@ public class PTAddVideo {
 		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Non-Member", "Recently Added", "PT@example.com");
 		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Non-Member", "Recently Added", "PT@example.com");
 		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Recently Added", "PTXYZ@example.com");
-		addVideo("Core Strength1", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Recently Added", "PT2@example.com");
+		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Member", "Recently Added", "PT2@example.com");
+		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Member", "Recently Added", "PT@example.com");
+		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Member", "Recently Added", "PT@example.com");
+		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Non-Member", "Recently Added", "PT@example.com");
+		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Non-Member", "Recently Added", "PT@example.com");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Member", "Recently Added", "PT2@example.com");
+//------------------------------------------
+		
+		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Non-Member", "Tai Chi", "PT@example.com");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Non-Member", "Yoga", "PT@example.com");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Core Strength", "PTXYZ@example.com");
+		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Member", "Zumba", "PT2@example.com");
+		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Member", "Pilates", "PT@example.com");
+		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Member", "Aqua Aerobics", "PT@example.com");
+		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Non-Member", "Kickboxing", "PT@example.com");
+		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Non-Member", "CrossFit", "PT@example.com");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Member", "Tabata", "PT2@example.com");
 	}
 
 	// ===== Adding video to the list =====
@@ -268,5 +285,27 @@ public class PTAddVideo {
 		return byCategory("Core Strength");
 	}
 	
+	public List<Video> getTaichiOnly() {
+		return byCategory("Tai Chi");
+	}
 	
+	public List<Video> getKickboxingOnly() {
+		return byCategory("Kickboxing");
+	}
+	
+	public List<Video> getCrossfitOnly() {
+		return byCategory("CrossFit");
+	}
+	
+	public List<Video> getAquaaerobicsOnly() {
+		return byCategory("Aqua Aerobics");
+	}
+	
+	public List<Video> getPilatesOnly() {
+		return byCategory("Pilates");
+	}
+	
+	public List<Video> getTabataOnly() {
+		return byCategory("Tabata");
+	}
 }
