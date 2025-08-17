@@ -67,7 +67,7 @@ public class GymClassServiceTest {
     public void testNumberOfSlotsReducedBy1() throws ParseException {
         GymClass gymclass1 = new GymClass("Yoga", dateFormat.parse("07.08.25"), timeFormat.parse("08:00"), 5, "1 hr",10);
         User testUser = new User(); // create test user
-
+        testUser.setRole("Member");
         boolean booked = gymClassService.bookClass(testUser, gymclass1);
 
         assertTrue(booked, "Booking should be successful");

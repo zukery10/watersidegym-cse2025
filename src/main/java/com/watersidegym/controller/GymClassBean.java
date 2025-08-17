@@ -273,7 +273,7 @@ public class GymClassBean {
     private void showMessage(FacesContext context, FacesMessage.Severity severity, String summary, String detail) {
         context.addMessage(null, new FacesMessage(severity, summary, detail));
     }
-    private boolean isValidPayPalCredentials(MemberShipBean membershipBean) {
+   public boolean isValidPayPalCredentials(MemberShipBean membershipBean) {
         return "user@example.com".equalsIgnoreCase(membershipBean.getPaypalEmail()) 
             && "password".equals(membershipBean.getPaypalPassword());
     }

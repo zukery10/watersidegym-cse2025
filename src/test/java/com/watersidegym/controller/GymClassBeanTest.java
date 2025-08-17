@@ -23,6 +23,7 @@ public class GymClassBeanTest {
 	private SimpleDateFormat dateFormat;
 	private GymClass yoga;
 	private User user;
+	private MemberShipBean msb;
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -82,7 +83,9 @@ public class GymClassBeanTest {
 		result = bean.getFilteredClasses(); //gets the size of the filtered class (18)
 		int x = result.size(); //set the int
 		assertEquals(18,x);
+		
 	}
+
 
 	// Data retrieval test
 	@Test
@@ -158,6 +161,7 @@ public class GymClassBeanTest {
 	public void testIsCartEmpty () {
 		int size = bean.getCart().size();
 		assertEquals(0,size);
+		assertTrue(bean.isCartEmpty());
 	}
 	
 	@Test 
@@ -182,10 +186,26 @@ public class GymClassBeanTest {
 		int size = bean.getCart().size();
 		assertEquals(1,size);
 	}
+
 	@Test
 	public void testInit() {
 		assertNotNull(bean.getGymClassService());
 		assertNotNull(bean.getCart());
 	}
+	@Test
+	public void testisClassPaymentTimedOut() {
+		bean.setClassPaymentDeadline(-1);
+		assertFalse(bean.isClassPayment());	
+	}
+	@Test
+	public void testIsValidPayPalCredentials() {
+		msb = new MemberShipBean();
+		String username = "user@example.com";
+		String password = "password";
+		msb.setPaypalEmail(username);
+		msb.setPaypalPassword(password);
+		bean.isValidPayPalCredentials(msb);
+	}
+			
 }
 
