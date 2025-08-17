@@ -146,9 +146,15 @@ public class GymClassBean {
 	// NON-MEMBER CART & PAYMENT LOGIC
 	// ============================================================================
 	public String addToCart(GymClass cls) {
+		FacesContext context = FacesContext.getCurrentInstance();
 		// Start timer when cart goes from empty to having items
 		if (cart.isEmpty()) {
 			startClassPaymentTimer();
+		}
+		if(cls.getNoOfSlots() == 0) {
+			showMessage(context, FacesMessage.SEVERITY_WARN, "Class Full", 
+					"No slots available.");
+			return null;
 		}
 
 		// Only add if not already in cart
@@ -180,7 +186,6 @@ public class GymClassBean {
 			showMessage(context, FacesMessage.SEVERITY_ERROR, "Payment Timeout", 
 					"Your cart session has expired. Please add classes again.");
 			cart.clear();
-
 			return "browse-classes.xhtml?faces-redirect=true";
 		}
 
@@ -367,11 +372,21 @@ public class GymClassBean {
 			}
 
 			public String getRedirectPage() {
-				return classPayment ? "nonmember-dashboard.xhtml" : "member-dashboard.xhtml";
+				if (classPayment) {
+			        resetNonMemberCartAndTimer();
+			        return "nonmember-dashboard.xhtml";
+			    } else {
+			        return "member-dashboard.xhtml";
+			    }
+				
 			}
 
 			void setClassPaymentDeadline(long deadline) {
 				this.classPaymentDeadline = deadline;
+			}
+			public String returnToDashboardSuccess() { //resets the total price if button is clicked
+				totalPrice = 0;
+				return "nonmember-dashboard.xhtml";
 			}
 
 			protected void addMessage(String msg, FacesMessage.Severity severity) {

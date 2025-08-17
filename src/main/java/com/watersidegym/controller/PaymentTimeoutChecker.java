@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "paymentTimeoutChecker")
 @RequestScoped
 public class PaymentTimeoutChecker {
+	private GymClassBean gcb;
     public void checkTimeout() {
         FacesContext context = FacesContext.getCurrentInstance();
         
@@ -21,6 +22,7 @@ public class PaymentTimeoutChecker {
                 // CLASS PAYMENT FLOW - non-members buying classes
                 if (gymClassBean.isClassPaymentTimedOut()) {
                     redirectToSessionExpired(context);
+                   
                 }
             } else {
                 // MEMBERSHIP PAYMENT FLOW - users buying memberships
@@ -44,6 +46,7 @@ public class PaymentTimeoutChecker {
             context, "#{membershipBean}", MemberShipBean.class);
     }
     private void redirectToSessionExpired(FacesContext context) throws Exception {
+    	
         context.getExternalContext().redirect("sessionExpired.xhtml");
     }
 }

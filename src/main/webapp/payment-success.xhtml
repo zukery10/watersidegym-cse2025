@@ -38,9 +38,10 @@
 					enrolled in the selected class(es)!</p>
 				<p class="subtitlePlans">A confirmation email has been sent to
 					your account.</p>
-				<a href="nonmember-dashboard.xhtml" class="join-now"
-					style="display: inline-block; margin-top: 20px;"> Go To
-					Dashboard </a>
+			<h:form>
+				 <h:commandButton value="Back to Dashboard" class="choose-btn"
+				  action="#{gymClassBean.returnToDashboardSuccess()}"/> 
+			</h:form>
 			</h:panelGroup>
 
 			<!-- Membership Payment -->
