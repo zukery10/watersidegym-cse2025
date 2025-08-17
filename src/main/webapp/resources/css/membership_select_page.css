@@ -700,7 +700,7 @@ background-size: 93px 82px;
   text-align: left;
 }
 
-.home__title{ font-size: clamp(34px, 5.6vw, 64px); line-height: 1.08; }
+.home__title{ font-size: clamp(34px, 5.6vw, 47px); line-height: 1.08; }
 .home__subtitle{ max-width: 720px; font-size: 18px; line-height: 1.65; margin: 12px 0 24px; }
 
 /* Grid layout inside hero */
@@ -715,34 +715,65 @@ background-size: 93px 82px;
   align-items: center;
 }
 
-/* Login card style */
-.home__login .login-card {
-  background: rgba(15,17,21,0.9);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 12px;
-  padding: 28px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+
+
+/* --- Login card polish --- */
+.home__login { align-self: center; }            /* centers card in its column */
+
+.home__login .login-card{
+  background: rgba(15,17,21,.90);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  /* give a little more inner air, esp. right side */
+  padding: 24px 24px 26px 24px;                 /* top | right | bottom | left */
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
 }
 
-.login-title {
-  font-size: 24px;
-  margin-bottom: 16px;
+/* make all sizing inside the card include padding/border → no edge touching */
+.home__login .login-card *{ box-sizing: border-box; }
+
+.login-title{
+  margin: 0 0 14px;
+  font-size: 36px;                               /* a bit larger */
+  font-weight: 700;
   color: #fff;
+  text-align: center;
+  
 }
 
-.inputField {
+/* labels and fields spacing */
+.home__login .form-group{
+  margin: 10px 0 14px;
+}
+
+
+/* inputs fill the card nicely without overflowing */
+.inputField{
+  display: block;
   width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  margin-bottom: 12px;
-  border: 1px solid #444;
-  border-radius: 6px;
-  background-color: #0f1115;
+  padding: 11px 12px;
+  border: 1px solid #3f444b;
+  border-radius: 8px;
+  background: #0f1115;
   color: #fff;
+  outline: none;
+}
+.inputField:focus{
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40,167,69,.20);
 }
 
-.full-btn {
-  width: 100%; /* buttons span full card width */
+/* buttons: center text, consistent size, and full width */
+.full-btn{
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1;                                /* keeps text vertically centered */
+  border-radius: 8px;
 }
 
-
+/* optional: a bit more breathing room between the two buttons */
+.full-btn + br + br { display: none; }           /* remove the <br/><br/> gap */
+.full-btn + .full-btn { margin-top: 10px; }      /* use margin instead */
