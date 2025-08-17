@@ -6,6 +6,7 @@
    xmlns:p="http://primefaces.org/ui">
    <f:metadata>
       <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+       <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
    </f:metadata>
    <h:head>
       <title>Browse Classes</title>
@@ -112,7 +113,7 @@
                         <f:facet name="header"> Class Name </f:facet>
                         #{classAdded.nameOfClass}
                         <f:facet name="footer">
-                           <strong>Total</strong>
+                          <strong>Total</strong>
                         </f:facet>
                      </h:column>
                      <h:column>
