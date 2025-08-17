@@ -20,8 +20,8 @@ class PTSessionServiceTest {
         User u = new User();
         u.setRemainingPTSessions(1);
 
-        assertFalse(svc.book(null, u));
-        assertFalse(svc.book(new PTSession(), null));
+        assertFalse(svc.bookSession(null, u));
+        assertFalse(svc.bookSession(new PTSession(), null));
         assertEquals(0, svc.getAllBookedSession().size());
     }
 
@@ -40,7 +40,7 @@ class PTSessionServiceTest {
         s.setSessionTime("08:00");
         s.setDuration("30 min");
 
-        assertFalse(sessionService.book(s, u));
+        assertFalse(sessionService.bookSession(s, u));
         assertEquals(0, sessionService.getAllBookedSession().size());
     }
 
@@ -59,7 +59,7 @@ class PTSessionServiceTest {
         s.setSessionTime("09:00");
         s.setDuration("45 min");
 
-        assertTrue(svc.book(s, u));
+        assertTrue(svc.bookSession(s, u));
         assertEquals(1, svc.getAllBookedSession().size());
         assertEquals("Sam Lee", s.getMemberName());
         assertEquals(1, u.getRemainingPTSessions());

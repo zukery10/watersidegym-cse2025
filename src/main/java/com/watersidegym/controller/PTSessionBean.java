@@ -36,10 +36,9 @@ public class PTSessionBean {
 	}
 
 	//handles the book button and calls service to book
-	public String book() {
+	public String bookSession() {
 
 		boolean hasError = false;
-		FacesContext context = FacesContext.getCurrentInstance();
 
 		//validation messages
 		if (ptSession.getTrainerName() == null || ptSession.getTrainerName().isEmpty()) {
@@ -73,7 +72,7 @@ public class PTSessionBean {
 
 		//calls servise class book method and failure check.
 		try {
-		    boolean sessionOk = ptSessionService.book(ptSession, loggedInUser);
+		    boolean sessionOk = ptSessionService.bookSession(ptSession, loggedInUser);
 
 		    if (sessionOk) {
 		        ptSession = new PTSession();
@@ -119,6 +118,7 @@ public class PTSessionBean {
 		}
 	}
 
+	//Faces context - reusable 
 	protected void addMessage(String clientId,
 			javax.faces.application.FacesMessage.Severity severity,
 			String text) {

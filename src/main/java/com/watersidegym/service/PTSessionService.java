@@ -21,7 +21,7 @@ public class PTSessionService {
 	}
 
 	//adds session to list and decrement session number
-	public boolean book(PTSession ptSession, User member) {
+	public boolean bookSession(PTSession ptSession, User member) {
 
 		if (member == null || ptSession == null) {
 			return false;
