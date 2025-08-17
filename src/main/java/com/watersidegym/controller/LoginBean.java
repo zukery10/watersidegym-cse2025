@@ -118,12 +118,14 @@ public class LoginBean {
 			return false;
 	}
 
-	public String logout() { // resets all inputs fields and user
-		loggedInUser = null;
-		email = null;
-		password = null;
-		return "index"; // redirects back to index
+	public String logout() {
+	    // clear session and redirect to home page
+	    loggedInUser = null;
+	    email = null;
+	    password = null;
+	    return "index"; // redirects to home (index.xhtml)
 	}
+
 
 	public boolean isLoggedIn() {
 		return loggedInUser != null;
@@ -143,5 +145,11 @@ public class LoginBean {
 
 		return loggedInUser;
 
+	}
+	
+	
+	//setter for loggedInUser used only in unit tests to simulate a loggedin state	 
+	public void setLoggedInUser(User user) {
+	    this.loggedInUser = user;
 	}
 }

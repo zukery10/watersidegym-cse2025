@@ -9,13 +9,23 @@ public class GymClass  {
 	private Date classDate; // Stores date only
 	private Date classTime; // Stores time only
 	private String classDuration;
+	private int price;
 
-	public GymClass(String nameOfClass, Date classDate, Date classTime, int noOfSlots, String classDuration) {
+	public GymClass(String nameOfClass, Date classDate, Date classTime, int noOfSlots, String classDuration, int price) {
 		this.nameOfClass = nameOfClass;
 		this.noOfSlots = noOfSlots;
 		this.classDate = classDate;
 		this.classTime = classTime;
 		this.classDuration = classDuration;
+		this.price = price;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	public String getNameOfClass() {
