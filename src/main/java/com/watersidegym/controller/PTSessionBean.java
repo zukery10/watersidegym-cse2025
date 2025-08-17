@@ -35,77 +35,97 @@ public class PTSessionBean {
 		this.ptSession = ptSession;
 	}
 
+	//handles the book button and calls service to book
 	public String book() {
 
 		boolean hasError = false;
 		FacesContext context = FacesContext.getCurrentInstance();
 
+		//validation messages
 		if (ptSession.getTrainerName() == null || ptSession.getTrainerName().isEmpty()) {
-		    context.addMessage("ptForm:trainer",
-		        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please choose a trainer.", null));
+		    addMessage("ptForm:trainer", FacesMessage.SEVERITY_ERROR, "Please choose a trainer.");
 		    hasError = true;
 		}
 
-
 		if (ptSession.getSessionDate() == null) {
-			context.addMessage("ptForm:date", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Please select a date", null));
-			hasError = true;
-
+		    addMessage("ptForm:date", FacesMessage.SEVERITY_ERROR, "Please select a date");
+		    hasError = true;
 		}
 
 		if (ptSession.getSessionTime() == null || ptSession.getSessionTime().isEmpty()) {
-			context.addMessage("ptForm:time", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Please select a time.", null));
-			hasError = true;
-
+		    addMessage("ptForm:time", FacesMessage.SEVERITY_ERROR, "Please select a time.");
+		    hasError = true;
 		}
 
 		if (ptSession.getDuration() == null || ptSession.getDuration().isEmpty()) {
-			context.addMessage("ptForm:dur", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Please select a duration.", null));
-			hasError = true;
-
+		    addMessage("ptForm:dur", FacesMessage.SEVERITY_ERROR, "Please select a duration.");
+		    hasError = true;
 		}
+
 
 		if (hasError) {
 			return null; // if error - stay on the same page
 		}
 
 		// get LoginBean and logged-in user
-		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+		LoginBean loginBean = currentLoginBean();
 		User loggedInUser = loginBean.getLoggedInUser();
 
+		//calls servise class book method and failure check.
 		try {
-		boolean sessionOk = ptSessionService.book(ptSession, loggedInUser);
+		    boolean sessionOk = ptSessionService.book(ptSession, loggedInUser);
 
-		if (sessionOk) {
-			 ptSession = new PTSession();
-			context.addMessage(null, new FacesMessage(
-					"Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions()));
-			return "member-dashboard?faces-redirect=true";
-		} else {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Booking failed: no sessions left or invalid details.", null));
-			return null;
+		    if (sessionOk) {
+		        ptSession = new PTSession();
+		        addMessage(null, FacesMessage.SEVERITY_INFO,
+		                "Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions());
+		        return "member-dashboard?faces-redirect=true";
+		    } else {
+		        addMessage(null, FacesMessage.SEVERITY_ERROR,
+		                "Booking failed: no sessions left or invalid details.");
+		        return null;
+		    }
+		} catch (Exception e) {
+		    addMessage(null, FacesMessage.SEVERITY_ERROR,
+		            "System error: booking failed. Please try again later.");
+		    return null;
 		}
-		}catch (Exception e) {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "System error: booking failed. Please try again later.", null));
-	        return null;
-	    }
 
 	}
-	
+	//returns member’s booked sessions- linked to service	
 	public List<PTSession> getMemberBookedSessions() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-	    LoginBean loginBean = ctx.getApplication()
-	            .evaluateExpressionGet(ctx, "#{loginBean}", LoginBean.class);
 
-	    User member = (loginBean != null) ? loginBean.getLoggedInUser() : null;
-	    if (member == null) {
-	        return new ArrayList<>();
-	    }
+		LoginBean loginBean = currentLoginBean();
 
-	    String fullName = member.getFirstName() + " " + member.getSecondName();
-	    return ptSessionService.getBookedSessionsForMember(fullName);
+		User member = (loginBean != null) ? loginBean.getLoggedInUser() : null;
+		if (member == null) {
+			return new ArrayList<>();
+		}
+
+		String fullName = member.getFirstName() + " " + member.getSecondName();
+		return ptSessionService.getBookedSessionsForMember(fullName);
 	}
 
+	//calling login bean- whenever need to use loginBean object
+	protected LoginBean currentLoginBean() {
+		javax.faces.context.FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
+		if (context == null) {
+			return null;
+		} else {
+			javax.faces.application.Application app = context.getApplication();
+			LoginBean loginBean = app.evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 
+			return loginBean;
+		}
+	}
+
+	protected void addMessage(String clientId,
+			javax.faces.application.FacesMessage.Severity severity,
+			String text) {
+		javax.faces.context.FacesContext ctx = javax.faces.context.FacesContext.getCurrentInstance();
+		if (ctx != null) { 
+			ctx.addMessage(clientId, new javax.faces.application.FacesMessage(severity, text, null));
+		}
+
+	}
 }

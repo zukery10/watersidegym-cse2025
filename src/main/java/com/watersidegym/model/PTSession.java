@@ -17,7 +17,6 @@ public class PTSession {
 		super();
 		this.memberName = memberName;
 		this.trainerName = trainerName;
-
 		this.sessionDate = sessionDate;
 		this.sessionTime = sessionTime;
 		this.duration = duration;

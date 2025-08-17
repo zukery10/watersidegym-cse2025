@@ -20,6 +20,7 @@ public class PTSessionService {
 		return bookedSessionsList;
 	}
 
+	//adds session to list and decrement session number
 	public boolean book(PTSession ptSession, User member) {
 
 		if (member == null || ptSession == null) {
@@ -38,7 +39,8 @@ public class PTSessionService {
 		member.setRemainingPTSessions(member.getRemainingPTSessions() - 1);
 		return true;
 	}
-
+	
+	//Returns all sessions booked by a specific member name
 	public List<PTSession> getBookedSessionsForMember(String memberName) {
 		List<PTSession> result = new ArrayList<>();
 		if (memberName == null) {
