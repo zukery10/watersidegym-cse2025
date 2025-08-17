@@ -302,7 +302,10 @@ public class GymClassBean {
     }
 
     public List<GymClass> getGymClassList() {
-        return gymClassService.getAllGymClasses();
+        if (gymClassService != null) {
+            return gymClassService.getAllGymClasses();
+        }
+        return new ArrayList<>();
     }
 
     public String getErrorMessage() {
@@ -314,6 +317,7 @@ public class GymClassBean {
     }
 
     public List<GymClass> getFilteredClasses() {
+    	
         if (selectedDate == null) {
             return gymClassList; // Show all classes by default
         }
@@ -342,5 +346,16 @@ public class GymClassBean {
 
     public String getRedirectPage() {
         return classPayment ? "nonmember-dashboard.xhtml" : "member-dashboard.xhtml";
+    }
+    
+    void setClassPaymentDeadline(long deadline) {
+        this.classPaymentDeadline = deadline;
+    }
+    
+    protected void addMessage(String msg, FacesMessage.Severity severity) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context != null) {
+            context.addMessage(null, new FacesMessage(severity, msg, null));
+        }
     }
 }
