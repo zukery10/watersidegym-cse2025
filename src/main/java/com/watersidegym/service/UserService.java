@@ -36,7 +36,7 @@ public class UserService {
 		user3.setDateOfBirth(new Date(95, 6, 20));
 		user3.setGender("Male");
 		user3.setRole("Member");
-		user3.setRemainingPTSessions(4);
+		user3.setRemainingPTSessions(2);
 		users.add(user3);
 
 		// PT Example
