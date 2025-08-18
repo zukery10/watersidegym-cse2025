@@ -1,3 +1,4 @@
+
 body {
 	margin: 0;
 	font-family: 'Segoe UI', sans-serif;
@@ -76,9 +77,32 @@ body {
 	cursor: pointer;
 }
 
+.choose-btn:disabled {
+	width: 100%;
+	padding: 10px;
+	background-color: grey;
+	color: white;
+	border: 1px solid #28a745;
+	border-radius: 6px;
+	font-weight: bold;
+	
+	 cursor: not-allowed;
+}
 .choose-btn:hover {
 	background-color: #28a745;
 	color: black;
+}
+.choose-btn:hover:disabled {
+	background-color: grey;
+	color: white;
+	 cursor: not-allowed;
+	
+}
+
+.greyed-out {
+    background-color: grey;
+    color: #ccc;
+    cursor: not-allowed;
 }
 
 /* === Error Message === */
@@ -134,6 +158,21 @@ body {
     font-size: 16px;
 }
 
+.field-error {
+  color: #ff4d4f;          /* red */
+  font-weight: 600;
+  display: block;
+  margin-top: 4px;
+}
+
+.message-error {
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+  background: rgba(255, 77, 79, 0.08);
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
 .jsf-table {
     width: 100%;
     border-collapse: collapse;
@@ -143,6 +182,17 @@ body {
     background-color: #1e1f23; /* dark bg */
     color: #fff; /* white text */
 }
+.jsf-table-cart {
+	float:left;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: #1e1f23; /* dark bg */
+    color: #fff; /* white text */
+}
+
 
 .jsf-table th,
 .jsf-table td {
@@ -179,3 +229,6 @@ body {
 	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
 	transition: transform 0.3s ease;
 }
+
+
+
