@@ -326,7 +326,7 @@ public class GymClassBean {
 			classPaymentDeadline = 0;
 			classPayment = false;
 		} else {
-			System.out.println("Not true ???");
+			
 		}
 	}
 
@@ -336,11 +336,9 @@ public class GymClassBean {
 		return "nonmember-dashboard.xhtml?faces-redirect=true";
 	}
 	public String returnToCart() {
-		if (classPayment) {
-			
+		if (classPayment) {	
 		return "browseClasses.xhtml";
 		} else 
-			System.out.println("not returned to cart");
 		return null;
 		
 	}

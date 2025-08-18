@@ -197,20 +197,22 @@ public class GymClassBeanTest {
 		bean.setClassPaymentDeadline(-1);
 		assertFalse(bean.isClassPayment());	
 	}
-//	@Test
-//	public void testIsValidPayPalCredentials() {
-//		msb = new MemberShipBean();
-//		String username = "user@example.com";
-//		String password = "password";
-//		msb.setPaypalEmail(username);
-//		msb.setPaypalPassword(password);
-//		bean.isValidPayPalCredentials(msb);
-//	}
+
 	@Test
 	public void testBackToCart() {
 	bean.setClassPayment(true);	
 	String result = bean.returnToCart();
 	assertEquals("browseClasses.xhtml",result);	
+	bean.addToCart(yoga);
+	int size = bean.getCart().size();
+	assertEquals(1,size);	
+	}
+	
+	@Test
+	public void testBackToCartError() {
+	bean.setClassPayment(false);	
+	String result = bean.returnToCart();
+	assertEquals(null,result);	
 	bean.addToCart(yoga);
 	int size = bean.getCart().size();
 	assertEquals(1,size);	
