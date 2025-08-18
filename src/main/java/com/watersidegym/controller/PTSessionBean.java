@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
 import com.watersidegym.model.PTSession;
 import com.watersidegym.model.User;
 import com.watersidegym.service.PTSessionService;
@@ -16,8 +19,9 @@ import com.watersidegym.service.PTSessionService;
 @SessionScoped
 public class PTSessionBean {
 
+	private PTSession ptSession = new PTSession();
 	private PTSessionService ptSessionService;
-	private List<PTSession> sessionList;
+	private List<PTSession> sessionList = new ArrayList<>();
 	private Date selectedDate;
 	private List<PTSession> filteredSessions = new ArrayList<>();
 
@@ -29,9 +33,8 @@ public class PTSessionBean {
 		ptSessionService = new PTSessionService();
 
 		// get logged-in trainer from LoginBean
-		FacesContext context = FacesContext.getCurrentInstance();
-		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
-		User loggedInUser = loginBean.getLoggedInUser();
+		LoginBean loginBean = currentLoginBean();
+		User loggedInUser = (loginBean != null) ? loginBean.getLoggedInUser() : null;
 
 		if (loggedInUser != null) {
 			sessionList = ptSessionService.getSessionsForTrainer(loggedInUser);
@@ -42,6 +45,64 @@ public class PTSessionBean {
 		}
 	}
 
+	// --- Booking logic ---
+	public String bookSession() {
+		boolean hasError = false;
+
+		if (ptSession.getTrainer() == null) {
+			addMessage("ptForm:trainer", FacesMessage.SEVERITY_ERROR, "Please choose a trainer.");
+			hasError = true;
+		}
+		if (ptSession.getSessionDate() == null) {
+			addMessage("ptForm:date", FacesMessage.SEVERITY_ERROR, "Please select a date");
+			hasError = true;
+		}
+		if (ptSession.getStartTime() == null) {
+			addMessage("ptForm:time", FacesMessage.SEVERITY_ERROR, "Please select a time.");
+			hasError = true;
+		}
+		if (ptSession.getDurationMinutes() == 0) {
+			addMessage("ptForm:dur", FacesMessage.SEVERITY_ERROR, "Please select a duration.");
+			hasError = true;
+		}
+
+		if (hasError) {
+			return null;
+		}
+
+		LoginBean loginBean = currentLoginBean();
+		User loggedInUser = (loginBean != null) ? loginBean.getLoggedInUser() : null;
+
+		try {
+			boolean sessionOk = ptSessionService.bookSession(ptSession, loggedInUser);
+
+			if (sessionOk) {
+				ptSession = new PTSession();
+				addMessage(null, FacesMessage.SEVERITY_INFO,
+						"Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions());
+				return "member-dashboard?faces-redirect=true";
+			} else {
+				addMessage(null, FacesMessage.SEVERITY_ERROR,
+						"This session has been already booked. Try another.");
+				return null;
+			}
+		} catch (Exception e) {
+			addMessage(null, FacesMessage.SEVERITY_ERROR,
+					"System error: booking failed. Please try again later.");
+			return null;
+		}
+	}
+
+	public List<PTSession> getMemberBookedSessions() {
+		LoginBean loginBean = currentLoginBean();
+		User member = (loginBean != null) ? loginBean.getLoggedInUser() : null;
+		if (member == null) {
+			return new ArrayList<>();
+		}
+		return ptSessionService.getBookedSessionsForMember(member);
+	}
+
+	// --- Filtering logic ---
 	public Date getSelectedDate() {
 		return selectedDate;
 	}
@@ -56,7 +117,7 @@ public class PTSessionBean {
 
 	public List<PTSession> getFilteredSessions() {
 		if (selectedDate == null) {
-			return sessionList; // default: show all
+			return sessionList;
 		}
 		return filteredSessions;
 	}
@@ -65,7 +126,7 @@ public class PTSessionBean {
 		filteredSessions = new ArrayList<>();
 
 		if (selectedDate == null) {
-			return null; // no filter applied
+			return null;
 		}
 
 		Calendar calSelected = Calendar.getInstance();
@@ -89,6 +150,35 @@ public class PTSessionBean {
 				filteredSessions.add(session);
 			}
 		}
-		return null; // stay on page
+		return null;
+	}
+
+	// --- Utility methods ---
+	protected LoginBean currentLoginBean() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context == null) {
+			return null;
+		}
+		return context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+	}
+
+	protected void addMessage(String clientId, FacesMessage.Severity severity, String text) {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if (ctx != null) {
+			ctx.addMessage(clientId, new FacesMessage(severity, text, null));
+		}
+	}
+
+	public String getTodayIso() {
+		return new java.text.SimpleDateFormat("yyyy-MM-dd")
+				.format(new java.util.Date());
+	}
+
+	public PTSession getPtSession() {
+		return ptSession;
+	}
+
+	public void setPtSession(PTSession ptSession) {
+		this.ptSession = ptSession;
 	}
 }

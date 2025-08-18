@@ -65,8 +65,9 @@ public class GymClassServiceTest {
     
     @Test
     public void testNumberOfSlotsReducedBy1() throws ParseException {
-        GymClass gymclass1 = new GymClass("Yoga", dateFormat.parse("07.08.25"), timeFormat.parse("08:00"), 5, "1 hr");
-        User testUser = new User(); // create test user
+        GymClass gymclass1 = new GymClass("Yoga", dateFormat.parse("07.08.25"), timeFormat.parse("08:00"), 5, "1 hr", 10);
+        User testUser = new User();
+        testUser.setRole("Member"); 
 
         boolean booked = gymClassService.bookClass(testUser, gymclass1);
 
@@ -74,15 +75,16 @@ public class GymClassServiceTest {
         assertEquals(4, gymclass1.getNoOfSlots(), "Slots should be reduced by 1");
         assertTrue(testUser.getEnrolledClasses().contains(gymclass1), "User should be enrolled in class");
     }
+
     
     @Test 
     public void testSameClassEnrollment() {
 		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
 				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
+				20, "1 hour",1);
 		GymClass yogaClass1 = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
 				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
+				20, "1 hour",1);
 		User u = new User();
 		u.enrollInClass(yogaClass1);
 		assertTrue(u.isSameClass(yogaClass, yogaClass1));
@@ -91,7 +93,7 @@ public class GymClassServiceTest {
 	public void enrolledClass() {
 		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
 				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
+				20, "1 hour",1);
 		User u = new User();
 		u.enrollInClass(yogaClass);
 		assertTrue(u.getEnrolledClasses().contains(yogaClass));
@@ -101,10 +103,10 @@ public class GymClassServiceTest {
 	public void isnotenrolledClass() {
 		GymClass yogaClass = new GymClass("Yoga Basics", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
 				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
+				20, "1 hour",1);
 		GymClass yogaClass1 = new GymClass("Kick Boxing", new Date(125, 7, 10), // August 10, 2025 (year since 1900)
 				new Date(0, 0, 0, 9, 30), // 9:30 AM
-				20, "1 hour");
+				20, "1 hour",1);
 		User u = new User();
 		u.enrollInClass(yogaClass);
 		assertFalse(u.getEnrolledClasses().contains(yogaClass1));

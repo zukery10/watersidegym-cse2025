@@ -8,7 +8,7 @@ public class PTSession {
     private Date sessionDate;
     private Date startTime;
     private int durationMinutes; // 30 or 60 mins
-
+    public PTSession() {}
     public PTSession(User member, User trainer, Date sessionDate, Date startTime, int durationMinutes) {
         this.member = member;
         this.trainer = trainer;
@@ -36,4 +36,19 @@ public class PTSession {
     public int getDurationMinutes() {
         return durationMinutes;
     }
+	public void setMember(User member) {
+		this.member = member;
+	}
+	public void setTrainer(User trainer) {
+		this.trainer = trainer;
+	}
+	public void setSessionDate(Date sessionDate) {
+		this.sessionDate = sessionDate;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public void setDurationMinutes(int durationMinutes) {
+		this.durationMinutes = durationMinutes;
+	}
 }

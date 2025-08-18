@@ -4,12 +4,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
 import com.watersidegym.model.PTSession;
 import com.watersidegym.model.User; //importing the user java
 import com.watersidegym.service.PTSessionService;
 import com.watersidegym.service.UserService; //importing the userservice java
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -116,12 +114,15 @@ public class LoginBean {
 		} else
 			return false;
 	}
-	public String logout() { // resets all inputs fields and user
-		loggedInUser = null;
-		email = null;
-		password = null;
-		return "index"; // redirects back to index
+
+	public String logout() {
+	    // clear session and redirect to home page
+	    loggedInUser = null;
+	    email = null;
+	    password = null;
+	    return "index"; // redirects to home
 	}
+
 	public boolean isLoggedIn() {
 		return loggedInUser != null;
 	}
@@ -162,4 +163,8 @@ public class LoginBean {
         }
         return null;
     }
+	//setter for loggedInUser used only in unit tests to simulate a loggedin state	 
+	public void setLoggedInUser(User user) {
+	    this.loggedInUser = user;
+	}
 }
