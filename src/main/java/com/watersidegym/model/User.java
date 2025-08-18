@@ -20,7 +20,6 @@ public class User {
 	private List<GymClass> enrolledClasses = new ArrayList<>();
 	private int remainingPTSessions;
 	private List<PTSession> bookedPTSession = new ArrayList<>();
-	private List<GymClass> cart = new ArrayList<>();
 
 	public String getEmail() {
 		return email;

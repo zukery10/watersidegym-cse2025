@@ -31,18 +31,18 @@ public class PTSessionBean {
 
 	@PostConstruct
 	public void init() {
-		ptSessionService = new PTSessionService();
+		setPtSessionService(new PTSessionService());
 
 		// load existing sessions for the logged-in trainer if needed
 		User loggedInUser = getLoggedInUser();
 
 		if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
-			sessionList = ptSessionService.getSessionsForTrainer(loggedInUser);
-			filteredSessions = new ArrayList<>(sessionList);
+			setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
+			filteredSessions = new ArrayList<>(getSessionList());
 		}
 
 		// populate trainers dropdown
-		trainers = ptSessionService.getAllTrainers();
+		setTrainers(getPtSessionService().getAllTrainers());
 	}
 
 	public Date getSelectedDate() {
@@ -66,8 +66,8 @@ public class PTSessionBean {
 			User loggedInUser = getLoggedInUser();
 			// if logged-in user is a trainer, load their sessions
 			if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
-				sessionList = ptSessionService.getSessionsForTrainer(loggedInUser);
-				filteredSessions = new ArrayList<>(sessionList);
+				setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
+				filteredSessions = new ArrayList<>(getSessionList());
 			} else {
 				filteredSessions = new ArrayList<>();
 			}
@@ -108,7 +108,7 @@ public class PTSessionBean {
 				lastName = parts[1]; // if last name exists, assign it
 			}
 			ptSession.setTrainer(null);
-			for (User t : trainers) {
+			for (User t : getTrainers()) {
 				// check if first and last names match
 				if (t.getFirstName().equals(firstName) && t.getSecondName().equals(lastName)) {
 					ptSession.setTrainer(t);
@@ -142,7 +142,7 @@ public class PTSessionBean {
 		User loggedInUser = getLoggedInUser();
 
 		try {
-			boolean sessionOk = ptSessionService.bookSession(ptSession, loggedInUser);
+			boolean sessionOk = getPtSessionService().bookSession(ptSession, loggedInUser);
 
 			if (sessionOk) {
 				// reset form fields after successful booking
@@ -169,7 +169,7 @@ public class PTSessionBean {
 		if (loggedInUser == null) {
 			return new ArrayList<>(); // return empty if no user
 		}
-		return ptSessionService.getBookedSessionsForMember(loggedInUser);
+		return getPtSessionService().getBookedSessionsForMember(loggedInUser);
 	}
 
 	// filter logic
@@ -188,7 +188,7 @@ public class PTSessionBean {
 		calSelected.set(Calendar.SECOND, 0);
 		calSelected.set(Calendar.MILLISECOND, 0);
 
-		for (PTSession session : sessionList) {
+		for (PTSession session : getSessionList()) {
 			Calendar calSession = Calendar.getInstance();
 			calSession.setTime(session.getSessionDate());
 			calSession.set(Calendar.HOUR_OF_DAY, 0);
@@ -232,5 +232,21 @@ public class PTSessionBean {
 			return loginBean.getLoggedInUser();
 		}
 		return null;
+	}
+
+	public PTSessionService getPtSessionService() {
+		return ptSessionService;
+	}
+
+	public void setPtSessionService(PTSessionService ptSessionService) {
+		this.ptSessionService = ptSessionService;
+	}
+
+	public void setTrainers(List<User> trainers) {
+		this.trainers = trainers;
+	}
+
+	public void setSessionList(List<PTSession> sessionList) {
+		this.sessionList = sessionList;
 	}
 }
