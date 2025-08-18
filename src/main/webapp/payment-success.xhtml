@@ -31,8 +31,7 @@
 			<!-- Class Payment -->
 			<h:panelGroup rendered="#{gymClassBean.classPayment}">
 				<p class="subtitlePlans">
-					Payment of <span class="success-price">€#{gymClassBean.totalPrice}</span>
-					for your class(es) was successfully processed.
+					Payment for <span>€#{gymClassBean.totalPrice}</span>your class(es) was successfully processed.
 				</p>
 				<p class="subtitlePlans" style="margin-top: 0;">You are now
 					enrolled in the selected class(es)!</p>
@@ -40,7 +39,7 @@
 					your account.</p>
 			<h:form>
 				 <h:commandButton value="Back to Dashboard" class="choose-btn"
-				  action="#{gymClassBean.returnToDashboardSuccess()}"/> 
+				  action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}"/> 
 			</h:form>
 			</h:panelGroup>
 

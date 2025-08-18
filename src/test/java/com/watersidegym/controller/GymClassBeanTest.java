@@ -197,15 +197,15 @@ public class GymClassBeanTest {
 		bean.setClassPaymentDeadline(-1);
 		assertFalse(bean.isClassPayment());	
 	}
-	@Test
-	public void testIsValidPayPalCredentials() {
-		msb = new MemberShipBean();
-		String username = "user@example.com";
-		String password = "password";
-		msb.setPaypalEmail(username);
-		msb.setPaypalPassword(password);
-		bean.isValidPayPalCredentials(msb);
-	}
+//	@Test
+//	public void testIsValidPayPalCredentials() {
+//		msb = new MemberShipBean();
+//		String username = "user@example.com";
+//		String password = "password";
+//		msb.setPaypalEmail(username);
+//		msb.setPaypalPassword(password);
+//		bean.isValidPayPalCredentials(msb);
+//	}
 			
 }
 

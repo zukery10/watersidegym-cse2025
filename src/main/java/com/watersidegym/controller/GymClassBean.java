@@ -12,212 +12,267 @@ import com.watersidegym.model.User;
 import com.watersidegym.service.GymClassService;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 
 @ManagedBean
 @SessionScoped
 public class GymClassBean {
 
-	// ============================================================================
-	// CORE PROPERTIES & INITIALISATION
-	// ============================================================================
-
 	private GymClassService gymClassService;
 	private List<GymClass> gymClassList;
-	private String errorMessage;
-	private User loggedInUser;
-
-	// class filtering properties
 	private Date selectedDate;
+	private String errorMessage;
 	private List<GymClass> filteredClasses = new ArrayList<>();
-
-	// non-member cart and payment properties
 	private List<GymClass> cart = new ArrayList<>();
-	private List<GymClass> disabledButtons = new ArrayList<>();
 	private int totalPrice = 0;
-	private boolean classPayment = false;
 
-	// payment timeout settings (5 minutes)
-	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 10 * 1000;
+	private List<GymClass> disabledButtons = new ArrayList<>();
+	private User loggedInUser;
+	private boolean classPayment = false;
+	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 30 * 1000;
 	private long classPaymentDeadline;
 
 	public GymClassBean() {
-		// Empty constructor - real initialisation happens in init()
 	}
 
+	// Catch any unexpected errors during initialization to prevent app crashes
+	// and show a user-friendly error message if loading classes fails.
 	@PostConstruct
 	public void init() {
-		gymClassService = new GymClassService();
 
+		gymClassService = new GymClassService(); // Initialize service here
 		try {
-			// Load all classes from database
 			gymClassList = gymClassService.getAllGymClasses();
-			filteredClasses = new ArrayList<>(gymClassList); // Show all classes initially
-			cart = new ArrayList<>(); // Start with empty cart
+			filteredClasses = new ArrayList<>(gymClassList); // Start with all classes shown
+			cart = new ArrayList<>(); // start with empty cart
 		} catch (Exception e) {
-			// If loading fails, show empty lists and error message
 			gymClassList = new ArrayList<>();
 			filteredClasses = new ArrayList<>();
 			errorMessage = "Currently unable to load classes. Please try again later.";
 		}
-
-		// Set up user context for display logic
 		isMember();
+		showPrice();
+		// checkClassPaymentSession();
 	}
 
-	// ============================================================================
-	// CLASS BROWSING & FILTERING LOGIC
-	// ============================================================================
+	public GymClassService getGymClassService() {
+		return gymClassService;
+	}
+
+	public void setGymClassService(GymClassService gymClassService) {
+		this.gymClassService = gymClassService;
+	}
+
+	public Date getSelectedDate() {
+		return selectedDate;
+	}
+
+	public void setSelectedDate(Date selectedDate) {
+		this.selectedDate = selectedDate;
+	}
+
+	public void setGymClassList(List<GymClass> gymClassList) {
+		this.gymClassList = gymClassList;
+	}
+
+	public List<GymClass> getGymClassList() {
+		return gymClassService.getAllGymClasses();
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setFilteredClasses(List<GymClass> filteredClasses) {
+		this.filteredClasses = filteredClasses;
+	}
+
+	public List<GymClass> getFilteredClasses() {
+		if (selectedDate == null) {
+			return gymClassList; // show all classes by default
+		}
+		return filteredClasses; // show only filtered results after selection
+	}
+
+	// filter for matching dates -> selectedDate
 
 	public String getFilteredClassesAction() {
 		filteredClasses = new ArrayList<>();
 
 		if (selectedDate == null) {
-			return null; // Nothing to filter
+			return null; // nothing to filter
 		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(selectedDate);
+		// Reset time part to midnight - mismatches due to time zones
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 
-		// Set selected date to midnight to avoid time comparison issues
-		Calendar selectedCal = Calendar.getInstance();
-		selectedCal.setTime(selectedDate);
-		resetTimeToMidnight(selectedCal);
-
-		// Check each class to see if it matches the selected date
 		for (GymClass gymClass : gymClassList) {
-			Calendar classCal = Calendar.getInstance();
-			classCal.setTime(gymClass.getClassDate());
-			resetTimeToMidnight(classCal);
 
-			// Compare year, month, and day only
-			if (isSameDate(selectedCal, classCal)) {
+			Calendar classDate = Calendar.getInstance();
+			classDate.setTime(gymClass.getClassDate());
+
+			// Reset time part of class date to midnight too
+			classDate.set(Calendar.HOUR_OF_DAY, 0);
+			classDate.set(Calendar.MINUTE, 0);
+			classDate.set(Calendar.SECOND, 0);
+			classDate.set(Calendar.MILLISECOND, 0);
+
+			if (classDate.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+					&& classDate.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)
+					&& classDate.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
+
+				// Match found - add to filtered list
 				filteredClasses.add(gymClass);
+
+				// System.out.println("Selected Date: " + selectedDate);
+				// System.out.println("Class Date: " + cls.getClassDate());
 			}
 		}
-		return null; // Stay on same page
+		return null; // stay on same page
 	}
-	private void resetTimeToMidnight(Calendar cal) {
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-	}
-	private boolean isSameDate(Calendar cal1, Calendar cal2) {
-		return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
-				&& cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
-				&& cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
-	}
-	// ============================================================================
-	// MEMBER BOOKING LOGIC
-	// ============================================================================
 
+	public List<GymClass> getCart() {
+		return cart;
+	}
+
+	// booking logic - member booking a class
 	public String bookClass(GymClass cls) {
 		FacesContext context = FacesContext.getCurrentInstance();
-		LoginBean loginBean = getLoginBean(context);
-		User user = loginBean.getLoggedInUser();
-
-		// Only process booking for members
-		if (!"Member".equals(user.getRole())) {
-			return null;
-		}
-
-		// Attempt to book the class via service
-		boolean bookingSuccessful = gymClassService.bookClass(user, cls);
-
-		if (!bookingSuccessful) {
-			// Determine why booking failed and show appropriate message
-			if (user.isEnrolledInClass(cls)) {
-				showMessage(context, FacesMessage.SEVERITY_WARN, "Already Booked", 
-						"You have already booked this class.");
-			} else if (cls.getNoOfSlots() <= 0) {
-				showMessage(context, FacesMessage.SEVERITY_WARN, "Class Full", 
-						"No slots available.");
-			} else {
-				showMessage(context, FacesMessage.SEVERITY_ERROR, "Booking Failed", 
-						"An unexpected error occurred.");
+		// get LoginBean and logged-in user
+		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+		User loggedInUser = loginBean.getLoggedInUser();
+		// send to service
+		boolean booked = gymClassService.bookClass(loggedInUser, cls);
+		if (loggedInUser.getRole().equals("Member")) {
+			if (!booked) {
+				if (loggedInUser.isEnrolledInClass(cls)) {
+					addMessage("You have already booked this class.", FacesMessage.SEVERITY_WARN);
+				} else if (cls.getNoOfSlots() <= 0) {
+					addMessage("Class Full, No slots available.", FacesMessage.SEVERITY_WARN);
+				} else {
+					addMessage("Booking Failed", FacesMessage.SEVERITY_ERROR);
+				}
+				return null;
 			}
-		} else {
-			// Booking successful
-			showMessage(context, FacesMessage.SEVERITY_INFO, "Class Booked", 
-					"You have successfully booked the class.");
+			// booking successful
+			addMessage("Class Booked", FacesMessage.SEVERITY_INFO);
 		}
-
-		return null;
+		return null; // stay on page
 	}
 
-	// ============================================================================
-	// NON-MEMBER CART & PAYMENT LOGIC
-	// ============================================================================
-	public String addToCart(GymClass cls) {
+	public boolean isMember() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		// Start timer when cart goes from empty to having items
-		if (cart.isEmpty()) {
-			startClassPaymentTimer();
-		}
-		if(cls.getNoOfSlots() == 0) {
-			showMessage(context, FacesMessage.SEVERITY_WARN, "Class Full", 
-					"No slots available.");
-			return null;
-		}
+		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+		loggedInUser = loginBean.getLoggedInUser();
 
-		// Only add if not already in cart
+		return loggedInUser != null && !"Non-Member".equals(loggedInUser.getRole());
+	}
+
+	public boolean showPrice() {
+		if (isMember()) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean buttonDisabled(GymClass cls) {
+		if (disabledButtons.contains(cls)) {
+			return true; // already in cart
+		}
+		if (loggedInUser != null && loggedInUser.isEnrolledInClass(cls)) {
+			return true; // already booked
+		}
+		return false;
+	}
+
+	public boolean isCartEmpty() {
+		return cart.isEmpty();
+	}
+
+	public String addToCart(GymClass cls) {
+		if (cart.isEmpty()) {
+			startClassPaymentTimer(); // set deadline
+		}
 		if (!disabledButtons.contains(cls)) {
 			cart.add(cls);
 			totalPrice += cls.getPrice();
-			disabledButtons.add(cls); // Disable the button to prevent double-adding
+			disabledButtons.add(cls);
 		}
 		return null;
 	}
 
-	public String removeItemFromCart(GymClass cls) {
-		cart.remove(cls);
-		disabledButtons.remove(cls); // Re-enable the add button
-		totalPrice -= cls.getPrice();
-
-		// Clear timer if cart is now empty
-		if (cart.isEmpty()) {
-			classPaymentDeadline = 0;
-		}
-		return null;
-	}
-	public String purchaseClass() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		MemberShipBean membershipBean = getMembershipBean(context);
-
-		// Check if payment session has timed out
-		if (isClassPaymentTimedOut()) {
-			showMessage(context, FacesMessage.SEVERITY_ERROR, "Payment Timeout", 
-					"Your cart session has expired. Please add classes again.");
-			cart.clear();
-			return "browse-classes.xhtml?faces-redirect=true";
-		}
-
-		// Validate PayPal credentials (hardcoded for demo purposes)
-		if (isValidPayPalCredentials(membershipBean)) {
-			// Process successful payment
-			for (GymClass gymClass : cart) {
-				loggedInUser.enrollInClass(gymClass);
-				// Reduce available slots
-				gymClass.setNoOfSlots(gymClass.getNoOfSlots() - 1);
-			}
-			cart.clear();
-			return "payment-success.xhtml";
-		} else {
-			// Payment failed
-			showMessage(context, FacesMessage.SEVERITY_ERROR, "Payment Failed", 
-					"Invalid PayPal credentials.");
-		}
-		return null;
-	}
 	public String toPayment() {
 		classPayment = true;
 		return "payment.xhtml?faces-redirect=true";
 	}
-	public void startClassPaymentTimer() {
-		this.classPaymentDeadline = System.currentTimeMillis() + CLASS_PAYMENT_TIMEOUT_MILLIS;
+
+	public String removeItemFromCart(GymClass cls) {
+		cart.remove(cls); // removes from cart
+		disabledButtons.remove(cls); // removes from disabled buttons
+		totalPrice -= cls.getPrice(); // minus's price from total
+
+		if (cart.isEmpty()) {
+			classPaymentDeadline = 0; // clear the timer
+		}
+		return null;
 	}
+
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	// ===============================================================================
+	// the actual purchasing of the class and enrolling the non member \/\/\/\/
+	// ===============================================================================
+	public String purchaseClass() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		MemberShipBean membershipBean = context.getApplication().evaluateExpressionGet(context, "#{membershipBean}",
+				MemberShipBean.class);
+
+		if (isClassPaymentTimedOut()) {
+			addMessage("Your cart session has expired. Please add classes again.", FacesMessage.SEVERITY_ERROR);
+			resetNonMemberCartAndTimer();
+
+			return "browse-classes.xhtml?faces-redirect=true";
+		}
+
+		// Check PayPal credentials from membershipBean
+		if ("user@example.com".equalsIgnoreCase(membershipBean.getPaypalEmail())
+				&& "password".equals(membershipBean.getPaypalPassword())) {
+
+			for (GymClass gymClass : cart) {
+				loggedInUser.enrollInClass(gymClass);
+				int slots = gymClass.getNoOfSlots();
+				gymClass.setNoOfSlots(slots - 1);
+			}
+
+			resetNonMemberCartAndTimer();
+			return "payment-success.xhtml";
+
+		} else {
+			addMessage("Payment Failed", FacesMessage.SEVERITY_ERROR);
+		}
+		return null;
+	}
+
+	public boolean isClassPayment() {
+		return classPayment;
+	}
+
+	public void setClassPayment(boolean classPayment) {
+		this.classPayment = classPayment;
+	}
+
 	public boolean isClassPaymentTimedOut() {
 		if (classPaymentDeadline <= 0) {
-			return false; // Timer not started
+			return false; // timer not started
 		}
-		return System.currentTimeMillis() > classPaymentDeadline;
+		long now = System.currentTimeMillis();
+		return now > classPaymentDeadline;
 	}
 
 	public void checkClassPaymentSession() {
@@ -230,169 +285,71 @@ public class GymClassBean {
 				classPaymentDeadline = 0;
 
 				// **Set classPayment = true** to indicate this is a class cart timeout
-				classPayment = true;
+				// classPayment = true;
 
-				FacesContext.getCurrentInstance().getExternalContext()
-				.redirect("sessionExpired.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("sessionExpired.xhtml");
 			} catch (Exception e) {
 				System.out.println("Redirect failed: " + e.getMessage());
 			}
 		}
 	}
 
-			public String getClassPaymentRemainingTime() {
-				if (classPaymentDeadline == 0) {
-					return ""; // No active timer
-				}
-
-				long remaining = classPaymentDeadline - System.currentTimeMillis();
-				if (remaining <= 0) {
-					return "00:00";
-				}
-
-				long minutes = (remaining / 1000) / 60;
-				long seconds = (remaining / 1000) % 60;
-				return String.format("%02d:%02d", minutes, seconds);
-			}
-			public void resetNonMemberCartAndTimer() {
-				if (!isMember() && !cart.isEmpty()) {
-					cart.clear();
-					disabledButtons.clear();
-					totalPrice = 0;
-					classPaymentDeadline = 0;
-					classPayment = false;
-				}
-			}
-			public String resetNonMemberCartAndTimerAndRedirect() {
-				resetNonMemberCartAndTimer();
-				return "nonmember-dashboard?faces-redirect=true";
-			}
-			// ============================================================================
-			// UTILITY METHODS & GETTERS/SETTERS
-			// ============================================================================
-			public boolean isMember() {
-				FacesContext context = FacesContext.getCurrentInstance();
-				LoginBean loginBean = getLoginBean(context);
-				loggedInUser = loginBean.getLoggedInUser();
-
-				return loggedInUser != null && !"Non-Member".equals(loggedInUser.getRole());
-			}
-			public boolean showPrice() {
-				return !isMember();
-			}
-			public boolean buttonDisabled(GymClass cls) {
-				if (disabledButtons.contains(cls)) {
-					return true; // Already in cart
-				}
-				if (loggedInUser != null && loggedInUser.isEnrolledInClass(cls)) {
-					return true; // Already booked
-				}
-				return false;
-			}
-			private LoginBean getLoginBean(FacesContext context) {
-				return context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
-			}
-
-			private MemberShipBean getMembershipBean(FacesContext context) {
-				return context.getApplication().evaluateExpressionGet(context, "#{membershipBean}", MemberShipBean.class);
-			}
-
-			private void showMessage(FacesContext context, FacesMessage.Severity severity, String summary, String detail) {
-				context.addMessage(null, new FacesMessage(severity, summary, detail));
-			}
-			public boolean isValidPayPalCredentials(MemberShipBean membershipBean) {
-				return "user@example.com".equalsIgnoreCase(membershipBean.getPaypalEmail()) 
-						&& "password".equals(membershipBean.getPaypalPassword());
-			}
-			// ============================================================================
-			// STANDARD GETTERS & SETTERS
-			// ============================================================================
-
-			public GymClassService getGymClassService() {
-				return gymClassService;
-			}
-
-			public void setGymClassService(GymClassService gymClassService) {
-				this.gymClassService = gymClassService;
-			}
-
-			public Date getSelectedDate() {
-				return selectedDate;
-			}
-
-			public void setSelectedDate(Date selectedDate) {
-				this.selectedDate = selectedDate;
-			}
-
-			public void setGymClassList(List<GymClass> gymClassList) {
-				this.gymClassList = gymClassList;
-			}
-
-			public List<GymClass> getGymClassList() {
-				if (gymClassService != null) {
-					return gymClassService.getAllGymClasses();
-				}
-				return new ArrayList<>();
-			}
-
-			public String getErrorMessage() {
-				return errorMessage;
-			}
-
-			public void setFilteredClasses(List<GymClass> filteredClasses) {
-				this.filteredClasses = filteredClasses;
-			}
-
-			public List<GymClass> getFilteredClasses() {
-
-				if (selectedDate == null) {
-					return gymClassList; // Show all classes by default
-				}
-				return filteredClasses; // Show filtered results
-			}
-
-			public List<GymClass> getCart() {
-				return cart;
-			}
-
-			public boolean isCartEmpty() {
-				return cart.isEmpty();
-			}
-
-			public int getTotalPrice() {
-				return totalPrice;
-			}
-
-			public boolean isClassPayment() {
-				return classPayment;
-			}
-
-			public void setClassPayment(boolean classPayment) {
-				this.classPayment = classPayment;
-			}
-
-			public String getRedirectPage() {
-				if (classPayment) {
-			        resetNonMemberCartAndTimer();
-			        return "nonmember-dashboard.xhtml";
-			    } else {
-			        return "member-dashboard.xhtml";
-			    }
-				
-			}
-
-			void setClassPaymentDeadline(long deadline) {
-				this.classPaymentDeadline = deadline;
-			}
-			public String returnToDashboardSuccess() { //resets the total price if button is clicked
-				totalPrice = 0;
-				return "nonmember-dashboard.xhtml";
-			}
-
-			protected void addMessage(String msg, FacesMessage.Severity severity) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				if (context != null) {
-					context.addMessage(null, new FacesMessage(severity, msg, null));
-				}
-			}
+	public String getClassPaymentRemainingTime() {
+		if (classPaymentDeadline == 0) {
+			return ""; // nothing shown if no active timer
 		}
+		long remaining = classPaymentDeadline - System.currentTimeMillis();
+		if (remaining <= 0) {
+			return "00:00";
+		}
+		long minutes = (remaining / 1000) / 60;
+		long seconds = (remaining / 1000) % 60;
+		return String.format("%02d:%02d", minutes, seconds);
+	}
+
+	public void startClassPaymentTimer() {
+		this.classPaymentDeadline = System.currentTimeMillis() + CLASS_PAYMENT_TIMEOUT_MILLIS;
+	}
+
+	public String getRedirectPage() {
+		return classPayment ? "nonmember-dashboard.xhtml" : "member-dashboard.xhtml";
+	}
+
+	public void resetNonMemberCartAndTimer() {
+		if (!isMember()) {
+			cart.clear();
+			disabledButtons.clear();
+			totalPrice = 0;
+			classPaymentDeadline = 0;
+			classPayment = false;
+		} else {
+			System.out.println("Not true ???");
+		}
+	}
+
+	public String resetNonMemberCartAndTimerAndRedirect() {
+		resetNonMemberCartAndTimer();
+		System.out.println("Button Pressed");
+		return "nonmember-dashboard.xhtml?faces-redirect=true";
+	}
+	public String returnToCart() {
+		if (!isMember()) {
+			
+		
+		}
+			return null;
+		
+	}
+
+	public void setClassPaymentDeadline(long l) {
+		this.classPaymentDeadline = l;
+
+	}
+
+	protected void addMessage(String msg, FacesMessage.Severity severity) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(severity, msg, null));
+		}
+	}
+}

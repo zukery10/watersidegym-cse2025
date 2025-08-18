@@ -36,8 +36,11 @@
 			<h:panelGroup rendered="#{gymClassBean.classPayment}">
 				<p class="subtitle2">Your class booking session has expired.
 					Classes have been released back to the system.</p>
-				<h:link outcome="nonmember-dashboard.xhtml"
-					styleClass="form-down-btn" value="Return to Dashboard" />
+				<h:form>
+					<h:commandButton value="Back to Dashboard" 
+						action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}"
+						styleClass="choose-btn" />
+				</h:form>
 			</h:panelGroup>
 		</div>
 

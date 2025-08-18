@@ -1,86 +1,88 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:h="http://xmlns.jcp.org/jsf/html"
-   xmlns:f="http://xmlns.jcp.org/jsf/core"
-   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-   xmlns:p="http://primefaces.org/ui">
-   <f:metadata>
-      <f:event type="preRenderView" listener="#{paymentTimeoutChecker.checkTimeout}" />
-   </f:metadata>
-   <h:head>
-      <title>Payment</title>
-      <link rel="stylesheet" type="text/css"
-         href="resources/css/membership_select_page.css" />
-      <h:outputStylesheet name="styles.css" library="css" />
-   </h:head>
-   <h:body>
-      <!--  the nav to be incuded in all pages -->
-      <ui:include src="/includes/header.xhtml" />
-      <main class="main-section">
-         <h1>
-            Payment <span class="highlight">Details</span>
-         </h1>
-         <h:panelGroup id="paymentTimer">
-            <h:outputText
-               value="#{gymClassBean.classPayment ? 'Class Payment Time Left: ' 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{paymentTimeoutChecker.checkTimeout}" />
+</f:metadata>
+<h:head>
+	<title>Payment</title>
+	<link rel="stylesheet" type="text/css"
+		href="resources/css/membership_select_page.css" />
+	<h:outputStylesheet name="styles.css" library="css" />
+</h:head>
+<h:body>
+	<!--  the nav to be incuded in all pages -->
+	<ui:include src="/includes/header.xhtml" />
+	<main class="main-section">
+		<h1>
+			Payment <span class="highlight">Details</span>
+		</h1>
+		<h:panelGroup id="paymentTimer">
+			<h:outputText
+				value="#{gymClassBean.classPayment ? 'Class Payment Time Left: ' 
                : 'Membership Payment Time Left: '}" />
-            <h:outputText
-               value="#{gymClassBean.classPayment 
+			<h:outputText
+				value="#{gymClassBean.classPayment 
                ? gymClassBean.classPaymentRemainingTime 
                : membershipBean.membershipPaymentRemainingTime}" />
-         </h:panelGroup>
-         <p:poll interval="1" update="paymentTimer" />
-         <!--PAYING FOR MEMBERSHIP-->
-         <h:panelGroup rendered="#{not gymClassBean.classPayment}">
-            <p class="subtitle">
-               You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
-               <span style="color: #8fffa0;">Total:
-               €#{membershipBean.membershipPrice}</span>
-            </p>
-         </h:panelGroup>
-         <!--PAYING FOR CLASS-->
-         <h:panelGroup rendered="#{gymClassBean.classPayment}">
-            <p class="subtitle">
-               <span style="color: #8fffa0;">Total:
-               €#{gymClassBean.totalPrice}</span>
-            </p>
-         </h:panelGroup>
-         <div class="plan-card payment-form">
-            <h:messages globalOnly="true" layout="list"
-               styleClass="feedback-message" />
-            <!--  if user enters wrong credentials this message will appear -->
-            <h:form styleClass="payment-grid">
-               <div class="form-field">
-                  <label for="PayPalEmail">PayPal Email</label>
-                  <h:inputText id="PayPalEmail" value="#{membershipBean.paypalEmail}"
-                     required="true">
-                     <f:passThroughAttribute name="type" value="email" />
-                  </h:inputText>
-               </div>
-               <div class="form-field">
-                  <label for="PayPalPass">PayPal Password</label>
-                  <h:inputSecret id="PayPalPass"
-                     value="#{membershipBean.paypalPassword}" required="true"
-                     maxlength="19" oninput="formatCardNumber(this)" />
-               </div>
-               <!--PAYING FOR MEMBERSHIP-->
-               <h:commandButton value="Pay with PayPal"
-                  rendered="#{not gymClassBean.classPayment}"
-                  action="#{membershipBean.processPaymentPayPal}"
-                  styleClass="paypal-btn" />
-               <!--PAYING FOR CLASS-->
-               <h:commandButton value="Pay with PayPal" var="cls"
-                  rendered="#{gymClassBean.classPayment}"
-                  action="#{gymClassBean.purchaseClass()}" styleClass="paypal-btn" />
-               <h:commandButton value="Back to Dashboard"
-                  rendered="#{not gymClassBean.member}"
-                  action="nonmember-dashboard?faces-redirect=true"
-                  styleClass="choose-btn" />
-            </h:form>
-         </div>
-         <p class="subtitle2" style="color: red; font-weight: bold;">You
-            have 5 minutes to complete your payment before the session expires.
-         </p>
-      </main>
-   </h:body>
+		</h:panelGroup>
+		<p:poll interval="1" update="paymentTimer" />
+		<!--PAYING FOR MEMBERSHIP-->
+		<h:panelGroup rendered="#{not gymClassBean.classPayment}">
+			<p class="subtitle">
+				You're purchasing: <strong>#{membershipBean.membershipPlan}</strong><br />
+				<span style="color: #8fffa0;">Total:
+					€#{membershipBean.membershipPrice}</span>
+			</p>
+		</h:panelGroup>
+		<!--PAYING FOR CLASS-->
+		<h:panelGroup rendered="#{gymClassBean.classPayment}">
+			<p class="subtitle">
+				<span style="color: #8fffa0;">Total:
+					€#{gymClassBean.totalPrice}</span>
+			</p>
+		</h:panelGroup>
+		<div class="plan-card payment-form">
+			<h:messages globalOnly="true" layout="list"
+				styleClass="feedback-message" />
+			<!--  if user enters wrong credentials this message will appear -->
+			<h:form styleClass="payment-grid">
+				<div class="form-field">
+					<label for="PayPalEmail">PayPal Email</label>
+					<h:inputText id="PayPalEmail" value="#{membershipBean.paypalEmail}"
+						required="true">
+						<f:passThroughAttribute name="type" value="email" />
+					</h:inputText>
+				</div>
+				<div class="form-field">
+					<label for="PayPalPass">PayPal Password</label>
+					<h:inputSecret id="PayPalPass"
+						value="#{membershipBean.paypalPassword}" required="true"
+						maxlength="19" oninput="formatCardNumber(this)" />
+				</div>
+				<!--PAYING FOR MEMBERSHIP-->
+				<h:commandButton value="Pay with PayPal"
+					rendered="#{not gymClassBean.classPayment}"
+					action="#{membershipBean.processPaymentPayPal}"
+					styleClass="paypal-btn" />
+				<!--PAYING FOR CLASS-->
+				<h:commandButton value="Pay with PayPal" var="cls"
+					rendered="#{gymClassBean.classPayment}"
+					action="#{gymClassBean.purchaseClass()}" styleClass="paypal-btn" />
+			</h:form>
+			<br></br>
+			<h:form>
+					<h:commandButton value="Back to Dashboard" rendered="#{gymClassBean.classPayment}"
+						action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}"
+						styleClass="choose-btn" />
+				</h:form>
+		</div>
+		<p class="subtitle2" style="color: red; font-weight: bold;">You
+			have 5 minutes to complete your payment before the session expires.</p>
+	</main>
+</h:body>
 </html>
