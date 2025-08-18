@@ -3,10 +3,8 @@ package com.watersidegym.service;
 import com.watersidegym.model.PTSession;
 import com.watersidegym.model.User;
 import org.junit.jupiter.api.Test;
-
 import java.util.Date;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PTSessionServiceTest {
@@ -39,7 +37,7 @@ class PTSessionServiceTest {
         PTSession session = new PTSession();
         session.setTrainer(trainer);
         session.setSessionDate(new Date());
-        session.setStartTime(new Date());
+        session.setStartTime("8:00");
         session.setDurationMinutes(30);
 
         assertFalse(sessionService.bookSession(session, member));
@@ -63,7 +61,7 @@ class PTSessionServiceTest {
         PTSession session = new PTSession();
         session.setTrainer(trainer);
         session.setSessionDate(new Date());
-        session.setStartTime(new Date());
+        session.setStartTime("8:00");
         session.setDurationMinutes(45);
 
         assertTrue(service.bookSession(session, member));
