@@ -195,15 +195,18 @@ public class PTAddVideo {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
-		User loggedInUser = loginBean.getLoggedInUser();
+		User loggedInUser = loginBean.getLoggedInUser(); //here is when the checking occurs: if the user is logged in
 
-		if (loggedInUser == null) return mine;
+		if (loggedInUser == null) return mine; //if the user is logged in (mine is list of my videos we just created up)
 
 		String email = loggedInUser.getEmail();
 		//System.out.println("LOGGEDN IN EMAIL IS " + email);
 		for (Video v : videos) {
+			//if the user is already loggedin -> we check the email ofr the user
+			// then we compare with the videos li and add the matching email only 
 			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
 				//System.out.println("v.getUploadedBy() " + v.getUploadedBy());
+				//here we add the email for this user
 				mine.add(v);
 			}
 		}

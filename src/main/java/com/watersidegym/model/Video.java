@@ -7,7 +7,7 @@ public class Video {
     private String link;        // Path : /resources/videos/file.mp4
     private String date;        // YYYY-MM-DD
     private String description;
-    private String rule;        // Member / Non-Member
+    private String rule;        // Private / Public / Hidden
     private String category;    // e.g., Recently Added, Yoga, etc.
     private String uploadedBy;  // uploader email/username
 
