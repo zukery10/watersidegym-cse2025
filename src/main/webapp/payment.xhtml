@@ -76,10 +76,18 @@
 			</h:form>
 			<br></br>
 			<h:form>
-					<h:commandButton value="Back to Dashboard" rendered="#{gymClassBean.classPayment}"
-						action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}"
-						styleClass="choose-btn" />
-				</h:form>
+				<h:commandButton value="Back to Dashboard"
+					rendered="#{gymClassBean.classPayment}"
+					action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}"
+					styleClass="choose-btn" />
+			</h:form>
+			<br></br>
+				<h:form>
+				<h:commandButton value="Back to Cart"
+					rendered="#{gymClassBean.classPayment}"
+					action="#{gymClassBean.returnToCart()}"
+					styleClass="choose-btn" />
+			</h:form>
 		</div>
 		<p class="subtitle2" style="color: red; font-weight: bold;">You
 			have 5 minutes to complete your payment before the session expires.</p>

@@ -29,9 +29,12 @@ public class GymClassBean {
 	private List<GymClass> disabledButtons = new ArrayList<>();
 	private User loggedInUser;
 	private boolean classPayment = false;
-	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 30 * 1000;
+	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 5* 60 * 1000;
 	private long classPaymentDeadline;
 
+	// we use true to indicate a class payment
+	//we use false to indicate a membership payment
+	
 	public GymClassBean() {
 	}
 
@@ -205,7 +208,7 @@ public class GymClassBean {
 		return null;
 	}
 
-	public String toPayment() {
+	public String toPayment() { //checkout button
 		classPayment = true;
 		return "payment.xhtml?faces-redirect=true";
 	}
@@ -235,7 +238,7 @@ public class GymClassBean {
 
 		if (isClassPaymentTimedOut()) {
 			addMessage("Your cart session has expired. Please add classes again.", FacesMessage.SEVERITY_ERROR);
-			resetNonMemberCartAndTimer();
+			cart.clear();
 
 			return "browse-classes.xhtml?faces-redirect=true";
 		}
@@ -250,7 +253,7 @@ public class GymClassBean {
 				gymClass.setNoOfSlots(slots - 1);
 			}
 
-			resetNonMemberCartAndTimer();
+			cart.clear();
 			return "payment-success.xhtml";
 
 		} else {
@@ -285,7 +288,7 @@ public class GymClassBean {
 				classPaymentDeadline = 0;
 
 				// **Set classPayment = true** to indicate this is a class cart timeout
-				// classPayment = true;
+				classPayment = true;
 
 				FacesContext.getCurrentInstance().getExternalContext().redirect("sessionExpired.xhtml");
 			} catch (Exception e) {
@@ -333,11 +336,12 @@ public class GymClassBean {
 		return "nonmember-dashboard.xhtml?faces-redirect=true";
 	}
 	public String returnToCart() {
-		if (!isMember()) {
+		if (classPayment) {
 			
-		
-		}
-			return null;
+		return "browseClasses.xhtml";
+		} else 
+			System.out.println("not returned to cart");
+		return null;
 		
 	}
 
