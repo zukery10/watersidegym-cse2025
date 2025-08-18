@@ -141,7 +141,7 @@ public class GymClassBeanTest {
 	public void testResetNonMemberCartAndTimerAndRedirect() {
 		bean.addToCart(yoga);
 		String page = bean.resetNonMemberCartAndTimerAndRedirect();
-		assertEquals("nonmember-dashboard?faces-redirect=true", page);
+		assertEquals("nonmember-dashboard.xhtml?faces-redirect=true", page);
 	}
 
 	@Test
@@ -206,6 +206,15 @@ public class GymClassBeanTest {
 //		msb.setPaypalPassword(password);
 //		bean.isValidPayPalCredentials(msb);
 //	}
+	@Test
+	public void testBackToCart() {
+	bean.setClassPayment(true);	
+	String result = bean.returnToCart();
+	assertEquals("browseClasses.xhtml",result);	
+	bean.addToCart(yoga);
+	int size = bean.getCart().size();
+	assertEquals(1,size);	
+	}
 			
 }
 
