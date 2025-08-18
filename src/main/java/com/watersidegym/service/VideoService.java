@@ -1,23 +1,40 @@
 package com.watersidegym.service;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.SessionScoped;
 
 import com.watersidegym.controller.PTAddVideo;
 import com.watersidegym.model.Video;
-
+@ManagedBean
+@SessionScoped
 public class VideoService {
-	PTAddVideo ptaddvideo;
-	private ArrayList<Video> allvideos = new ArrayList<>(ptaddvideo.getVideos());
-	private ArrayList<Video> membervideos = new ArrayList<>();
-	private ArrayList<Video> nonmembervideos = new ArrayList<>();
+	private PTAddVideo ptAddVideo; 
+	private List<Video> allVideos = new ArrayList<>(ptAddVideo.getVideos());;
 	
-	public ArrayList<Video> membervideos(ArrayList<Video> allvideos){
-		
-		for(Video video : allvideos) {
-			if(video != null && video.getRule().equalsIgnoreCase("private")) {
-				membervideos.add(video);
+
+	public List<Video> getMemberVideos() {
+		List<Video> memberVideos = new ArrayList<>();
+		for (Video video : allVideos) {
+
+			if (video != null && video.getRule().equalsIgnoreCase("Private")) {
+				memberVideos.add(video);
+				System.out.println("Printing true for member videos!!");
+			} else System.out.println("Printing false");
+		}
+		return memberVideos;
+	}
+
+	public List<Video> getNonMemberVideos() {
+		List<Video> nonMemberVideos = new ArrayList<>();
+		for (Video video : allVideos) {
+			if (video != null && video.getRule().equalsIgnoreCase("public")) {
+				nonMemberVideos.add(video);
 			}
 		}
-		return membervideos;
+		return nonMemberVideos;
 	}
 }

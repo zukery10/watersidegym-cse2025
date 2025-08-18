@@ -9,12 +9,15 @@
 	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 </f:metadata>
 <h:head>
-<title>Member Dashboard</title>
+	<title>Member Dashboard</title>
 	<h:outputStylesheet name="styles.css" library="css" />
 	<style>
-     #dash-pt { display:inline-block; vertical-align:top; }   
-  	</style>
-	
+#dash-pt {
+	display: inline-block;
+	vertical-align: top;
+}
+</style>
+
 </h:head>
 <h:body>
 
@@ -62,7 +65,7 @@
 								<f:facet name="header">Duration</f:facet>#{gymClass.classDuration}
 								</h:column>
 						</h:dataTable>
-						</h:form>
+					</h:form>
 				</h:panelGroup>
 
 				<br></br>
@@ -72,13 +75,14 @@
 						action="browseClasses?faces-redirect=true" styleClass="choose-btn" />
 					<br></br>
 					<br></br>
-									<h:commandButton value="View Videos"
-						action="video-gallery.xhtml?faces-redirect=true" styleClass="choose-btn" />
+					<h:commandButton value="View Videos"
+						action="member-video-gallery.xhtml?faces-redirect=true"
+						styleClass="choose-btn" />
 				</h:form>
 			</div>
 		</div>
 		<!-- ==================================PT Session Booking=====================================  -->
-		<div class="plans"  id="dash-pt">
+		<div class="plans" id="dash-pt">
 			<div class="plan-card">
 				<h:panelGroup styleClass="card info-card">
 					<h3>
@@ -115,30 +119,33 @@
         						</h:column>
 					</h:dataTable>
 				</h:panelGroup>
-	<h:panelGroup rendered="#{empty ptSessionBean.memberBookedSessions}"> <p>No sessions booked yet.</p> </h:panelGroup>
-			
-			<h:form>
-			
-		
-  <h:panelGroup rendered="#{loginBean.loggedInUser.remainingPTSessions gt 0}">
-    <h:commandButton value="Book PT Session"
-                     action="book-pt-session?faces-redirect=true"
-                     styleClass="choose-btn" />
-  </h:panelGroup>
+				<h:panelGroup rendered="#{empty ptSessionBean.memberBookedSessions}">
+					<p>No sessions booked yet.</p>
+				</h:panelGroup>
 
-  <br/>
+				<h:form>
 
-  <h:outputText value="No more sessions left to book"
-                rendered="#{loginBean.loggedInUser.remainingPTSessions le 0}"
-                styleClass="message-error" />
-</h:form>
+
+					<h:panelGroup
+						rendered="#{loginBean.loggedInUser.remainingPTSessions gt 0}">
+						<h:commandButton value="Book PT Session"
+							action="book-pt-session?faces-redirect=true"
+							styleClass="choose-btn" />
+					</h:panelGroup>
+
+					<br />
+
+					<h:outputText value="No more sessions left to book"
+						rendered="#{loginBean.loggedInUser.remainingPTSessions le 0}"
+						styleClass="message-error" />
+				</h:form>
 
 
 			</div>
 		</div>
-		
+
 
 	</main>
 </h:body>
 
-</html> 
+</html>

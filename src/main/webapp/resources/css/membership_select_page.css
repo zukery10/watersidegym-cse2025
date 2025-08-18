@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /* === Global styles for the whole page === */
 body {
     margin: 0; /* Remove default margin around body */
@@ -857,7 +857,6 @@ background-size: 93px 82px;
   padding-top: 60px; /* push content below header */
 }
 
-=======
 /* === Global styles for the whole page === */
 body {
     margin: 0; /* Remove default margin around body */
@@ -1194,4 +1193,4 @@ ul li::before {
     list-style: none;
 }
 
->>>>>>> develop
+
