@@ -22,7 +22,6 @@ public class GymClassBeanTest {
 
         dateFormat = new SimpleDateFormat("dd.MM.yy");
     }
-
     // Matching date
     @Test
     public void testFilterWithMatchingDate() throws Exception {
