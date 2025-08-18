@@ -1,3 +1,4 @@
+
 body {
 	margin: 0;
 	font-family: 'Segoe UI', sans-serif;
@@ -157,6 +158,21 @@ body {
     font-size: 16px;
 }
 
+.field-error {
+  color: #ff4d4f;          /* red */
+  font-weight: 600;
+  display: block;
+  margin-top: 4px;
+}
+
+.message-error {
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+  background: rgba(255, 77, 79, 0.08);
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
 .jsf-table {
     width: 100%;
     border-collapse: collapse;
@@ -208,26 +224,11 @@ body {
 	border-radius: 12px;
 	padding: 30px;
 	width: 100%;
-	max-width: 650px; 
+	max-width: 500px; 
 	position: relative;
 	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
 	transition: transform 0.3s ease;
 }
 
-.table-card-cart {
-	
-	
-	float:right;
-	height:100%;
-	
-	background-color: #181a1f;
-	border-radius: 12px;
-	padding: 30px;
-	
-	width: 100%;
-	max-width: 400px; 
-	position:top;
-	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
-	transition: transform 0.3s ease;
-}
+
 

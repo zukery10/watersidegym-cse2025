@@ -19,6 +19,8 @@ public class User {
 	private String gender; // "Male", "Female", "Other"
 	private String role; // "Non-Member", "Member", "PT"
 	private List<GymClass> enrolledClasses = new ArrayList<>();
+	private int remainingPTSessions;
+	private List<PTSession> bookedPTSession = new ArrayList<>();
 	private List<GymClass> cart = new ArrayList<>();
 
 	public String getEmail() {
@@ -120,6 +122,27 @@ public class User {
 	public List<GymClass> getEnrolledClasses() {
 		return enrolledClasses;
 	}
+	
+	public int getRemainingPTSessions() {
+		return remainingPTSessions;
+	}
+
+	public void setRemainingPTSessions(int remainingPTSessions) {
+		this.remainingPTSessions = remainingPTSessions;
+	}
+	
+	public List<PTSession> getBookedPTSession() {
+		return bookedPTSession;
+	}
+
+	public void setBookedPTSession(List<PTSession> bookedPTSession) {
+		this.bookedPTSession = bookedPTSession;
+	}
+	
+	public void addBookedPTSession(PTSession ptSession) {
+		
+		bookedPTSession.add(ptSession);		
+	}
 
 	public void enrollInClass(GymClass gymClass) {
 	    for (GymClass enrolled : enrolledClasses) {
@@ -145,3 +168,4 @@ public class User {
 	           c1.getClassTime().equals(c2.getClassTime());
 	}
 }
+
