@@ -145,5 +145,37 @@ public class PTAddVideoTest {
             for (Video v : bean.getPilatesOnly()) assertEquals("Pilates", v.getCategory());
         }
 
+        @Test
+        void testDeleteVideo_existingVideo() {
+            // Get initial size
+            int initialSize = bean.getVideos().size();
+            
+            // Get first video's ID
+            int videoId = bean.getVideos().get(0).getId();
+            
+            // Delete the video
+            bean.deleteVideo(videoId);
+            
+            // Verify video was deleted
+            assertEquals(initialSize - 1, bean.getVideos().size(), "Video list size should decrease by 1");
+            
+            // Verify the specific video was deleted
+            boolean videoStillExists = bean.getVideos().stream()
+                    .anyMatch(v -> v.getId() == videoId);
+            assertFalse(videoStillExists, "Video should no longer exist in the list");
+        }
+
+        @Test
+        void testDeleteVideo_nonExistentVideo() {
+            // Get initial size
+            int initialSize = bean.getVideos().size();
+            
+            // Try to delete non-existent video
+            bean.deleteVideo(-1);
+            
+            // Verify no video was deleted
+            assertEquals(initialSize, bean.getVideos().size(), "Video list size should not change");
+        }
+
 }
 
