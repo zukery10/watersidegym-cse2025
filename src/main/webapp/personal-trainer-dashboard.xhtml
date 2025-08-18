@@ -1,40 +1,92 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
 <f:metadata>
-	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+  <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 </f:metadata>
+
 <h:head>
-	<h:outputStylesheet name="styles.css" library="css" />
-	<title>Member Dashboard</title>
+  <h:outputStylesheet library="css" name="membership_select_page.css" />
+  <title>Personal Trainer Dashboard</title>
 </h:head>
+
 <h:body>
 
+  <!-- header -->
+  <ui:include src="/includes/header.xhtml" />
 
-	<header class="navbar">
-		<div class="logo">
-			Waterside Gym <span class="tagline">A Fit for Your Life</span>
-		</div>
-	</header>
-	<main class="main-section">
-		<h1>Personal Trainer Dashboard</h1>
-		<h3>Login Successful</h3>
-		<h:form id="loginForm" styleClass="form-container">
-			<div class="plans">
-				<div class="plan-card">
+  <!-- background image -->
+  <section class="dashboard-bg"
+           style="background-image:url('#{request.contextPath}/resources/images/PT_bg_image.png');
+                  background-size:cover;
+                  background-position:center;
+                  background-repeat:no-repeat;">
 
+    
 
-					<h2>#{loginBean.loggedInUser.firstName}
-						#{loginBean.loggedInUser.secondName}</h2>
+      <main class="main-section" style="text-align:center">
+        <h1>Personal Trainer Dashboard</h1>
+        <h3>Login Successful</h3>
 
-					<h:form>
-						<h:commandButton value="Logout" action="#{loginBean.logout}" styleClass = "choose-btn" />
-						</h:form>
-				</div>
-			</div>
+        <!-- User card -->
+        <div class="plans" style="justify-content:center">
+          <div class="plan-card" style="max-width:520px; width:100%">
+            <h2 style="margin-top:0">
+              #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.secondName}
+            </h2>
 
-		</h:form>
-	</main>
+            <h:form>
+              <h:commandButton value="Logout"
+                               action="#{loginBean.logout}"
+                               styleClass="choose-btn"
+                               style="width:100%" />
+            </h:form>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <section class="dash-actions">
+          <div class="dash-grid">
+
+            <!-- Video Gallery -->
+            <h:link outcome="video-gallery" styleClass="dash-card">
+              <span class="dash-icon">🎬</span>
+              <div class="dash-text">
+                <h3 class="dash-title">Video Gallery</h3>
+                <p class="dash-sub">Browse classes &amp; workouts</p>
+              </div>
+              <span class="dash-cta">→</span>
+            </h:link>
+
+            <!-- Upload a Video -->
+            <h:link outcome="PT-add-video" styleClass="dash-card">
+              <span class="dash-icon">⤴️</span>
+              <div class="dash-text">
+                <h3 class="dash-title">Upload Video</h3>
+                <p class="dash-sub">Share a new session</p>
+              </div>
+              <span class="dash-cta">→</span>
+            </h:link>
+
+            <!-- 1:1 Booked Sessions -->
+            <h:link outcome="sessions" styleClass="dash-card">
+              <span class="dash-icon">📅</span>
+              <div class="dash-text">
+                <h3 class="dash-title">1:1 Sessions</h3>
+                <p class="dash-sub">View your bookings</p>
+              </div>
+              <span class="dash-cta">→</span>
+            </h:link>
+
+          </div>
+        </section>
+
+      </main>
+    
+  </section>
+
 </h:body>
 </html>
