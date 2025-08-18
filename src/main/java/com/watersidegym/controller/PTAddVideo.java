@@ -163,7 +163,7 @@ public class PTAddVideo {
 
 
 	// Return only videos in a given category, newest first
-	private List<Video> byCategory(String category) {
+	public List<Video> byCategory(String category) {
 		List<Video> out = new ArrayList<>();
 		for (Video v : videos) {
 			if (v.getCategory() != null && v.getCategory().equalsIgnoreCase(category)) {

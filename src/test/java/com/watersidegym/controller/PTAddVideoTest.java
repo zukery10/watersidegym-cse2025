@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -147,19 +148,14 @@ public class PTAddVideoTest {
 
         @Test
         void testDeleteVideo_existingVideo() {
-            // Get initial size
             int initialSize = bean.getVideos().size();
             
-            // Get first video's ID
             int videoId = bean.getVideos().get(0).getId();
             
-            // Delete the video
             bean.deleteVideo(videoId);
             
-            // Verify video was deleted
             assertEquals(initialSize - 1, bean.getVideos().size(), "Video list size should decrease by 1");
             
-            // Verify the specific video was deleted
             boolean videoStillExists = bean.getVideos().stream()
                     .anyMatch(v -> v.getId() == videoId);
             assertFalse(videoStillExists, "Video should no longer exist in the list");
@@ -167,14 +163,122 @@ public class PTAddVideoTest {
 
         @Test
         void testDeleteVideo_nonExistentVideo() {
-            // Get initial size
             int initialSize = bean.getVideos().size();
             
-            // Try to delete non-existent video
             bean.deleteVideo(-1);
             
-            // Verify no video was deleted
             assertEquals(initialSize, bean.getVideos().size(), "Video list size should not change");
+        }
+
+        @Test
+        void testDeleteVideo_multipleVideos() {
+            int initialSize = bean.getVideos().size();
+            
+            int firstVideoId = bean.getVideos().get(0).getId();
+            int secondVideoId = bean.getVideos().get(1).getId();
+            
+            bean.deleteVideo(firstVideoId);
+            bean.deleteVideo(secondVideoId);
+            
+            assertEquals(initialSize - 2, bean.getVideos().size(), "Video list size should decrease by 2");
+            
+            assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == firstVideoId), 
+                    "First video should no longer exist");
+            assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == secondVideoId), 
+                    "Second video should no longer exist");
+        }
+
+        @Test
+        void testDeleteVideo_lastVideo() {
+            List<Video> videos = bean.getVideos();
+            int lastIndex = videos.size() - 1;
+            int lastVideoId = videos.get(lastIndex).getId();
+            
+            bean.deleteVideo(lastVideoId);
+            
+            assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == lastVideoId), 
+                    "Last video should be deleted");
+            assertEquals(lastIndex, bean.getVideos().size(), 
+                    "Video list size should decrease by 1");
+        }
+
+        @Test
+        void testDeleteVideo_sequentialDeletes() {
+            int initialSize = bean.getVideos().size();
+            List<Integer> ids = new ArrayList<>();
+            
+            for(int i = 0; i < 3 && i < initialSize; i++) {
+                ids.add(bean.getVideos().get(i).getId());
+            }
+            
+            for(Integer id : ids) {
+                bean.deleteVideo(id);
+            }
+            
+            assertEquals(initialSize - ids.size(), bean.getVideos().size(), 
+                    "Video list size should decrease by " + ids.size());
+            
+            for(Integer id : ids) {
+                assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == id), 
+                        "Video with ID " + id + " should be deleted");
+            }
+        }
+
+        @Test
+        void testGetMyVideos_withoutLoginBean() {
+            List<Video> myVideos = bean.getMyVideos();
+            assertTrue(myVideos.isEmpty(), "Without login, my videos should be empty");
+        }
+
+
+
+        @Test
+        void testGetVideos_orderPreservation() {
+            List<Video> originalList = bean.getVideos();
+            List<Video> newList = bean.getVideos();
+            
+            assertEquals(originalList.size(), newList.size(), "Lists should be same size");
+            for (int i = 0; i < originalList.size(); i++) {
+                assertEquals(originalList.get(i).getId(), newList.get(i).getId(),
+                    "Videos should maintain same order");
+            }
+        }
+
+        @Test
+        void testByCategory_withEmptyCategory() {
+            List<Video> videos = bean.getVideos();
+            Video firstVideo = videos.get(0);
+            String originalCategory = firstVideo.getCategory();
+            firstVideo.setCategory("");
+            
+            List<Video> categoryVideos = bean.byCategory(originalCategory);
+            assertFalse(categoryVideos.contains(firstVideo), 
+                "Video with empty category should not be in category results");
+            firstVideo.setCategory(originalCategory);
+        }
+
+        @Test
+        void testByCategory_withNullCategory() {
+            List<Video> videos = bean.getVideos();
+            Video firstVideo = videos.get(0);
+            String originalCategory = firstVideo.getCategory();
+            firstVideo.setCategory(null);
+            List<Video> categoryVideos = bean.byCategory(originalCategory);
+            assertFalse(categoryVideos.contains(firstVideo), 
+                "Video with null category should not be in category results");
+            
+            firstVideo.setCategory(originalCategory);
+        }
+
+        @Test
+        void testByCategory_caseSensitivity() {
+            String category = "yoga";  
+            List<Video> yogaVideos = bean.byCategory(category);
+            
+            for (Video v : yogaVideos) {
+                assertTrue(v.getCategory().equalsIgnoreCase(category),
+                    "Category matching should be case-insensitive");
+            }
         }
 
 }
