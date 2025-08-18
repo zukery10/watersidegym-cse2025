@@ -95,17 +95,26 @@ public class GymClassBeanTest {
 	}
 
 	@Test
+	public void testIsMember() {
+		user.setRole("Non-Member");
+		bean.isMember();
+		assertTrue(bean.showPrice());
+		
+	}
+	
+	@Test
 	public void testAddAndRemoveFromCart() {
 		assertTrue(bean.getCart().isEmpty()); 
 		bean.addToCart(yoga);
 		assertEquals(1, bean.getCart().size());
 		assertTrue(bean.buttonDisabled(yoga));
 		assertEquals(yoga.getPrice(), bean.getTotalPrice());
-
 		bean.removeItemFromCart(yoga);
 		assertTrue(bean.getCart().isEmpty());
 		assertEquals(0, bean.getTotalPrice());
 		assertFalse(bean.buttonDisabled(yoga));
+		
+		
 	}
 
 	@Test

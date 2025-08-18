@@ -25,11 +25,11 @@ public class GymClassBean {
 	private List<GymClass> filteredClasses = new ArrayList<>();
 	private List<GymClass> cart = new ArrayList<>();
 	private int totalPrice = 0;
-
+	private int lastTotal = 0;
 	private List<GymClass> disabledButtons = new ArrayList<>();
 	private User loggedInUser;
 	private boolean classPayment = false;
-	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 5* 60 * 1000;
+	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 60 * 1000;
 	private long classPaymentDeadline;
 
 	// we use true to indicate a class payment
@@ -228,6 +228,10 @@ public class GymClassBean {
 		return totalPrice;
 	}
 
+	public int getLastTotal() {
+		return lastTotal;
+	}
+
 	// ===============================================================================
 	// the actual purchasing of the class and enrolling the non member \/\/\/\/
 	// ===============================================================================
@@ -252,8 +256,9 @@ public class GymClassBean {
 				int slots = gymClass.getNoOfSlots();
 				gymClass.setNoOfSlots(slots - 1);
 			}
-
+			lastTotal = totalPrice;
 			cart.clear();
+			totalPrice = 0;
 			return "payment-success.xhtml";
 
 		} else {
