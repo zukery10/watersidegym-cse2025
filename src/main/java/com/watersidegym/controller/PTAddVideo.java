@@ -137,7 +137,7 @@ public class PTAddVideo {
 			showMessage(FacesMessage.SEVERITY_ERROR, "Upload failed. Please try again.");
 		}
 
-		return null; // stay on same page
+		return null; 
 	}
 
 	// ===== Cancel upload =====
@@ -179,7 +179,7 @@ public class PTAddVideo {
 				String da = (a.getDate() == null) ? "" : a.getDate();
 				String db = (b.getDate() == null) ? "" : b.getDate();
 
-				// if current item is "older" than the next, swap them
+				// if current item is "older" than the next, swapping them
 				if (da.compareTo(db) < 0) {
 					out.set(j, b);
 					out.set(j + 1, a);
@@ -200,10 +200,10 @@ public class PTAddVideo {
 		if (loggedInUser == null) return mine;
 
 		String email = loggedInUser.getEmail();
-		System.out.println("LOGGEDN IN EMAIL IS " + email);
+		//System.out.println("LOGGEDN IN EMAIL IS " + email);
 		for (Video v : videos) {
 			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
-				System.out.println("v.getUploadedBy() " + v.getUploadedBy());
+				//System.out.println("v.getUploadedBy() " + v.getUploadedBy());
 				mine.add(v);
 			}
 		}
