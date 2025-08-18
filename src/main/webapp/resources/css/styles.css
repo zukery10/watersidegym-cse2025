@@ -1,3 +1,4 @@
+
 body {
 	margin: 0;
 	font-family: 'Segoe UI', sans-serif;
@@ -76,9 +77,32 @@ body {
 	cursor: pointer;
 }
 
+.choose-btn:disabled {
+	width: 100%;
+	padding: 10px;
+	background-color: grey;
+	color: white;
+	border: 1px solid #28a745;
+	border-radius: 6px;
+	font-weight: bold;
+	
+	 cursor: not-allowed;
+}
 .choose-btn:hover {
 	background-color: #28a745;
 	color: black;
+}
+.choose-btn:hover:disabled {
+	background-color: grey;
+	color: white;
+	 cursor: not-allowed;
+	
+}
+
+.greyed-out {
+    background-color: grey;
+    color: #ccc;
+    cursor: not-allowed;
 }
 
 /* === Error Message === */
@@ -205,5 +229,6 @@ body {
 	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
 	transition: transform 0.3s ease;
 }
+
 
 
