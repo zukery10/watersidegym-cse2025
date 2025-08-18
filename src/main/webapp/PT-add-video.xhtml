@@ -52,6 +52,7 @@
                     <h:outputLabel for="title" value="Title" />
                     <h:inputText id="title"
                                  value="#{videoControllerBean.formTitle}"
+                                 required="true"
                                  styleClass="input" />
 
                     <h:outputLabel for="date" value="Date (YYYY-MM-DD, optional)" />
@@ -97,7 +98,7 @@
                                      action="#{videoControllerBean.cancelUpload}"
                                      immediate="true" />
                     <a href="video-gallery.xhtml" class ="btn primary">Go To Video Gallery</a>
-                   
+                 
                     
                   </div>
 
@@ -117,6 +118,12 @@
                       </video>
                       <h3>#{v.title}</h3>
                       <p>Uploaded by: #{v.uploadedBy}</p>
+                                      <h:form>
+                    <h:commandButton value="Delete"
+                                     action="#{videoControllerBean.deleteVideo(v.id)}"
+                                     styleClass="choose-btn"/>
+                </h:form>
+                      
                     </div>
                   </ui:repeat>
                 </div>

@@ -212,6 +212,24 @@ public class PTAddVideo {
 		}
 		return mine;
 	}
+	
+	
+	public void deleteVideo(int id) {
+		int index = -1;
+		//System.out.println("deleteing id  >> " +	id);
+		for (int i =0; i < videos.size() ; i++) {
+			if (videos.get(i).getId() == id) {
+				index = i;
+			}
+		}
+		if (index != -1) {
+			//System.out.println("video index was deleted >> " +	index);
+			videos.remove(index);
+		}
+		else {
+			System.out.println("the id not found >> " +	id);
+		}
+	}
 
 	// ===== Getters/Setters =====
 	public List<Video> getVideos() { return videos; }
