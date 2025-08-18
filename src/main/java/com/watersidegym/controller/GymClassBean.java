@@ -29,7 +29,7 @@ public class GymClassBean {
 	private List<GymClass> disabledButtons = new ArrayList<>();
 	private User loggedInUser;
 	private boolean classPayment = false;
-	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 60 * 1000;
+	private static final long CLASS_PAYMENT_TIMEOUT_MILLIS = 5* 60 * 1000; //5 mins
 	private long classPaymentDeadline;
 
 	// we use true to indicate a class payment
