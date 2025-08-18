@@ -1,62 +1,76 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
 <h:head>
-	<title>Login Page</title>
-	<h:outputStylesheet name="styles.css" library="css" />
+  <title>Waterside Gym — Home</title>
+  <h:outputStylesheet library="css" name="membership_select_page.css"/>
 </h:head>
+
 <h:body>
+  <ui:include src="/includes/header.xhtml"/>
 
-	<header class="navbar">
-		<div class="logo">
-			Waterside Gym <span class="tagline">A Fit for Your Life</span>
-		</div>
-	</header>
-	<main class="main-section">
-		<h1>
-			Log<span class="highlight">in</span>
-		</h1>
-		<h:form id="loginForm" styleClass="form-container">
+    <section class="home"
+         style="background-image:url('#{request.contextPath}/resources/images/bg_image.png');
+                background-size:cover;background-position:center;background-repeat:no-repeat;">
 
+    <div class="home__overlay">
+      <div class="home__grid"> <!-- NEW GRID CONTAINER -->
+        
+        <!-- LEFT: home content -->
+        <div class="home__content">
+          <span class="home__badge">Re-launching September 2025</span>
 
-			<div class="plans">
-				<div class="plan-card">
-					<h:messages styleClass="error" layout="table" />
-					<div class="form-group">
-						<div class="form-row">
-							<h:outputLabel for="email" value="Email:" />
-							<h:inputText id="email" value="#{loginBean.email}"
-								styleClass="inputField" required="true"
-								requiredMessage="Must input Email" />
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="form-row">
-							<h:outputLabel for="password" value="Password:" />
-							<h:inputSecret id="password" value="#{loginBean.password}"
-								styleClass="inputField" />
-						</div>
-					</div>
+          <h1 class="home__title">
+            A Gym That's a <span class="highlight">Fit For Your Life</span>
+          </h1>
+
+          <p class="home__subtitle">
+            Discover personalized fitness programs, expert personal training,
+            and wellness classes designed around your lifestyle. Join the Waterside Gym community today.
+          </p>
 
 
+          <div class="home__stats">
+            <div class="home__stat"><span>9+</span> Years of Excellence</div>
+            <div class="home__stat"><span>500+</span> Happy Members</div>
+            <div class="home__stat"><span>15+</span> Expert Trainers</div>
+          </div>
+        </div>
 
+        <!-- RIGHT: Login box -->
+        <div class="home__login">
+          <h:form id="loginForm">
+            <div class="login-card">
+              <h2 class="login-title">Log<span class="highlight">in</span></h2>
 
-					<!-- Functional "Login" button -->
-					<h:commandButton value="Login" action="#{loginBean.login}"
-						styleClass="choose-btn" />
-					<br /> <br />
-					<!-- Functional "Create Account" button -->
-					<h:commandButton value="Create Account"
-						action="create-account?faces-redirect=true" immediate="true"
-						styleClass="choose-btn" />
-				</div>
-			</div>
+              <h:messages styleClass="error" layout="table" />
 
-		</h:form>
-	</main>
+              <div class="form-group">
+                <h:outputLabel for="email" value="Email:" />
+                <h:inputText id="email" value="#{loginBean.email}" styleClass="inputField" required="true"
+                             requiredMessage="Must input Email" />
+              </div>
+
+              <div class="form-group">
+                <h:outputLabel for="password" value="Password:" />
+                <h:inputSecret id="password" value="#{loginBean.password}" styleClass="inputField" />
+              </div>
+
+              <h:commandButton value="Login" action="#{loginBean.login}" styleClass="choose-btn full-btn" />
+              <br/><br/>
+              <h:commandButton value="Create Account"
+                               action="create-account?faces-redirect=true"
+                               immediate="true"
+                               styleClass="choose-btn full-btn" />
+            </div>
+          </h:form>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
 </h:body>
 </html>
