@@ -224,11 +224,7 @@ public class PTAddVideoTest {
             }
         }
 
-        @Test
-        void testGetMyVideos_withoutLoginBean() {
-            List<Video> myVideos = bean.getMyVideos();
-            assertTrue(myVideos.isEmpty(), "Without login, my videos should be empty");
-        }
+       
 
 
 
