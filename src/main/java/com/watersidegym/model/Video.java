@@ -23,22 +23,54 @@ public class Video {
         this.uploadedBy = uploadedBy;
     }
 
-    public int getId() { return id; }
-    public String getTitle() { return title; }
-    public String getLink() { return link; }
-    public String getDate() { return date; }
-    public String getDescription() { return description; }
-    public String getRule() { return rule; }
-    public String getCategory() { return category; }
-    public String getUploadedBy() { return uploadedBy; }
+    public int getId() { 
+    	return id; 
+    	}
+    public String getTitle() { 
+    	return title; 
+    	}
+    public String getLink() { 
+    	return link; 
+    	}
+    public String getDate() { 
+    	return date; 
+    	}
+    public String getDescription() { 
+    	return description; 
+    	}
+    public String getRule() { 
+    	return rule; 
+    	}
+    public String getCategory() { 
+    	return category; 
+    	}
+    public String getUploadedBy() { 
+    	return uploadedBy; 
+    	}
 //------------------------------------------------------------
-    public void setId(int id) { this.id = id; }
-    public void setTitle(String title) { this.title = title; }
-    public void setLink(String link) { this.link = link; }
-    public void setDate(String date) { this.date = date; }
-    public void setDescription(String description) { this.description = description; }
-    public void setRule(String rule) { this.rule = rule; }
-    public void setCategory(String category) { this.category = category; }
-    public void setUploadedBy(String uploadedBy) { this.uploadedBy = uploadedBy; }
+    public void setId(int id) { 
+    	this.id = id; 
+    	}
+    public void setTitle(String title) { 
+    	this.title = title; 
+    	}
+    public void setLink(String link) { 
+    	this.link = link; 
+    	}
+    public void setDate(String date) { 
+    	this.date = date; 
+    	}
+    public void setDescription(String description) { 
+    	this.description = description; 
+    	}
+    public void setRule(String rule) { 
+    	this.rule = rule; 
+    	}
+    public void setCategory(String category) { 
+    	this.category = category; 
+    	}
+    public void setUploadedBy(String uploadedBy) { 
+    	this.uploadedBy = uploadedBy; 
+    	}
 }
 

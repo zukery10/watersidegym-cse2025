@@ -15,6 +15,26 @@
   <main class="main-section">
     <div class="vg-container">
       <div class="vg-titlebar"><h1 class="vg-page-title">Videos</h1></div>
+      
+      <section class="vg-section">
+        <div class="vg-section-head"><h2 class="vg-section-title">My videos</h2></div>
+        <div class="vg-grid">
+          <ui:repeat value="#{videoControllerBean.myvideosOnly}" var="v">
+            <article class="vg-card">
+              <div class="vg-thumb">
+                <video controls="controls" preload="metadata">
+                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+                </video>
+                <span class="vg-duration">#{v.date}</span>
+              </div>
+              <div class="vg-meta">
+                <h3 class="vg-title">#{v.title}</h3>
+                <p class="vg-by">#{v.category} • #{v.rule}</p>
+              </div>
+            </article>
+          </ui:repeat>
+        </div>
+      </section>
 
       <section class="vg-section">
         <div class="vg-section-head"><h2 class="vg-section-title">Recently Added</h2></div>
@@ -217,6 +237,8 @@
           </ui:repeat>
         </div>
       </section>
+      
+      
       
     </div>
   </main>

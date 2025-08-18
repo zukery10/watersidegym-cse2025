@@ -37,6 +37,7 @@ public class PTAddVideo {
 	// ===== Adding some sample videos at startup =====
 	@PostConstruct
 	public void preload() {
+		// all in recently added secton
 		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Non-Member", "Recently Added", "PT@example.com");
 		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Non-Member", "Recently Added", "PT@example.com");
 		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Recently Added", "PTXYZ@example.com");
@@ -47,7 +48,7 @@ public class PTAddVideo {
 		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Non-Member", "Recently Added", "PT@example.com");
 		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Member", "Recently Added", "PT2@example.com");
 		//------------------------------------------
-
+		// all in related sections
 		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Non-Member", "Tai Chi", "PT@example.com");
 		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Non-Member", "Yoga", "PT@example.com");
 		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Member", "Core Strength", "PTXYZ@example.com");
@@ -246,6 +247,10 @@ public class PTAddVideo {
 
 	public List<Video> getRecentlyAdded() {
 		return byCategory("Recently Added");
+	}
+	
+	public List<Video> getMyvideosOnly() {
+		return byCategory("My Videos");
 	}
 
 	public List<Video> getYogaOnly() {
