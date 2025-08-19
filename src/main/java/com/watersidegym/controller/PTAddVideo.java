@@ -65,6 +65,11 @@ public class PTAddVideo {
 	// ===== Adding video to the list =====
 	private void addVideo(String title, String link, String date, String desc, String rule, String category, String uploaderUsername) {
 		videos.add(new Video(nextId++, title, link, date, desc, rule, category, uploaderUsername));
+
+	}
+	
+	public void addVideoTest(Video video) { //testing
+		videos.add(video);
 	}
 
 	// ===== Main upload logic =====
@@ -181,7 +186,7 @@ public class PTAddVideo {
 				String db = (b.getDate() == null) ? "" : b.getDate();
 
 				// if current item is "older" than the next, swap them
-				if (da.compareTo(db) < 0) {
+				if (da.compareTo(db) < 0) { 
 					out.set(j, b);
 					out.set(j + 1, a);
 				}

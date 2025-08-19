@@ -41,7 +41,7 @@ public class VideoService {
 		List<Video> memberVideos = new ArrayList<>();
 		for (Video video : ptAddVideo.getVideos()) {
 
-			if (video != null && !video.getCategory().equalsIgnoreCase("Hidden") && !memberVideos.contains(video)
+			if (video != null && !video.getRule().equalsIgnoreCase("Hidden") && !memberVideos.contains(video)
 					&& !video.getCategory().equalsIgnoreCase("Recently Added")) {
 				memberVideos.add(video);
 			}
@@ -86,7 +86,7 @@ public class VideoService {
 	}
 
 	public String getSelectedTrainerName() {
-		System.out.println(selectedTrainerName);
+		//System.out.println(selectedTrainerName);
 		return selectedTrainerName;
 	}
 
