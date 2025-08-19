@@ -22,24 +22,27 @@
 				<div class="vg-section-head">
 					<h2 class="vg-section-title">My videos</h2>
 				</div>
-				<br></br>
-				<hr></hr>
-				<div class="vg-grid">
-					<ui:repeat value="#{videoControllerBean.myVideos}" var="v">
-						<article class="vg-card">
-							<div class="vg-thumb">
-								<video controls="controls" preload="metadata">
-									<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-								</video>
-								<span class="vg-duration">#{v.date}</span>
-							</div>
+				
+				<h:form styleClass="video-rule-form">
+					<br></br>
+					<hr></hr>
+					<div class="vg-grid">
 
-							<div class="vg-meta">
-								<h3 class="vg-title">#{v.title}</h3>
-								<p class="vg-by">#{v.category}</p>
+						<ui:repeat value="#{videoControllerBean.myVideos}" var="v">
+							<article class="vg-card">
+								<div class="vg-thumb">
+									<video controls="controls" preload="metadata">
+										<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+									</video>
+									<span class="vg-duration">#{v.date}</span>
+								</div>
 
-								<!-- Radio buttons for visibility -->
-								<h:form styleClass="video-rule-form">
+								<div class="vg-meta">
+									<h3 class="vg-title">#{v.title}</h3>
+									<p class="vg-by">#{v.category}</p>
+
+									<!-- Radio buttons for visibility -->
+
 									<div
 										style="display: flex; justify-content: center; align-items: center; gap: 15px;">
 										<h:selectOneRadio value="#{v.rule}" layout="lineDirection">
@@ -53,17 +56,18 @@
 										styleClass="choose-btn" />
 
 									<!-- Add this to display messages -->
-									<div
-										style="display: flex; justify-content: center; margin-top: 6px;">
-										<h:messages id="msgs" globalOnly="true" layout="table"
-											style="color:green;" />
-									</div>
-								</h:form>
-							</div>
-						</article>
-					</ui:repeat>
-
+<div
+					style="display: flex; justify-content: center; margin-top: 6px;">
+					<h:messages id="msgs" globalOnly="true" layout="table"
+						style="color:green;" />
 				</div>
+
+								</div>
+							</article>
+						</ui:repeat>
+
+					</div>
+				</h:form>
 			</section>
 
 

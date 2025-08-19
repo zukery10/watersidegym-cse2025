@@ -30,7 +30,7 @@ public class PTAddVideo {
 	private String formDescription;
 	private String formRule = "Public";
 	private String formCategory = "Recently Added";
-
+	
 	// Max upload size (200MB)
 	private final long MAX_SIZE = 200L * 1024L * 1024L;
 
@@ -297,10 +297,12 @@ public class PTAddVideo {
 		return byCategory("Tabata");
 	}
 	
+
 	public String updateRule(Video video) {
-	    showMessage(FacesMessage.SEVERITY_INFO,
+	   showMessage(FacesMessage.SEVERITY_INFO,
 	                "Visability updated to " + video.getRule() + " for " + video.getTitle());
-	    //System.out.println(video.getRule());
+	    getMyVideos();
+	    System.out.println(video.getRule());
 	    return null;
 	}
 
