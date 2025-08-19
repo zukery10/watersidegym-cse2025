@@ -17,7 +17,7 @@ import java.util.*;
 
 @ManagedBean(name = "videoControllerBean")
 @ApplicationScoped
-public class PTAddVideo {
+public class VideoGalleryBean {
 
 	// ===== List of all videos =====
 	private List<Video> videos = new ArrayList<>();
@@ -189,7 +189,29 @@ public class PTAddVideo {
 
 		return out;
 	}
-
+	
+//	public List<Video> getNonMemberVideos() {
+//		List<Video> nonMemberVideos = new ArrayList<>();
+//		for (Video video : videos) {
+//			if (video != null && video.getRule().equalsIgnoreCase("public")) {
+//				nonMemberVideos.add(video);
+//			}
+//		}
+//		return nonMemberVideos;
+//	}
+//
+//	public List<Video> getMemberVideos() {
+//		List<Video> memberVideos = new ArrayList<>();
+//		for (Video video : videos) {
+// 
+//			if (video != null && video.getRule().equalsIgnoreCase("Private")) {
+//				memberVideos.add(video);
+//				System.out.println("Printing true for member videos!!");
+//			} else System.out.println("Printing false");
+//		}
+//		return memberVideos;
+//	}
+	
 	public List<Video> getMyVideos() {
 		List<Video> mine = new ArrayList<>();
 
@@ -214,22 +236,34 @@ public class PTAddVideo {
 	}
 	
 	
+	//delete video section here
 	public void deleteVideo(int id) {
 		int index = -1;
-		//System.out.println("deleteing id  >> " +	id);
+		//System.out.println("deleteing id  >> " +	id);  --> for testinh
 		for (int i =0; i < videos.size() ; i++) {
 			if (videos.get(i).getId() == id) {
 				index = i;
+				break;
 			}
 		}
 		if (index != -1) {
-			//System.out.println("video index was deleted >> " +	index);
+			//System.out.println("video index was deleted >> " +	index);   --> for testing
 			videos.remove(index);
+			//here goes success message
+			FacesContext.getCurrentInstance().addMessage(
+		            null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Video deleted successfully.", null)
+		        );
 		}
 		else {
-			System.out.println("the id not found >> " +	id);
+			// nothing deleted (e.g., already removed)
+	        FacesContext.getCurrentInstance().addMessage(
+	            null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Video not found or already deleted.", null)
+	        );
 		}
 	}
+	
+	
+	
 
 	// ===== Getters/Setters =====
 	public List<Video> getVideos() { return videos; }

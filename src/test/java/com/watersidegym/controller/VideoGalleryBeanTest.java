@@ -9,13 +9,13 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PTAddVideoTest {
+public class VideoGalleryBeanTest {
 
-    private PTAddVideo bean;
+    private VideoGalleryBean bean;
 
     @BeforeEach
     public void setUp1() {
-        bean = new PTAddVideo();
+        bean = new VideoGalleryBean();
         bean.preload();
     }
 

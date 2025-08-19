@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -20,7 +20,7 @@
       <h1>Upload your <span class="highlight">Video</span></h1>
 
       <!-- Global messages for success/error/canceled -->
-      <h:messages globalOnly="true" style="margin:12px 0;color:#cbd5e1" />
+      <h:messages id="msgs" globalOnly="true" style="margin:12px 0;color:#cbd5e1" />
 
       <div class="video-gallery">
         <div class="page">
@@ -65,12 +65,12 @@
                                      value="#{videoControllerBean.formDescription}"
                                      rows="3" styleClass="input" />
 
-                    <h:outputLabel for="rule" value="Rule" />
+                    <h:outputLabel for="rule" value="Visibility" />
                     <h:selectOneMenu id="rule" value="#{videoControllerBean.formRule}">
-                    <f:selectItem itemLabel="— Choose —" itemValue="" noSelectionOption="true" />
-                      <f:selectItem itemLabel="Public" itemValue="Public" />
+                      <f:selectItem itemLabel="— Choose —" itemValue="" noSelectionOption="true" />
+                      <f:selectItem itemLabel="Public"  itemValue="Public" />
                       <f:selectItem itemLabel="Private" itemValue="Private" />
-                      <f:selectItem itemLabel="Hidden" itemValue="Hidden" />
+                      <f:selectItem itemLabel="Hidden"  itemValue="Hidden" />
                     </h:selectOneMenu>
 
                     <h:outputLabel for="cat" value="Category" />
@@ -97,9 +97,7 @@
                                      styleClass="btn muted"
                                      action="#{videoControllerBean.cancelUpload}"
                                      immediate="true" />
-                    <a href="video-gallery.xhtml" class ="btn primary">Go To Video Gallery</a>
-                 
-                    
+                    <a href="video-gallery.xhtml" class="btn primary">Go To Video Gallery</a>
                   </div>
 
                 </h:form>
@@ -110,23 +108,32 @@
             <div class="card">
               <div class="hd">Your Video Library</div>
               <div class="bd">
-                <div class="videos">
-                  <ui:repeat value="#{videoControllerBean.myVideos}" var="v">
-                    <div class="vcard">
-                      <video controls="controls" preload="metadata">
-                        <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                      </video>
-                      <h3>#{v.title}</h3>
-                      <p>Uploaded by: #{v.uploadedBy}</p>
-                                      <h:form>
-                    <h:commandButton value="Delete"
-                                     action="#{videoControllerBean.deleteVideo(v.id)}"
-                                     styleClass="choose-btn"/>
-                </h:form>
-                      
-                    </div>
-                  </ui:repeat>
-                </div>
+
+                <!-- Panel group so we can re-render the whole grid after delete -->
+                <h:panelGroup id="libGrid" layout="block">
+                  <div class="videos">
+                    <ui:repeat value="#{videoControllerBean.myVideos}" var="v">
+                      <div class="vcard">
+                        <video controls="controls" preload="metadata">
+                          <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+                        </video>
+                        <h3>#{v.title}</h3>
+                        <p>Uploaded by: #{v.uploadedBy}</p>
+
+                        <!-- Delete button with confirm + ajax refresh -->
+                        <h:form>
+                          <h:commandButton value="Delete"
+                                           styleClass="choose-btn"
+                                           action="#{videoControllerBean.deleteVideo(v.id)}"
+                                           onclick="return confirm('Delete this video permanently?');">
+                            <f:ajax render=":msgs :libGrid" />
+                          </h:commandButton>
+                        </h:form>
+                      </div>
+                    </ui:repeat>
+                  </div>
+                </h:panelGroup>
+
               </div>
             </div>
 
