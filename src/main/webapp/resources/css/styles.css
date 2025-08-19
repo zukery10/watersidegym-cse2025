@@ -1006,3 +1006,25 @@ background-size: 93px 82px;
 	transition: transform 0.3s ease;
 }
 
+
+/* THIS SECTION IS FOR MEMBER DASHBOARD - BACKGROUND ADJUSTMENT*/
+.payment-bg{
+  /* show whole image, no cropping */
+  background-image: url('../images/payment_bg.png'); /* same path as inline */
+  background-repeat: no-repeat;
+  background-position: bottom center;   /* equipment visible */
+  background-size: contain;             /* fit entire image */
+  background-color: #0f1115;            /* fill letterbox area */
+  min-height: calc(100vh - 72px);       /* full screen minus header */
+  padding-bottom: 60px;                  /* give space under the cards */
+}
+
+/* On narrow phones adj: */
+@media (max-width: 640px){
+  .payment-bg{
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+
