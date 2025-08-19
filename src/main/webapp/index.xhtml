@@ -1,76 +1,109 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-  <title>Waterside Gym — Home</title>
-  <h:outputStylesheet library="css" name="styles.css"/>
+	<title>Waterside Gym — Home</title>
+	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
 
 <h:body>
-  <ui:include src="/includes/header.xhtml"/>
+	<ui:include src="/includes/header.xhtml" />
 
-    <section class="home"
-         style="background-image:url('#{request.contextPath}/resources/images/bg_image.png');
+	<section class="home"
+		style="background-image:url('#{request.contextPath}/resources/images/bg_image.png');
                 background-size:cover;background-position:center;background-repeat:no-repeat;">
 
-    <div class="home__overlay">
-      <div class="home__grid"> <!-- NEW GRID CONTAINER -->
-        
-        <!-- LEFT: home content -->
-        <div class="home__content">
-          <span class="home__badge">Re-launching September 2025</span>
-
-          <h1 class="home__title">
-            A Gym That's a <span class="highlight">Fit For Your Life</span>
-          </h1>
-
-          <p class="home__subtitle">
-            Discover personalized fitness programs, expert personal training,
-            and wellness classes designed around your lifestyle. Join the Waterside Gym community today.
-          </p>
 
 
-          <div class="home__stats">
-            <div class="home__stat"><span>9+</span> Years of Excellence</div>
-            <div class="home__stat"><span>500+</span> Happy Members</div>
-            <div class="home__stat"><span>15+</span> Expert Trainers</div>
-          </div>
-        </div>
 
-        <!-- RIGHT: Login box -->
-        <div class="home__login">
-          <h:form id="loginForm">
-            <div class="login-card">
-              <h2 class="login-title">Log<span class="highlight">in</span></h2>
 
-              <h:messages styleClass="error" layout="table" />
+		<div class="home__overlay">
+			<div class="home__grid">
+				<!-- RIGTH & LEFT CONTAINERS FORM -->
 
-              <div class="form-group">
-                <h:outputLabel for="email" value="Email:" />
-                <h:inputText id="email" value="#{loginBean.email}" styleClass="inputField" required="true"
-                             requiredMessage="Must input Email" />
-              </div>
+				<!-- LEFT: home content -->
+				<div class="home__content">
+					<span class="home__badge">Re-launching September 2025</span>
 
-              <div class="form-group">
-                <h:outputLabel for="password" value="Password:" />
-                <h:inputSecret id="password" value="#{loginBean.password}" styleClass="inputField" />
-              </div>
+					<h1 class="home__title">
+						A Gym That's a <span class="highlight">Fit For Your Life</span>
+					</h1>
 
-              <h:commandButton value="Login" action="#{loginBean.login}" styleClass="choose-btn full-btn" />
-              <br/><br/>
-              <h:commandButton value="Create Account"
-                               action="create-account?faces-redirect=true"
-                               immediate="true"
-                               styleClass="choose-btn full-btn" />
-            </div>
-          </h:form>
-        </div>
+					<p class="home__subtitle">Discover personalized fitness
+						programs, expert personal training, and wellness classes designed
+						around your lifestyle. Join the Waterside Gym community today.</p>
 
-      </div>
-    </div>
-  </section>
 
+					<div class="home__stats">
+						<div class="home__stat">
+							<span>9+</span> Years of Excellence
+						</div>
+						<div class="home__stat">
+							<span>500+</span> Happy Members
+						</div>
+						<div class="home__stat">
+							<span>15+</span> Expert Trainers
+						</div>
+					</div>
+				</div>
+
+				<!-- RIGHT: Login box -->
+				<div class="home__login">
+					<h:form id="loginForm">
+						<div class="login-card">
+							<h2 class="login-title">
+								Log<span class="highlight">in</span>
+							</h2>
+
+							<h:messages styleClass="error" layout="table" />
+
+							<div class="form-group">
+								<h:outputLabel for="email" value="Email:" />
+								<h:inputText id="email" value="#{loginBean.email}"
+									styleClass="inputField" required="true"
+									requiredMessage="Must input Email" />
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel for="password" value="Password:" />
+								<h:inputSecret id="password" value="#{loginBean.password}"
+									styleClass="inputField" />
+							</div>
+
+							<h:commandButton value="Login" action="#{loginBean.login}"
+								styleClass="choose-btn full-btn" />
+							<br />
+							<br />
+							<h:commandButton value="Create Account"
+								action="create-account?faces-redirect=true" immediate="true"
+								styleClass="choose-btn full-btn" />
+						</div>
+					</h:form>
+				</div>
+
+			</div>
+		</div>
+		
+		
+	</section>
+	
+	<!-- footer section (the one below on the homepage)-->
+		<footer class="site-footer">
+			<div class="footer-container">
+				<div class="footer-copy">© #{request.serverName eq null ?
+					'2025' : '2025'} Waterside Gym. All rights reserved.</div>
+
+				<nav class="footer-links" aria-label="Footer">
+					<h:link outcome="privacy" styleClass="footer-link">Privacy Policy</h:link>
+					<h:outputText value="•" styleClass="footer-sep" />
+					<h:link outcome="terms" styleClass="footer-link">Terms of Service</h:link>
+					<h:outputText value="•" styleClass="footer-sep" />
+					<h:link outcome="cookies" styleClass="footer-link">Cookie Policy</h:link>
+				</nav>
+			</div>
+		</footer>
+	
 </h:body>
 </html>

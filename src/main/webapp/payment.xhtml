@@ -11,12 +11,17 @@
 <h:head>
 	<title>Payment</title>
 	<link rel="stylesheet" type="text/css"
-		href="resources/css/membership_select_page.css" />
-	<h:outputStylesheet name="styles.css" library="css" />
+		href="resources/css/styles.css" />
+	
 </h:head>
 <h:body>
-	<!--  the nav to be incuded in all pages -->
-	<ui:include src="/includes/header.xhtml" />
+
+<!-- header -->
+  <ui:include src="/includes/header.xhtml" />
+
+  <!-- background image -->
+  <section class="dashboard-bg payment-bg">
+	
 	<main class="main-section">
 		<h1>
 			Payment <span class="highlight">Details</span>
@@ -92,5 +97,6 @@
 		<p class="subtitle2" style="color: red; font-weight: bold;">You
 			have 5 minutes to complete your payment before the session expires.</p>
 	</main>
+	</section>
 </h:body>
 </html>

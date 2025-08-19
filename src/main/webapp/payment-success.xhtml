@@ -10,16 +10,20 @@
 <h:head>
 	<h:head>
 		<title>Payment Successful</title>
+		<link rel="stylesheet" type="text/css"
+		href="resources/css/styles.css" />
 		<!--  for redirection redirected shortly -->
 		<meta http-equiv="refresh" content="5; URL=#{gymClassBean.redirectPage}" />
-		<link rel="stylesheet" type="text/css"
-			href="resources/css/styles.css" />
+		
 	</h:head>
 </h:head>
 
 <h:body>
-	<!--  the nav to be incuded in all pages -->
-	<ui:include src="/includes/header.xhtml" />
+	<!-- header -->
+  <ui:include src="/includes/header.xhtml" />
+
+  <!-- background image -->
+  <section class="dashboard-bg payment-bg">
 
 	<main class="main-section">
 		<div class="success-box">
@@ -63,5 +67,6 @@
 		</div>
 
 	</main>
+	</section>
 </h:body>
 </html>
