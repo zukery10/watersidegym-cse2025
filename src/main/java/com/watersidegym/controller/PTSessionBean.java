@@ -130,10 +130,11 @@ public class PTSessionBean {
 			addMessage("ptForm:time", FacesMessage.SEVERITY_ERROR, "Please select a time.");
 			hasError = true;
 		}
-		if (ptSession.getDurationMinutes() == 0) {
-			addMessage("ptForm:dur", FacesMessage.SEVERITY_ERROR, "Please select a duration.");
-			hasError = true;
+		if (ptSession.getDurationMinutes() == null) {
+		    addMessage("ptForm:dur", FacesMessage.SEVERITY_ERROR, "Please select a duration.");
+		    hasError = true;
 		}
+
 
 		if (hasError) {
 			return null; // stop if validation fails
@@ -216,9 +217,9 @@ public class PTSessionBean {
 	}
 
 	protected void addMessage(String clientId, FacesMessage.Severity severity, String text) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx != null) {
-			ctx.addMessage(clientId, new FacesMessage(severity, text, null));
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(clientId, new FacesMessage(severity, text, null));
 		}
 	}
 

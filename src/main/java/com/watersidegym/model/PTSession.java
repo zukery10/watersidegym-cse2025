@@ -7,7 +7,7 @@ public class PTSession {
 	private User trainer; // has role = "PT"
 	private Date sessionDate;
 	private String startTime;
-	private int durationMinutes; // 30 or 60 mins
+	private Integer durationMinutes;
 
 	public PTSession() {
 	}
@@ -36,8 +36,8 @@ public class PTSession {
 		return startTime;
 	}
 
-	public int getDurationMinutes() {
-		return durationMinutes;
+	public Integer getDurationMinutes() {
+	    return durationMinutes;
 	}
 
 	public void setMember(User member) {
@@ -56,7 +56,7 @@ public class PTSession {
 		this.startTime = startTime;
 	}
 
-	public void setDurationMinutes(int durationMinutes) {
-		this.durationMinutes = durationMinutes;
+	public void setDurationMinutes(Integer durationMinutes) {
+	    this.durationMinutes = durationMinutes;
 	}
 }

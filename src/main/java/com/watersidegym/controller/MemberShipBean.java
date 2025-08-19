@@ -98,6 +98,15 @@ public class MemberShipBean {
 		// update user role to Member
 		if (loggedInUser != null) {
 			loggedInUser.setRole("Member");
+			
+			 // assign PT sessions based on membership plan
+	        if ("3 Months".equalsIgnoreCase(membershipPlan)) {
+	            loggedInUser.setRemainingPTSessions(1);
+	        } else if ("6 Months".equalsIgnoreCase(membershipPlan)) {
+	            loggedInUser.setRemainingPTSessions(2);
+	        } else if ("12 Months".equalsIgnoreCase(membershipPlan)) {
+	            loggedInUser.setRemainingPTSessions(3);
+	        }
 		}
 
 		addMessage("Your " + membershipPlan + " membership has been activated.", FacesMessage.SEVERITY_INFO);
