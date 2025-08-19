@@ -67,8 +67,6 @@ public class VideoService {
 			// check if user role is PT
 			if ("PT".equals(u.getRole())) {
 				trainers.add(u);
-				System.out.println(u.getFirstName());
-				System.out.println(u.getSecondName());
 			}
 		}
 
@@ -110,13 +108,24 @@ public class VideoService {
 		this.trainerVideos = trainerVideos;
 	}
 
-	public List<Video> showVideosMembers() { //for members
+	//for members
+	public List<Video> showVideosMembers() { 
 		if (selectedTrainerName != null && !selectedTrainerName.isEmpty()) {
 			return getSelectedTrainerVideos();
 		} else 
 			return getMemberVideos(); 
 	}
 
+	//nonmember can view only public video
+	public List<Video> getNonMemberPublicVideos() {
+		List<Video> nonMemberPublicVideos = new ArrayList<>();
+		for (Video video : ptAddVideo.getVideos()) {
+			if (video != null && video.getRule().equalsIgnoreCase("Public")) {
+				nonMemberPublicVideos.add(video);
+			}
+		}
+		return nonMemberPublicVideos;
+	}
 }
 
 
