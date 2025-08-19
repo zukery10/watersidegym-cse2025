@@ -907,7 +907,7 @@ background-size: 93px 82px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 60px; /* push content below header */
+  padding-top: 60px; /* pushed content below header */
 }
 
 .form-row label {
@@ -935,7 +935,7 @@ background-size: 93px 82px;
 }
 
 .field-error {
-  color: #ff4d4f;          /* red */
+  color: #ff4d4f;          
   font-weight: 600;
   display: block;
   margin-top: 4px;
@@ -956,7 +956,7 @@ background-size: 93px 82px;
     font-size: 16px;
     text-align: center;
     background-color: #1e1f23; /* dark bg */
-    color: #fff; /* white text */
+    color: #fff; 
 }
 .jsf-table-cart {
 	float:left;
@@ -966,7 +966,7 @@ background-size: 93px 82px;
     font-size: 16px;
     text-align: center;
     background-color: #1e1f23; /* dark bg */
-    color: #fff; /* white text */
+    color: #fff; 
 }
 
 
@@ -1009,7 +1009,7 @@ background-size: 93px 82px;
 
 /* THIS SECTION IS FOR MEMBER DASHBOARD - BACKGROUND ADJUSTMENT*/
 .payment-bg{
-  /* show whole image, no cropping */
+  /* shows whole image, no cropping */
   background-image: url('../images/payment_bg.png'); /* same path as inline */
   background-repeat: no-repeat;
   background-position: bottom center;   /* equipment visible */
@@ -1018,7 +1018,7 @@ background-size: 93px 82px;
   min-height: calc(100vh - 72px);       /* full screen minus header */
   padding-bottom: 60px; 
   
-                   /* give space under the cards */
+                   /* space under the cards */
 }
 
 /* On narrow phones adj: */
@@ -1127,8 +1127,5 @@ background-size: 93px 82px;
 }
 
 
-/* ===== THIS SECTION IS FOR NONMEMBER DASHBOARD  ===== */
-/* Turn .main-section into a centered 2-column layout
-    */
 
 
