@@ -30,11 +30,11 @@ public class PTAddVideo {
 	private String formDescription;
 	private String formRule = "Public";
 	private String formCategory = "Recently Added";
-
+	
 	// Max upload size (200MB)
 	private final long MAX_SIZE = 200L * 1024L * 1024L;
 
-	// ===== Adding some sample videos at startup =====
+	// ===== Adding some sample videos at startup =====	
 	@PostConstruct
 	public void preload() {
 		// all in recently added secton
@@ -42,25 +42,25 @@ public class PTAddVideo {
 		
 		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "PTXYZ@example.com");
 		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "PT@example.com");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "PT@example.com");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "PT@example.com");
-		addVideo("CrossFit Hidden", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Hidden", "Recently Added", "PT@example.com");
-		
-		//------------------------------------------
-		// all in related sections
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Tai Chi", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "PTXYZ@example.com");
-		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "PT2@example.com");
-		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "PT@example.com");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "PT@example.com");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Kickboxing", "PT@example.com");
-		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Public", "CrossFit", "PT@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
+//		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "PT@example.com");
+//		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "PT@example.com");
+//		addVideo("CrossFit Hidden", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Hidden", "Recently Added", "PT@example.com");
+//		
+//		//------------------------------------------
+//		// all in related sections
+//		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Tai Chi", "PT@example.com");
+//		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
+//		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
+//		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
+//		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "PTXYZ@example.com");
+//		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "PT2@example.com");
+//		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "PT@example.com");
+//		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "PT@example.com");
+//		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Kickboxing", "PT@example.com");
+//		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Public", "CrossFit", "PT@example.com");
+//		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
+//		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
+//		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
 	}
 
 	// ===== Adding video to the list =====
@@ -148,8 +148,11 @@ public class PTAddVideo {
 	}
 
 	// ===== Helpers =====
-	private void showMessage(FacesMessage.Severity type, String text) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(type, text, null));
+	protected void showMessage(FacesMessage.Severity type, String text) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(type, text, null));
+		}
 	}
 
 	private String getFileName(Part part) {
@@ -293,4 +296,19 @@ public class PTAddVideo {
 	public List<Video> getTabataOnly() {
 		return byCategory("Tabata");
 	}
+	
+
+	public String updateRule(Video video) {
+	    // clear messages on all other videos
+	    for (Video v : videos) {
+	        if (v.getId() != video.getId()) {
+	            v.setMessage(null);
+	        }
+	    }
+	    // set the message on the video that was updated
+	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
+	    return null;
+	}
+
+
 }
