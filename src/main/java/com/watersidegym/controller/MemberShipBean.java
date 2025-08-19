@@ -71,6 +71,7 @@ public class MemberShipBean {
 			GymClassBean gymClassBean = context.getApplication().evaluateExpressionGet(context, "#{gymClassBean}",
 					GymClassBean.class);
 			gymClassBean.setClassPayment(false);
+			//System.out.println(membershipPlan);
 
 			return "payment.xhtml?faces-redirect=true";
 		} catch (IllegalArgumentException e) {
@@ -100,11 +101,11 @@ public class MemberShipBean {
 			loggedInUser.setRole("Member");
 			
 			 // assign PT sessions based on membership plan
-	        if ("3 Months".equalsIgnoreCase(membershipPlan)) {
+	        if ("3 Month Plan".equalsIgnoreCase(membershipPlan)) {
 	            loggedInUser.setRemainingPTSessions(1);
-	        } else if ("6 Months".equalsIgnoreCase(membershipPlan)) {
+	        } else if ("6 Month Plan".equalsIgnoreCase(membershipPlan)) {
 	            loggedInUser.setRemainingPTSessions(2);
-	        } else if ("12 Months".equalsIgnoreCase(membershipPlan)) {
+	        } else if ("12 Month Plan".equalsIgnoreCase(membershipPlan)) {
 	            loggedInUser.setRemainingPTSessions(3);
 	        }
 		}

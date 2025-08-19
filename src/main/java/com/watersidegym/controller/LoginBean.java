@@ -105,32 +105,13 @@ public class LoginBean {
 		return loggedInUser != null;
 	}
 	public void checkLoggedIn() {
-	    if (!isLoggedIn()) {
-	        try {
-	            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-	        } catch (Exception e) {
-	            System.out.println("Redirect failed");
-	        }
-	        return;
-	    }
-	    String currentPage = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-	    String expectedPage = "/" + redirect(loggedInUser) + ".xhtml";
-
-	    // List pages that are allowed for members besides their dashboard
-	    List<String> allowedPagesForMembers = Arrays.asList("/browseClasses.xhtml");
-	   
-	    boolean isAllowedPage = false;
-	    if ("Member".equals(loggedInUser.getRole())) {
-	        isAllowedPage = allowedPagesForMembers.contains(currentPage);
-	    }
-
-	    if (!currentPage.equals(expectedPage) && !isAllowedPage) {
-	        try {
-	            FacesContext.getCurrentInstance().getExternalContext().redirect(expectedPage);
-	        } catch (Exception e) {
-	            System.out.println("Redirect failed");
-	        }
-	    }
+		if (!isLoggedIn()) { // check the method isLoggedIn= if false
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?faces-redirect=true");
+			} catch (Exception e) {
+				System.out.println("Redirect failed");
+			}
+		}
 	}
 	public User getLoggedInUser() {
 		return loggedInUser;
