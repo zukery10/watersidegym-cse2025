@@ -1,96 +1,144 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-
-<f:metadata>
-	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
-</f:metadata>
-
-<h:head>
-	<title>Browse Classes</title>
-	<h:outputStylesheet name="styles.css" library="css" />
-</h:head>
-<h:body>
-	<main class="main-section">
-		<h1>
-			Book <span class="highlight">Classes</span>
-		</h1>
-
-		<h:form>
-			<div class="plans">
-				<div class="table-card">
-					<h:outputLabel for="date" value="Select Date:" />
-					<h:inputText id="date" value="#{gymClassBean.selectedDate}">
-						<f:passThroughAttribute name="type" value="date" />
-						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
-					</h:inputText>
-					<h:commandButton value="Filter"
-						action="#{gymClassBean.getFilteredClassesAction}" />
-					<br /> <br />
-					<h:messages globalOnly="true" layout="table"
-						styleClass="message-table" />
-					<h:panelGroup rendered="#{not empty gymClassBean.filteredClasses}">
-						<h:dataTable styleClass="jsf-table"
-							value="#{gymClassBean.filteredClasses}" var="cls" border="1">
-							<h:column>
-								<f:facet name="header">Class Name</f:facet>
-                        #{cls.nameOfClass}
-                    </h:column>
-							<h:column>
-								<f:facet name="header">Date</f:facet>
-								<h:outputText value="#{cls.classDate}">
-									<!-- 	<f:convertDateTime pattern="dd.MM.yy" />  -->
-									<f:convertDateTime pattern="dd.MM.yy" timeZone="Europe/Dublin" />
-								</h:outputText>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Time</f:facet>
-								<h:outputText value="#{cls.classTime}">
-									<f:convertDateTime pattern="HH:mm" />
-								</h:outputText>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Duration</f:facet>
-                        #{cls.classDuration}
-                    </h:column>
-							<h:column>
-								<f:facet name="header">Slots Available</f:facet>
-                      #{cls.noOfSlots}
-                    </h:column>
-							<h:column rendered="#{gymClassBean.showPrice()}">
-								<f:facet name="header">Price </f:facet>
-							 €#{cls.price}
-							</h:column>
-							<h:column>
-								<f:facet name="header">Action</f:facet>
-								<h:commandButton value="Book" styleClass="choose-btn"
-									action="#{gymClassBean.bookClass(cls)}"
-									rendered="#{gymClassBean.isMember()}" />
-								
-							</h:column>
-
-						</h:dataTable>
-					</h:panelGroup>
-					<!-- Show message if list is empty -->
-					<h:panelGroup
-						rendered="#{not empty gymClassBean.selectedDate and empty gymClassBean.filteredClasses}">
-						<h:outputText
-							value="No classes available/scheduled. Try available dates in table."
-							style="color: red;" />
-					</h:panelGroup>
-					<!-- Show error message if data retrieval fails  -->
-					<h:panelGroup rendered="#{not empty gymClassBean.errorMessage}">
-						<h:outputText value="#{gymClassBean.errorMessage}"
-							style="color: red; font-weight: bold;" />
-					</h:panelGroup>
-					<br /> <br />
-					<h:commandButton value="Back to Dashboard"
-						action="#{gymClassBean.backToDashboard()}" styleClass="choose-btn" />
-				</div>
-			</div>
-		</h:form>
-	</main>
-</h:body>
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui">
+   <f:metadata>
+      <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+      
+   </f:metadata>
+   <h:head>
+      <title>Browse Classes</title>
+      <h:outputStylesheet name="styles.css" library="css" />
+   </h:head>
+   <h:body>
+      <main class="main-section">
+         <h1>
+            Book <span class="highlight">Classes</span>
+         </h1>
+         <h:form>
+            <div class="plans">
+               <div class="table-card">
+                  <h:outputLabel for="date" value="Select Date:" />
+                  <h:inputText id="date" value="#{gymClassBean.selectedDate}">
+                     <f:passThroughAttribute name="type" value="date" />
+                     <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+                  </h:inputText>
+                  <h:commandButton value="Filter"
+                     action="#{gymClassBean.getFilteredClassesAction}" />
+                  <br /> <br />
+                  <h:messages globalOnly="true" layout="table"
+                     styleClass="message-table" />
+                  <h:panelGroup rendered="#{not empty gymClassBean.filteredClasses}">
+                     <h:dataTable styleClass="jsf-table"
+                        value="#{gymClassBean.filteredClasses}" var="cls" border="1">
+                        <h:column>
+                           <f:facet name="header">Class Name</f:facet>
+                           #{cls.nameOfClass}
+                        </h:column>
+                        <h:column>
+                           <f:facet name="header">Date</f:facet>
+                           <h:outputText value="#{cls.classDate}">
+                              <!-- 	<f:convertDateTime pattern="dd.MM.yy" />  -->
+                              <f:convertDateTime pattern="dd.MM.yy" timeZone="Europe/Dublin" />
+                           </h:outputText>
+                        </h:column>
+                        <h:column>
+                           <f:facet name="header">Time</f:facet>
+                           <h:outputText value="#{cls.classTime}">
+                              <f:convertDateTime pattern="HH:mm" />
+                           </h:outputText>
+                        </h:column>
+                        <h:column>
+                           <f:facet name="header">Duration</f:facet>
+                           #{cls.classDuration}
+                        </h:column>
+                        <h:column>
+                           <f:facet name="header">Slots Available</f:facet>
+                           #{cls.noOfSlots}
+                        </h:column>
+                        <h:column rendered="#{gymClassBean.showPrice()}">
+                           <f:facet name="header">Price </f:facet>
+                           €#{cls.price}
+                        </h:column>
+                        <h:column>
+                           <f:facet name="header">Action</f:facet>
+                           <h:commandButton value="Book" styleClass="choose-btn"
+                              action="#{gymClassBean.bookClass(cls)}"
+                              rendered="#{gymClassBean.member}"
+                              disabled="#{gymClassBean.buttonDisabled(cls)}" />
+                           <h:commandButton value="Add To Cart"
+                              rendered="#{not gymClassBean.member}"
+                              action="#{gymClassBean.addToCart(cls)}" styleClass="choose-btn"
+                              disabled="#{gymClassBean.buttonDisabled(cls)}">
+                           </h:commandButton>
+                        </h:column>
+                     </h:dataTable>
+                  </h:panelGroup>
+                  <!-- Show message if list is empty -->
+                  <h:panelGroup
+                     rendered="#{not empty gymClassBean.selectedDate and empty gymClassBean.filteredClasses}">
+                     <h:outputText
+                        value="No classes available/scheduled. Try available dates in table."
+                        style="color: red;" />
+                  </h:panelGroup>
+                  <!-- Show error message if data retrieval fails  -->
+                  <h:panelGroup rendered="#{not empty gymClassBean.errorMessage}">
+                     <h:outputText value="#{gymClassBean.errorMessage}"
+                        style="color: red; font-weight: bold;" />
+                  </h:panelGroup>
+                  <br /> <br />
+                  <h:commandButton value="Back to Dashboard"
+                     rendered="#{gymClassBean.isMember()}"
+                     action="member-dashboard?faces-redirect=true" immediate="true"
+                     styleClass="choose-btn" />
+                  <h:commandButton value="Back to Dashboard"
+                     rendered="#{not gymClassBean.member}"
+                     action="#{gymClassBean.resetNonMemberCartAndTimerAndRedirect}"
+                     styleClass="choose-btn" />
+               </div>
+               <h:panelGroup styleClass="table-card-cart"
+                  rendered="#{not gymClassBean.cartEmpty}">
+                  <h3>Cart</h3>
+                  <h:panelGroup id="classTimer" rendered="#{not gymClassBean.member}">
+                     <h:outputText
+                        value="Time left: #{gymClassBean.classPaymentRemainingTime}" />
+                  </h:panelGroup>
+					<p:poll interval="1" listener="#{gymClassBean.checkClassPaymentSession}" update="classTimer" />
+                  <h:dataTable value="#{gymClassBean.cart}" var="classAdded"
+                     styleClass="jsf-table" border="1"
+                     rendered="#{not gymClassBean.member}">
+                     <h:column>
+                        <f:facet name="header"> Class Name </f:facet>
+                        #{classAdded.nameOfClass}
+                        <f:facet name="footer">
+                          <strong>Total</strong>
+                        </f:facet>
+                     </h:column>
+                     <h:column>
+                        <f:facet name="header"> Price </f:facet>
+                        €#{classAdded.price}
+                        <f:facet name="footer">
+                           <strong>€#{gymClassBean.totalPrice}</strong>
+                        </f:facet>
+                     </h:column>
+                     <h:column>
+                        <f:facet name="header">Remove</f:facet>
+                        <h:commandButton value="❌"
+                           action="#{gymClassBean.removeItemFromCart(classAdded)}">
+                        </h:commandButton>
+                     </h:column>
+                  </h:dataTable>
+                  <h:commandButton value="Checkout" rendered="true"
+                     action="#{gymClassBean.toPayment()}" styleClass="choose-btn" />
+                  <p class="subtitle2" style="color: red; font-weight: bold;">You
+                     have 5 minutes to complete your payment before the session
+                     expires.
+                  </p>
+               </h:panelGroup>
+            </div>
+         </h:form>
+      </main>
+   </h:body>
 </html>

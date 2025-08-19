@@ -142,3 +142,4 @@ public class User {
 	           c1.getClassTime().equals(c2.getClassTime());
 	}
 }
+

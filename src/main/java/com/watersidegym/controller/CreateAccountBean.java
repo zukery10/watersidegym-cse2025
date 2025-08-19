@@ -36,13 +36,5 @@ public class CreateAccountBean {
 		if (context != null) {
 			context.addMessage(null, new FacesMessage(severity, msg, null));
 		}
-	}
-
-//	public void printUsersToConsole() {
-//		System.out.println("---- List of Users ----");
-//		for (User u : UserService.getUsers()) {
-//			System.out.println("Email: " + u.getEmail() + ", Name: " + u.getFirstName() + " " + u.getSecondName());
-//		}
-//		System.out.println("-----------------------");
-//	}
+	} 
 }

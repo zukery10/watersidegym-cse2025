@@ -10,14 +10,15 @@ import com.watersidegym.model.User;
 @SessionScoped
 public class MemberShipBean {
 
-    private long paymentStartTime; // for session timeout
-    private String membershipPlan;
-    private String membershipPrice;
+	private long paymentStartTime; // for session timeout
+	private final long paymentTimeoutMillis = 5 * 60 * 1000;
+	private String membershipPlan;
+	private String membershipPrice;
 	private String confirmationMessage;
-    private String paypalEmail;
-    private String paypalPassword;
+	private String paypalEmail;
+	private String paypalPassword;
 
-    public String getMembershipPrice() {
+	public String getMembershipPrice() {
 		return membershipPrice;
 	}
 
@@ -29,64 +30,67 @@ public class MemberShipBean {
 		this.membershipPlan = membershipPlan;
 	}
 
-    public String getMembershipPlan() {
-        return membershipPlan;
-    }
+	public String getMembershipPlan() {
+		return membershipPlan;
+	}
 
-    public String getConfirmationMessage() {
-        return confirmationMessage;
-    }
+	public String getConfirmationMessage() {
+		return confirmationMessage;
+	}
 
-    public String getPaypalEmail() {
-        return paypalEmail;
-    }
+	public String getPaypalEmail() {
+		return paypalEmail;
+	}
 
-    public void setPaypalEmail(String paypalEmail) {
-        this.paypalEmail = paypalEmail;
-    }
+	public void setPaypalEmail(String paypalEmail) {
+		this.paypalEmail = paypalEmail;
+	}
 
-    public String getPaypalPassword() {
-        return paypalPassword;
-    }
+	public String getPaypalPassword() {
+		return paypalPassword;
+	}
 
-    public void setPaypalPassword(String paypalPassword) {
-        this.paypalPassword = paypalPassword;
-    }
+	public void setPaypalPassword(String paypalPassword) {
+		this.paypalPassword = paypalPassword;
+	}
 
-    public String choosePlan(String planCode, String price) {
-        try {
-            this.membershipPlan = planCode;
-            this.membershipPrice = price;
-            this.paymentStartTime = System.currentTimeMillis();
-            
-            this.confirmationMessage = "You have selected the " + planCode + " membership plan, with price of " + price;
+	public String choosePlan(String planCode, String price) {
+		try {
+			this.membershipPlan = planCode;
+			this.membershipPrice = price;
+			this.paymentStartTime = System.currentTimeMillis();
 
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Membership Selected", confirmationMessage));
+			this.confirmationMessage = "You have selected the " + planCode + " membership plan, with price of " + price;
 
-            return "payment.xhtml?faces-redirect=true";
-        } catch (IllegalArgumentException e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Plan", "The selected plan is not valid."));
-            return null;
-        }
-    }
+			addMessage("You have selected the " + membershipPlan + " membership plan, with price of " + membershipPrice,
+			           FacesMessage.SEVERITY_INFO);
 
-    public String processPaymentPayPal() {
-        if (isPaymentTimedOut()) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Timeout",
-                            "Your payment session has expired. Please select a plan again."));
-            return "index.xhtml?faces-redirect=true";
-        }
+			// reset classPayment to false because the user is paying for a membership,
+			// not a class, so the class payment flow should be disabled.
+			FacesContext context = FacesContext.getCurrentInstance();
+			GymClassBean gymClassBean = context.getApplication().evaluateExpressionGet(context, "#{gymClassBean}",
+					GymClassBean.class);
+			gymClassBean.setClassPayment(false);
 
-        if (!isValidPayPal()) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Payment Failed", "Invalid PayPal credentials."));
-            return null;
-        }
+			return "payment.xhtml?faces-redirect=true";
+		} catch (IllegalArgumentException e) {
+			addMessage("The selected plan is not valid.", FacesMessage.SEVERITY_ERROR);
+			return null;
+		}
+	}
 
-        // get the loggedin user from the LoginBean
+	public String processPaymentPayPal() {
+		if (isPaymentTimedOut()) {
+			addMessage("Your payment session has expired. Please select a plan again.", FacesMessage.SEVERITY_ERROR);
+			return "index.xhtml?faces-redirect=true";
+		}
+
+		if (!isValidPayPal()) {
+			addMessage("Invalid PayPal credentials.", FacesMessage.SEVERITY_ERROR);
+			return null;
+		}
+
+		// get the loggedin user from the LoginBean
 		FacesContext context = FacesContext.getCurrentInstance();
 		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 		User loggedInUser = loginBean.getLoggedInUser();
@@ -96,38 +100,61 @@ public class MemberShipBean {
 			loggedInUser.setRole("Member");
 		}
 
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Payment Successful",
-                        "Your " + this.membershipPlan + " membership has been activated."));
+		addMessage("Your " + membershipPlan + " membership has been activated.", FacesMessage.SEVERITY_INFO);
+		return "payment-success.xhtml?faces-redirect=true";
+	}
 
-        return "payment-success.xhtml?faces-redirect=true";
-    }
-    
-    public boolean isPaymentTimedOut() {
-        long now = System.currentTimeMillis();
-        long elapsed = now - paymentStartTime;
-        return elapsed > (5 * 60 * 1000); // 5 minutes
-    }
+	public boolean isPaymentTimedOut() {
+		long now = System.currentTimeMillis();
+		long elapsed = now - paymentStartTime;
+		return elapsed > (5 * 60 * 1000); // 5 minutes
+	}
 
-    public boolean isValidPayPal() {
-    	if ("user@example.com".equalsIgnoreCase(paypalEmail)
-                && "password".equals(paypalPassword)) {
-    		return true;
-    	}
-    	else {
-    		return false ;
-    	}
-    }
-    
-    public void checkPaymentSession() {
-        if (isPaymentTimedOut()) { //similar to login check
-        	   try {
-   	        	FacesContext.getCurrentInstance().getExternalContext().redirect("sessionExpired.xhtml");
+	public boolean isValidPayPal() {
+		if ("user@example.com".equalsIgnoreCase(paypalEmail) && "password".equals(paypalPassword)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-        	   } catch (Exception e) {
-   	            System.out.println("Redirect failed");
-   	        }
-        }
-    }    
+	public void checkPaymentSession() {
+		if (isPaymentTimedOut()) { // similar to login check
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("sessionExpired.xhtml");
+
+			} catch (Exception e) {
+				System.out.println("Redirect failed");
+			}
+		}
+	}
+
+	public String getMembershipPaymentRemainingTime() {
+		if (paymentStartTime == 0) {
+			return "";
+		}
+		long now = System.currentTimeMillis();
+		long elapsed = now - paymentStartTime;
+		long remaining = paymentTimeoutMillis - elapsed;
+
+		if (remaining <= 0) {
+			return "00:00";
+		}
+		long minutes = (remaining / 1000) / 60;
+		long seconds = (remaining / 1000) % 60;
+
+		return String.format("%02d:%02d", minutes, seconds);
+	}
+	
+	protected void addMessage(String msg, FacesMessage.Severity severity) {
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    if (context != null) {
+	        context.addMessage(null, new FacesMessage(severity, msg, null));
+	    }
+	}
+	
+	public void setPaymentStartTime(long time) {
+	    this.paymentStartTime = time;
+	}
+	
 }

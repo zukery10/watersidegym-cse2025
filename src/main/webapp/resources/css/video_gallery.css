@@ -1,0 +1,193 @@
+/* =========================
+   Video Gallery (page-only)
+   ========================= */
+
+/* Reuse your theme vars if present; otherwise provide fallbacks */
+:root{
+  --green: var(--green, #1aa36f);
+  --green-600: var(--green-dark, #148a5e);
+  --bg: var(--bg, #0f1115);
+  --text: var(--text, #e5e7eb);
+  --muted: var(--muted, #9ca3af);
+  --card: var(--card, #111827);
+  --border: var(--border, rgba(255,255,255,.10));
+}
+
+/* Page container + title bar */
+.vg-container{
+  max-width: 1100px;
+  margin: 28px auto;
+  padding: 0 16px;
+}
+.vg-titlebar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin: 8px 2px 16px;
+}
+.vg-page-title{
+  margin:0;
+  font-size: 28px;
+  color: #fff;
+}
+
+/* Section headers (“Recently Added”, “Yoga only”) */
+.vg-section{ margin-top: 18px; }
+.vg-section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin: 8px 2px 10px;
+}
+.vg-section-title{
+  margin:0;
+  font-size: 18px;
+  color:#fff;
+  letter-spacing:.2px;
+}
+.vg-count{
+  display:inline-block;
+  margin-left:8px;
+  padding: 2px 8px;
+  font-size:12px;
+  color:#cbd5e1;
+  background:#1f2937;
+  border:1px solid var(--border);
+  border-radius:999px;
+}
+.vg-see-all{
+  font-size:12px;
+  color:#aab9ce;
+  text-decoration:none;
+}
+
+/* 3-up grid (2/1 on smaller screens) */
+.vg-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 980px){
+  .vg-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px){
+  .vg-grid{ grid-template-columns: 1fr; }
+}
+
+/* Video card */
+.vg-card{
+  background: #151922;            /* slightly lighter than page bg */
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow:hidden;
+  box-shadow: 0 8px 18px rgba(0,0,0,.25);
+  transition: transform .12s ease, box-shadow .2s ease;
+}
+.vg-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
+}
+
+/* Thumbnail/video */
+.vg-thumb{ position:relative; background:#000; }
+.vg-thumb video{
+  width:100%;
+  height:200px;         /* close to screenshot height */
+  display:block;
+  background:#000;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+/* Duration pill (top-right in screenshot) */
+.vg-duration{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  padding: 2px 6px;
+  font-size:12px;
+  color:#e5e7eb;
+  background: rgba(0,0,0,.75);
+  border-radius: 6px;
+}
+
+/* Meta block under the video */
+.vg-meta{ padding: 10px 12px; }
+.vg-title{
+  margin: 2px 0 2px;
+  font-size:14px;
+  color:#fff;
+  font-weight: 600;
+}
+.vg-by{
+  margin: 0 0 8px;
+  font-size:12px;
+  color:#cbd5e1;
+}
+.vg-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.vg-ago{ font-size:12px; color:#9fb0c7; }
+
+/* Chips (“Free”, “Unlock”) */
+.vg-chip{
+  font-size:12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  white-space: nowrap;
+}
+
+/* Free = green-tinted chip */
+.vg-chip-free{
+  background: rgba(26,163,111,.15);
+  color: #bfffe5;
+  border-color: rgba(26,163,111,.45);
+}
+
+/* Unlock = neutral chip with a lock icon */
+.vg-chip-lock{
+  background: rgba(255,255,255,.06);
+  color: #e5e7eb;
+  position: relative;
+}
+.vg-chip-lock::before{
+  content: '🔒';
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+/* Optional small Filters button style (disabled in mock) */
+.vg-btn{
+  border:1px solid var(--border);
+  background: #171b24;
+  color:#cbd5e1;
+  border-radius:10px;
+  padding:8px 12px;
+  cursor:not-allowed;         /* mock only */
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.vg-btn .vg-icon{ margin-right:6px; }
+
+/* Make sure links inside cards don’t get underlines */
+.vg-card a{ color:inherit; text-decoration:none; }
+
+/* Spacing consistency with your global theme */
+body{
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Subtle inset white edge on thumbnails—like the screenshot */
+.vg-thumb::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+  pointer-events:none;
+}

@@ -2,89 +2,162 @@ package com.watersidegym.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Date;
-
-import javax.faces.application.FacesMessage;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.watersidegym.model.User;
+import com.watersidegym.service.UserService;
+
+import javax.faces.application.FacesMessage;
 
 class LoginBeanTest {
 
-	LoginBean loginbean;
-	User user;
+    private LoginBean loginbean;
 
-	@BeforeEach
-	public void setUp() {
-		loginbean = new LoginBean(); // create an instance before each test
-	}
+    @BeforeEach
+    public void setUp() {
+        // Clear users before each test
+        UserService.getUsers().clear();
 
-	@Test
-	public void testEmptyFields() {
-		loginbean.setEmail(""); // sets empty fields
-		loginbean.setPassword("");
-		assertTrue(loginbean.emptyFields());
-	}
+        // Override addMessage so FacesContext is not used
+        loginbean = new LoginBean() {
+            @Override
+            protected void addMessage(String msg, FacesMessage.Severity severity) {
+                // Do nothing in tests
+            }
+        };
+    }
 
-	@Test
-	public void testNoEmailFound() {
-		assertTrue(loginbean.noEmailFound(user));
+    @Test
+    public void loginFailsWhenFieldsEmpty() {
+        loginbean.setEmail("");
+        loginbean.setPassword("");
 
-	}
+        String page = loginbean.login();
 
-	@Test
-	public void testPasswordMismatch() {
-		User user2 = new User();
+        assertNull(page); // login should fail
+    }
 
-		user2.setPassword("Member123");
+    @Test
+    public void loginFailsWhenEmailNotFound() {
+        loginbean.setEmail("notfound@example.com");
+        loginbean.setPassword("password123");
 
-		assertTrue(loginbean.passwordMismatch(user2));
-	}
+        String page = loginbean.login();
 
-	@Test
-	public void testRedirectDashboard() {
-		User user1 = new User();
-		user1.setRole("Member");
-		assertEquals("member-dashboard", loginbean.redirect(user1));
-		User user2 = new User();
-		user2.setRole("Non-Member");
-		assertEquals("nonmember-dashboard", loginbean.redirect(user2));
-		User user3 = new User();
-		user3.setRole("PT");
-		assertEquals("personal-trainer-dashboard", loginbean.redirect(user3));
-	}
+        assertNull(page); // login fails because user does not exist
+    }
 
-	@Test
-	public void testLogout() {
-		User mockUser = new User();
-		mockUser.setEmail("test@example.com");
-		mockUser.setPassword("password123");
-		loginbean.setEmail("test@example.com");
-		loginbean.setPassword("password123");
-		loginbean.logout();
-		String result = loginbean.logout();
-		assertEquals("index", result, "Logout should redirect to index page");
-		assertNull(loginbean.getLoggedInUser(), "User should be logged out (null)");
-		assertNull(loginbean.getEmail(), "Email should be cleared");
-		assertNull(loginbean.getPassword(), "Password should be cleared");
-	}
+    @Test
+    public void loginFailsWhenPasswordIncorrect() {
+        User user = new User();
+        user.setEmail("user@example.com");
+        user.setPassword("rightpassword");
+        user.setRole("Member");
+        UserService.addUser(user);
 
-	@Test
-	public void testLogoutClearsState() {
-		User user = new User();
-		user.setEmail("member@example.com");
-		user.setPassword("pass");
-		loginbean.setEmail("member@example.com");
-		loginbean.setPassword("pass");
-		loginbean.setLoggedInUser(user); // add setter in LoginBean for testing
+        loginbean.setEmail("user@example.com");
+        loginbean.setPassword("wrongpassword");
 
-		String result = loginbean.logout();
+        String page = loginbean.login();
 
-		assertEquals("index", result);
-		assertNull(loginbean.getLoggedInUser());
-		assertNull(loginbean.getEmail());
-		assertNull(loginbean.getPassword());
-	}
+        assertNull(page); // login fails because password is wrong
+    }
+
+    @Test
+    public void loginSucceedsAndRedirectsMember() {
+        // Clear users
+        UserService.getUsers().clear();
+
+        // Create a user with Member role
+        User member = new User();
+        member.setEmail("member@example.com");
+        member.setPassword("password");
+        UserService.addUser(member);
+        member.setRole("Member");
+
+
+        // Set login input
+        loginbean.setEmail("member@example.com");
+        loginbean.setPassword("password");
+
+        // Call login
+        String page = loginbean.login();
+
+        // Check redirect
+        assertEquals("member-dashboard", page);
+        assertEquals(member, loginbean.getLoggedInUser());
+    }
+
+    @Test
+    public void loginSucceedsAndRedirectsNonMember() {
+        User user = new User();
+        user.setEmail("nonmember@example.com");
+        user.setPassword("password");
+        UserService.addUser(user);
+
+        loginbean.setEmail("nonmember@example.com");
+        loginbean.setPassword("password");
+
+        String page = loginbean.login();
+
+        assertEquals("nonmember-dashboard", page);
+        assertEquals(user, loginbean.getLoggedInUser());
+    }
+
+    @Test
+    public void loginSucceedsAndRedirectsPT() {
+        User user = new User();
+        user.setEmail("pt@example.com");
+        user.setPassword("password");
+        UserService.addUser(user);
+        user.setRole("PT");
+
+        loginbean.setEmail("pt@example.com");
+        loginbean.setPassword("password");
+
+        String page = loginbean.login();
+
+        assertEquals("personal-trainer-dashboard", page);
+        assertEquals(user, loginbean.getLoggedInUser());
+    }
+    
+    @Test
+    public void logoutClearsUserAndFields() {
+        User user = new User();
+        user.setEmail("member@example.com");
+        user.setPassword("password");
+        UserService.addUser(user);
+        user.setRole("Member");
+
+        loginbean.setEmail("member@example.com");
+        loginbean.setPassword("password");
+        loginbean.login(); // log in first
+
+        String page = loginbean.logout();
+
+        assertEquals("index", page);
+        assertNull(loginbean.getLoggedInUser());
+        assertNull(loginbean.getEmail());
+        assertNull(loginbean.getPassword());
+    }
+    
+    @Test
+    public void testIsLoggedIn() {
+        assertFalse(loginbean.isLoggedIn()); // not logged in yet
+
+        User user = new User();
+        user.setEmail("user@example.com");
+        user.setPassword("password");
+        UserService.addUser(user);
+        user.setRole("Member");
+
+        loginbean.setEmail("user@example.com");
+        loginbean.setPassword("password");
+        loginbean.login();
+
+        assertTrue(loginbean.isLoggedIn()); // logged in
+    }
+
+
 }
