@@ -8,7 +8,9 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
+import com.watersidegym.controller.LoginBean;
 import com.watersidegym.controller.PTAddVideo;
 import com.watersidegym.model.User;
 import com.watersidegym.model.Video;
@@ -69,7 +71,7 @@ public class VideoService {
 				System.out.println(u.getSecondName());
 			}
 		}
-		
+
 		return trainers;
 	}
 
@@ -81,7 +83,6 @@ public class VideoService {
 			}
 		}
 		return trainerVideos;
-
 	}
 
 	public String getSelectedTrainerName() {
@@ -109,13 +110,13 @@ public class VideoService {
 		this.trainerVideos = trainerVideos;
 	}
 
-	public List<Video> showVideos() {
+	public List<Video> showVideosMembers() { //for members
 		if (selectedTrainerName != null && !selectedTrainerName.isEmpty()) {
 			return getSelectedTrainerVideos();
-		} else {
+		} else 
 			return getMemberVideos(); 
-		}
-
 	}
 
 }
+
+
