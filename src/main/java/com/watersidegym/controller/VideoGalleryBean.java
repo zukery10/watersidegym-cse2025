@@ -2,8 +2,8 @@ package com.watersidegym.controller;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;     // used for file upload
@@ -16,12 +16,12 @@ import java.time.LocalDate;
 import java.util.*;
 
 @ManagedBean(name = "videoControllerBean")
-@ApplicationScoped
+@SessionScoped
 public class VideoGalleryBean {
 
 	// ===== List of all videos =====
-	private List<Video> videos = new ArrayList<>();
-	private int nextId = 1; 
+	private List<Video> videos = new ArrayList<>();// initializing list for all videos preloaded
+	private int nextId = 1; //video id initializer, starts with 1
 
 	// ===== Form fields for uploading =====
 	private Part uploadedFile; // the file chosen by user
@@ -34,13 +34,16 @@ public class VideoGalleryBean {
 	// Max upload size (200MB)
 	private final long MAX_SIZE = 200L * 1024L * 1024L;
 
+	
+	public VideoGalleryBean() { //public default constructor loads preloaded videos, calls the preload function
+		preload();
+	}
+
 	// ===== Adding some sample videos at startup =====
-	@PostConstruct
 	public void preload() {
 		// all in recently added secton
 		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "PT@example.com");
-		
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "PTXYZ@example.com");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "PT@example.com");
 		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "PT@example.com");
 		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "PT@example.com");
 		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "PT@example.com");
@@ -52,7 +55,7 @@ public class VideoGalleryBean {
 		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
 		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
 		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "PTXYZ@example.com");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "PT@example.com");
 		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "PT2@example.com");
 		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "PT@example.com");
 		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "PT@example.com");
@@ -65,14 +68,14 @@ public class VideoGalleryBean {
 
 	// ===== Adding video to the list =====
 	private void addVideo(String title, String link, String date, String desc, String rule, String category, String uploaderUsername) {
-		videos.add(new Video(nextId++, title, link, date, desc, rule, category, uploaderUsername));
+		videos.add(new Video(nextId++, title, link, date, desc, rule, category, uploaderUsername));//this function will detect videos and add them to the list in this format
 	}
 
 	// ===== Main upload logic =====
 	public String upload() {
 		// 1. Checking if a file was chosen
-		if (uploadedFile == null || uploadedFile.getSize() == 0) {
-			showMessage(FacesMessage.SEVERITY_WARN, "Upload canceled.");
+		if (uploadedFile == null || uploadedFile.getSize() == 0) { //checking here if the video is selected to be uploaded
+			showMessage(FacesMessage.SEVERITY_WARN, "Upload canceled.");//if file is not selected or file is corrupted/no weight --> return nothing --> upload canceled
 			return null;
 		}
 
@@ -83,26 +86,30 @@ public class VideoGalleryBean {
 			return null;
 		}
 
-		// 3. Check file size
+		// 3. Check file size if more than 200MB
 		if (uploadedFile.getSize() > MAX_SIZE) {
 			showMessage(FacesMessage.SEVERITY_ERROR, "File too large. Max 200MB.");
 			return null;
 		}
 
-		// 4. Get safe file name
+		// 4. Get safe file name, if the file name has sapce we replace the space with "%20"
 		String fileName = getFileName(uploadedFile);
 		String safeName = fileName.replace(" ", "%20");
 		String link = "/resources/videos/" + safeName;
 
 		// 5. Save the file into /resources/videos
 		try {
-			ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-			String savePath = sc.getRealPath("/resources/videos");
+			ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext(); // get the server context that is running nwo
+			String savePath = sc.getRealPath("/resources/videos"); // define where to save the new file uploaded
+			System.out.println(savePath);
+			////we check if we have the video folder under /resources/videos on the server like below as temp folder
+			//C:\Users\35385\Desktop\TUS\software_testing\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\watersidegym\resources\videos
 			if (savePath != null) {
-				File folder = new File(savePath);
-				if (!folder.exists()) folder.mkdirs();
+				File folder = new File(savePath); // we define the new folder path if the folder path doesnt exist as default
+				if (!folder.exists()) folder.mkdirs(); //we create the folder for the videos if not exist
 
-				File target = new File(folder, fileName);
+				File target = new File(folder, fileName); // we create the full path for the file we want to upload
+				//input the video bytes into the new file created, we write byte by byte
 				try (InputStream in = uploadedFile.getInputStream();
 						FileOutputStream out = new FileOutputStream(target)) {
 					byte[] buffer = new byte[1024];
@@ -114,24 +121,26 @@ public class VideoGalleryBean {
 			}
 
 			// 6. Add to video list
-			String title = (formTitle == null || formTitle.isEmpty()) ? fileName.replaceFirst("\\.[^.]+$", "") : formTitle;
-			String date = (formDate == null || formDate.isEmpty()) ? LocalDate.now().toString() : formDate;
-			String desc = (formDescription == null) ? "Uploaded by trainer." : formDescription;
+			String title = (formTitle == null || formTitle.isEmpty()) ? fileName.replaceFirst("\\.[^.]+$", "") : formTitle; //if no title was added we added we use the file name as title.
+			String date = (formDate == null || formDate.isEmpty()) ? LocalDate.now().toString() : formDate; // if no date was added we add the server date as date 
+			String desc = (formDescription == null) ? "no description." : formDescription;
 
 			// get the loggedin user from the LoginBean
 			FacesContext context = FacesContext.getCurrentInstance();
 			LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 			User loggedInUser = loginBean.getLoggedInUser();
 
+			// after we get the user logged in we get his email to add to the video items.
 
 			addVideo(title, link, date, desc, formRule, formCategory, loggedInUser.getEmail());
 
-			// 7. Reset form fields
+			// 7. Reset form fields, after we upload the video we reset the video upload form to no values.
 			uploadedFile = null;
 			formTitle = formDate = formDescription = null;
 			formRule = "Public";
 			formCategory = "Recently Added";
 
+			//server msgs to display for debugging
 			showMessage(FacesMessage.SEVERITY_INFO, "Upload complete. Video added.");
 		} catch (Exception e) {
 			showMessage(FacesMessage.SEVERITY_ERROR, "Upload failed. Please try again.");
@@ -147,30 +156,39 @@ public class VideoGalleryBean {
 		return null;
 	}
 
-	// ===== Helpers =====
+	// ===== Helpers for showing server msgs =====
 	private void showMessage(FacesMessage.Severity type, String text) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(type, text, null));
 	}
 
+	// function to get the file name that we have in the system
+	// or example we have filename:C:\USER\A000000\Downloads\video_to_upload.mp4
+	// the function will return video_to_upload.mp4
 	private String getFileName(Part part) {
 		for (String cd : part.getHeader("content-disposition").split(";")) {
-			if (cd.trim().startsWith("filename")) {
+			if (cd.trim().startsWith("filename")) {//if the name of the video uploaded video was found in the header of the request if ill get the trim the header and ge the name of the file
+				// here we take from the path from \ + 1 to the end 
+				// or example we have filename:C:\USER\A000000\Downloads\video_to_upload.mp4 -> \+1 -> video_to_upload.mp4
 				return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
 			}
 		}
+		//else we return video.mp4 as a fall back but it will not happen.
 		return "video.mp4";
 	}
 
 
 	// Return only videos in a given category, newest first
 	public List<Video> byCategory(String category) {
+		// create a new list to return to the user with the cat selected only.
 		List<Video> out = new ArrayList<>();
+		// look into the preloaded list to see all the videos then u check if the video you are visiting has same cat then we add to the new one we will return
 		for (Video v : videos) {
 			if (v.getCategory() != null && v.getCategory().equalsIgnoreCase(category)) {
 				out.add(v);
 			}
 		}
-		// newest-first by date string (YYYY-MM-DD)
+		//we re visit the out list we created before return to the user so we can sort the video in recent data order 
+		//newest-first by date string (YYYY-MM-DD)
 		for (int i = 0; i < out.size() - 1; i++) {
 			for (int j = 0; j < out.size() - i - 1; j++) {
 				Video a = out.get(j);
@@ -190,27 +208,6 @@ public class VideoGalleryBean {
 		return out;
 	}
 	
-//	public List<Video> getNonMemberVideos() {
-//		List<Video> nonMemberVideos = new ArrayList<>();
-//		for (Video video : videos) {
-//			if (video != null && video.getRule().equalsIgnoreCase("public")) {
-//				nonMemberVideos.add(video);
-//			}
-//		}
-//		return nonMemberVideos;
-//	}
-//
-//	public List<Video> getMemberVideos() {
-//		List<Video> memberVideos = new ArrayList<>();
-//		for (Video video : videos) {
-// 
-//			if (video != null && video.getRule().equalsIgnoreCase("Private")) {
-//				memberVideos.add(video);
-//				System.out.println("Printing true for member videos!!");
-//			} else System.out.println("Printing false");
-//		}
-//		return memberVideos;
-//	}
 	
 	public List<Video> getMyVideos() {
 		List<Video> mine = new ArrayList<>();
@@ -224,8 +221,8 @@ public class VideoGalleryBean {
 		String email = loggedInUser.getEmail();
 		//System.out.println("LOGGEDN IN EMAIL IS " + email);
 		for (Video v : videos) {
-			//if the user is already loggedin -> we check the email ofr the user
-			// then we compare with the videos li and add the matching email only 
+			//if the user is already loggedin -> we check the email of the user
+			// then we compare with the videos lib and add the matching email only 
 			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
 				//System.out.println("v.getUploadedBy() " + v.getUploadedBy());
 				//here we add the email for this user
@@ -239,6 +236,7 @@ public class VideoGalleryBean {
 	//delete video section here
 	public void deleteVideo(int id) {
 		int index = -1;
+		// we want to make sure first if the video is exist before delete 
 		//System.out.println("deleteing id  >> " +	id);  --> for testinh
 		for (int i =0; i < videos.size() ; i++) {
 			if (videos.get(i).getId() == id) {
@@ -246,6 +244,8 @@ public class VideoGalleryBean {
 				break;
 			}
 		}
+		// if the video is exist we will get index not -1
+		// so we delete
 		if (index != -1) {
 			//System.out.println("video index was deleted >> " +	index);   --> for testing
 			videos.remove(index);
@@ -263,8 +263,6 @@ public class VideoGalleryBean {
 	}
 	
 	
-	
-
 	// ===== Getters/Setters =====
 	public List<Video> getVideos() { return videos; }
 
