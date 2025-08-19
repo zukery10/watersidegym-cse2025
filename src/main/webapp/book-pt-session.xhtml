@@ -5,6 +5,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
+<f:metadata>
+	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+</f:metadata>
 <h:head>
 	<title>Book PT Session</title>
 	<h:outputStylesheet name="styles.css" library="css" />

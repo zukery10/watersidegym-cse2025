@@ -17,7 +17,7 @@
 		<div class="vg-container">
 			<div class="vg-titlebar">
 				<h1 class="vg-page-title">
-					Public<span class="highlight">Videos</span>
+					Public<span class="highlight"> Videos</span>
 				</h1>
 			</div>
 		
@@ -35,14 +35,13 @@
 					<h:message for="trainer" errorClass="field-error" />
 					<br></br>
 
-					<h:commandButton value="Filter by Trainer"
-						action="#{videoService.getNonMemberVideos()}" />
+					 <h:commandButton value="Filter by Trainer" action="#{videoService.showVideosNonMembers()}" />
 			</h:form>
 		</div>
 		<br></br>
 		<h:form>
 			<h:commandButton value="Back to Dashboard"
-				action="member-dashboard.xhtml?faces-redirect=true"
+				action="nonmember-dashboard.xhtml?faces-redirect=true"
 				styleClass="choose-btn" />
 		</h:form>
 		<section class="vg-section">
@@ -51,7 +50,7 @@
 			<hr />
 
 			<div class="vg-grid">
-			<ui:repeat value="#{videoService.nonMemberPublicVideos}" var="v">
+                    <ui:repeat value="#{videoService.showVideosNonMembers()}" var="v">
 					<article class="vg-card">
 						<div class="vg-thumb">
 							<video controls="controls" preload="metadata">
