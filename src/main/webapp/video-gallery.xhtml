@@ -22,7 +22,7 @@
 				<div class="vg-section-head">
 					<h2 class="vg-section-title">My videos</h2>
 				</div>
-				
+
 				<h:form styleClass="video-rule-form">
 					<br></br>
 					<hr></hr>
@@ -51,16 +51,20 @@
 											<f:selectItem itemValue="Hidden" itemLabel="Hidden" />
 										</h:selectOneRadio>
 									</div>
+
+
 									<h:commandButton value="Save"
 										action="#{videoControllerBean.updateRule(v)}"
 										styleClass="choose-btn" />
 
-									<!-- Add this to display messages -->
-<div
-					style="display: flex; justify-content: center; margin-top: 6px;">
-					<h:messages id="msgs" globalOnly="true" layout="table"
-						style="color:green;" />
-				</div>
+									<div
+										style="display: flex; justify-content: center; margin-top: 6px;">
+										<h:outputText value="#{v.message}"
+											style="color: green; font-weight: bold;"
+											rendered="#{not empty v.message}" />
+									</div>
+
+
 
 								</div>
 							</article>
