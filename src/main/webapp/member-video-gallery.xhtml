@@ -1,41 +1,73 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:metadata>
 
+
+</f:metadata>
 <h:head>
-  <title>Member Video Gallery</title>
-  <h:outputStylesheet library="css" name="membership_select_page.css" />
+	<title>Member Video Gallery</title>
+	<h:outputStylesheet library="css" name="membership_select_page.css" />
 </h:head>
 
 <h:body>
-  <main class="main-section">
-    <div class="vg-container">
-      <div class="vg-titlebar"><h1 class="vg-page-title">Member Videos</h1></div>
-      
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Private Videos</h2></div>
-        <br/><hr/>
+	<main class="main-section">
+		<div class="vg-container">
+			<div class="vg-titlebar">
+				<h1 class="vg-page-title">
+					Member <span class="highlight">Videos</span>
+				</h1>
+			</div>
+		
+				<div class="form-group">
+					<h:form style="display: flex; align-items: center;">
+					<label class="form-label" for="trainer">Choose Trainer</label>
+					<h:selectOneMenu value="#{videoService.selectedTrainerName}"
+						id="trainer">
+						<f:selectItem itemLabel="-- All Videos --" itemValue="" />
+						<f:selectItems value="#{videoService.trainers}" var="t"
+							itemLabel="#{t.firstName} #{t.secondName}"
+							itemValue="#{t.firstName} #{t.secondName}" />
+					</h:selectOneMenu>
+					<br></br>
+					<h:message for="trainer" errorClass="field-error" />
+					<br></br>
 
-        <div class="vg-grid">
-          <ui:repeat value="#{videoService.memberVideos}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
-    </div>
-  </main>
+					<h:commandButton value="Filter by Trainer"
+						action="#{videoService.showVideos()}" />
+			</h:form>
+		</div>
+		<br></br>
+		<h:form>
+			<h:commandButton value="Back to Dashboard"
+				action="member-dashboard.xhtml?faces-redirect=true"
+				styleClass="choose-btn" />
+		</h:form>
+		<section class="vg-section">
+			<div class="vg-section-head"></div>
+			<br />
+			<hr />
+
+			<div class="vg-grid">
+				<ui:repeat value="#{videoService.showVideos()}" var="v">
+					<article class="vg-card">
+						<div class="vg-thumb">
+							<video controls="controls" preload="metadata">
+								<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+							</video>
+							<span class="vg-duration">#{v.date}</span>
+						</div>
+						<div class="vg-meta">
+							<h3 class="vg-title">#{v.title}</h3>
+							<p class="vg-by">#{v.uploadedBy}</p>
+						</div>
+					</article>
+				</ui:repeat>
+			</div>
+		</section>
+		</div>
+	</main>
 </h:body>
 </html>

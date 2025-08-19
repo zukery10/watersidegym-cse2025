@@ -78,6 +78,10 @@
 					<h:commandButton value="View Videos"
 						action="member-video-gallery.xhtml?faces-redirect=true"
 						styleClass="choose-btn" />
+						<br></br>
+						<br></br>
+						<h:commandButton value="Logout" action="#{loginBean.logout}"
+							styleClass="choose-btn" />
 				</h:form>
 			</div>
 		</div>
@@ -124,23 +128,17 @@
 				</h:panelGroup>
 
 				<h:form>
-
-
 					<h:panelGroup
 						rendered="#{loginBean.loggedInUser.remainingPTSessions gt 0}">
 						<h:commandButton value="Book PT Session"
 							action="book-pt-session?faces-redirect=true"
 							styleClass="choose-btn" />
 					</h:panelGroup>
-
 					<br />
-
 					<h:outputText value="No more sessions left to book"
 						rendered="#{loginBean.loggedInUser.remainingPTSessions le 0}"
 						styleClass="message-error" />
 				</h:form>
-
-
 			</div>
 		</div>
 
