@@ -1016,7 +1016,9 @@ background-size: 93px 82px;
   background-size: contain;             /* fit entire image */
   background-color: #0f1115;            /* fill letterbox area */
   min-height: calc(100vh - 72px);       /* full screen minus header */
-  padding-bottom: 60px;                  /* give space under the cards */
+  padding-bottom: 60px; 
+  
+                   /* give space under the cards */
 }
 
 /* On narrow phones adj: */
@@ -1027,18 +1029,39 @@ background-size: 93px 82px;
   }
 }
 
-/* THIS SECTION IS FOR MEMBER DASHBOARD - GREY FORMS ADJUSTMENT TO THE BUTTONS BACKGROUND*/
+/* THIS SECTION IS FOR MEMBER DASHBOARD & FOR PURCHASE MEMBERSHIP - GREY FORMS ADJUSTMENT TO THE BUTTONS BACKGROUND*/
 /* translucent panel to match .dash-card look */
-.soft-panel{
+.soft-panel {
   background: rgba(15,17,21,0.90);             
   border: 1px solid rgba(255,255,255,.08);
   border-radius: 14px;
   box-shadow: 0 8px 18px rgba(0,0,0,.25);
-  /* a tiny bit of glassiness (optional) */
   -webkit-backdrop-filter: saturate(120%) blur(2px);
   backdrop-filter: saturate(120%) blur(2px);
+  position: relative; /* Needed for the badge */
 }
 
+/* Highlighted "Most Popular" card */
+.soft-panel.popular {
+  border: 2px solid #28a745;   /* Bright green border */
+  box-shadow: 0 0 20px rgba(40,167,69,0.4);
+  transform: scale(1.05);      /* Slight zoom effect */
+  z-index: 2;
+}
+
+/* Badge styling */
+.soft-panel.popular .badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 13px;
+}
 
 .soft-panel .jsf-table{
   background-color: transparent;               
@@ -1102,4 +1125,10 @@ background-size: 93px 82px;
     gap: 8px;
   }
 }
+
+
+/* ===== THIS SECTION IS FOR NONMEMBER DASHBOARD  ===== */
+/* Turn .main-section into a centered 2-column layout
+    */
+
 
