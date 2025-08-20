@@ -5,9 +5,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;     // used for file upload
-
 import com.watersidegym.model.User;
 import com.watersidegym.model.Video;
 
@@ -37,30 +37,13 @@ public class PTAddVideo {
 	// ===== Adding some sample videos at startup =====	
 	@PostConstruct
 	public void preload() {
-		// all in recently added secton
-
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "Joe Soundman");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "Joe Soundman");
-		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "Alex Byrne");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "Alex Byrne");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "Alex Byrne");
-		addVideo("CrossFit Hidden", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Hidden", "Recently Added", "Alex Byrne");
 		
-		//------------------------------------------
-		// all in related sections
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Tai Chi", "Joe Soundman");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Alex Byrne");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Joe Soundman");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Joe Soundman");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "Joe Soundman");
-		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "Alex Byrne");
-		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "Joe Soundman");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "Joe Soundman");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Kickboxing", "Alex Byrne");
-		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Public", "CrossFit", "Joe Soundman");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Joe Soundman");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
+		addVideo("Chest Press", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "How to do a barbell chest press", "Hidden", "Free Weights", "Alex Byrne");
+		addVideo("Squat", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "How to do a Squat", "Public", "Free Weights", "Joe Soundman");
+		addVideo("Plank", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "How to do a plank", "Private", "Bodyweight", "Joe Soundman");
+		addVideo("Incline Walk", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "How to use the threadmill at incline","Private", "Cardio Equipment", "Alex Byrne");
+		addVideo("Resistance Band Curl", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "How to do a resistance band curl", "Public", "Bands", "Alex Byrne");
+		addVideo("Cable Row", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "How to do a cable row", "Hidden", "Machines", "Joe Soundman");
 
 	}
 
@@ -269,47 +252,26 @@ public class PTAddVideo {
 
 	//------------------------------------------------
 
-	public List<Video> getRecentlyAdded() {
-		return byCategory("Recently Added");
-	}
-	
 
-	public List<Video> getYogaOnly() {
-		return byCategory("Yoga");
+	public List<Video> getBodyweightOnly() {
+		return byCategory("Bodyweight");
 	}
 
-	public List<Video> getZumbaOnly() {
-		return byCategory("Zumba");
+	public List<Video> getFreeWeightsOnly() {
+		return byCategory("Free Weights");
 	}
 
-	public List<Video> getCoreOnly() {
-		return byCategory("Core Strength");
+	public List<Video> getMachinesOnly() {
+		return byCategory("Machines");
 	}
 
-	public List<Video> getTaichiOnly() {
-		return byCategory("Tai Chi");
+	public List<Video> getBandsOnly() {
+		return byCategory("Bands");
 	}
 
-	public List<Video> getKickboxingOnly() {
-		return byCategory("Kickboxing");
+	public List<Video> getCardioEquipmentOnly() {
+		return byCategory("Cardio Equipment");
 	}
-
-	public List<Video> getCrossfitOnly() {
-		return byCategory("CrossFit");
-	}
-
-	public List<Video> getAquaaerobicsOnly() {
-		return byCategory("Aqua Aerobics");
-	}
-
-	public List<Video> getPilatesOnly() {
-		return byCategory("Pilates");
-	}
-
-	public List<Video> getTabataOnly() {
-		return byCategory("Tabata");
-	}
-	
 
 	public String updateRule(Video video) {
 	    // clear messages on all other videos
@@ -322,6 +284,8 @@ public class PTAddVideo {
 	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
 	    return null;
 	}
-
-
+	
+	public void notifyFileChosen(AjaxBehaviorEvent e) {
+	    showMessage(FacesMessage.SEVERITY_INFO, "Video selected. Ready to upload.");
+	}
 }

@@ -110,7 +110,7 @@ public class MemberShipBean {
 	        } else if ("6 Month Plan".equalsIgnoreCase(membershipPlan)) {
 	            loggedInUser.setRemainingPTSessions(2);
 	        } else if ("12 Month Plan".equalsIgnoreCase(membershipPlan)) {
-	            loggedInUser.setRemainingPTSessions(3);
+	            loggedInUser.setRemainingPTSessions(4);
 	        }
 		}
 

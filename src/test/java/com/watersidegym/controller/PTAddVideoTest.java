@@ -5,210 +5,149 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PTAddVideoTest {
 
-	private PTAddVideo bean;
+    private PTAddVideo bean;
 
-	@BeforeEach
-	public void setUp1() {
-		bean = new PTAddVideo() {
+    @BeforeEach
+    public void setUp1() {
+        bean = new PTAddVideo() {
+            @Override
+            protected void showMessage(FacesMessage.Severity type, String text) {
+                // Do nothing in tests
+            }
+        };
+        bean.preload();
+    }
 
-			@Override
-			protected void showMessage(FacesMessage.Severity type, String text) {
-				// Do nothing in tests
-			}
-		};
-		bean.preload();
-	}
+    @Test
+    public void preloadLoadVideos() {
+        List<Video> videos = bean.getVideos();
+        assertNotNull(videos);
+        assertFalse(videos.isEmpty());
+    }
 
-	@Test
-	public void preloadLoadVideos() {
-		List<Video> videos = bean.getVideos();
-		assertNotNull(videos);
-		assertFalse(videos.isEmpty());
-	}
+    @Test
+    public void bodyweightOnlyContainBodyweight() {
+        List<Video> bodyweight = bean.getBodyweightOnly();
+        assertFalse(bodyweight.isEmpty());
+        for (Video v : bodyweight) {
+            assertEquals("Bodyweight", v.getCategory());
+        }
+    }
 
-	@Test
-	public void yogaVideosOnlyContainYoga() {
-		List<Video> yoga = bean.getYogaOnly();
-		assertFalse(yoga.isEmpty());
-		for (Video v : yoga) {
-			assertEquals("Yoga", v.getCategory());
-		}
-	}
+    @Test
+    public void freeWeightsOnlyContainFreeWeights() {
+        List<Video> freeWeights = bean.getFreeWeightsOnly();
+        assertFalse(freeWeights.isEmpty());
+        for (Video v : freeWeights) {
+            assertEquals("Free Weights", v.getCategory());
+        }
+    }
 
-	@Test
-	public void recentlyAddedOnlyContainRecent() {
-		List<Video> recent = bean.getRecentlyAdded();
-		assertFalse(recent.isEmpty());
-		for (Video v : recent) {
-			assertEquals("Recently Added", v.getCategory());
-		}
-	}
+    @Test
+    public void machinesOnlyContainMachines() {
+        List<Video> machines = bean.getMachinesOnly();
+        assertFalse(machines.isEmpty());
+        for (Video v : machines) {
+            assertEquals("Machines", v.getCategory());
+        }
+    }
 
-	@Test
-	public void tabataVideosOnlyContainTabata() {
-		List<Video> tabata = bean.getTabataOnly();
-		assertFalse(tabata.isEmpty());
-		for (Video v : tabata) {
-			assertEquals("Tabata", v.getCategory());
-		}
-	}
+    @Test
+    public void bandsOnlyContainBands() {
+        List<Video> bands = bean.getBandsOnly();
+        assertFalse(bands.isEmpty());
+        for (Video v : bands) {
+            assertEquals("Bands", v.getCategory());
+        }
+    }
 
-	@Test
-	public void formFieldsStoreAndReturnValues() {
-		bean.setFormTitle("My Video");
-		bean.setFormDate("2025-08-18");
-		bean.setFormDescription("Test video");
-		bean.setFormRule("Member");
-		bean.setFormCategory("Yoga");
+    @Test
+    public void cardioOnlyContainCardio() {
+        List<Video> cardio = bean.getCardioEquipmentOnly();
+        assertFalse(cardio.isEmpty());
+        for (Video v : cardio) {
+            assertEquals("Cardio Equipment", v.getCategory());
+        }
+    }
 
-		assertEquals("My Video", bean.getFormTitle());
-		assertEquals("2025-08-18", bean.getFormDate());
-		assertEquals("Test video", bean.getFormDescription());
-		assertEquals("Member", bean.getFormRule());
-		assertEquals("Yoga", bean.getFormCategory());
-	}
+    @Test
+    public void formFieldsStoreAndReturnValues() {
+        bean.setFormTitle("My Video");
+        bean.setFormDate("2025-08-18");
+        bean.setFormDescription("Test video");
+        bean.setFormRule("Member");
+        bean.setFormCategory("Free Weights");
 
-	@Test
-	public void tabataVideosSortedNewestFirst() {
-		List<Video> tabata = bean.getTabataOnly();
-		assertFalse(tabata.isEmpty());
-		String firstDate = tabata.get(0).getDate();
-		String lastDate = tabata.get(tabata.size() - 1).getDate();
-		assertTrue(firstDate.compareTo(lastDate) >= 0);
-	}
+        assertEquals("My Video", bean.getFormTitle());
+        assertEquals("2025-08-18", bean.getFormDate());
+        assertEquals("Test video", bean.getFormDescription());
+        assertEquals("Member", bean.getFormRule());
+        assertEquals("Free Weights", bean.getFormCategory());
+    }
 
-	@Test
-	void preloadLoadAtLeastTenVideos() {
-		assertNotNull(bean.getVideos());
-		assertTrue(bean.getVideos().size() >= 10);
-	}
+    @Test
+    public void freeWeightsVideosSortedNewestFirst() {
+        List<Video> freeWeights = bean.getFreeWeightsOnly();
+        assertFalse(freeWeights.isEmpty());
+        String firstDate = freeWeights.get(0).getDate();
+        String lastDate = freeWeights.get(freeWeights.size() - 1).getDate();
+        assertTrue(firstDate.compareTo(lastDate) >= 0);
+    }
 
-	@Test
-	void formFieldsKeepValues() {
-		bean.setFormTitle("My Video");
-		bean.setFormDate("2025-08-18");
-		bean.setFormDescription("Test video");
-		bean.setFormRule("Member");
-		bean.setFormCategory("Yoga");
+    @Test
+    void preloadLoadAtLeastSixVideos() {
+        assertNotNull(bean.getVideos());
+        assertTrue(bean.getVideos().size() >= 6);
+    }
 
-		assertEquals("My Video", bean.getFormTitle());
-		assertEquals("2025-08-18", bean.getFormDate());
-		assertEquals("Test video", bean.getFormDescription());
-		assertEquals("Member", bean.getFormRule());
-		assertEquals("Yoga", bean.getFormCategory());
-	}
+    @Test
+    public void updateRulePublicToPrivateHidden() {
+        Video v = new Video(999, "Test Video", "/resources/videos/test.mp4", "2025-08-19",
+                "Testing updateRule", "Public", "Free Weights", "tester@example.com");
+        bean.getVideos().add(v);
 
-	// --------------------
+        v.setRule("Private");
+        bean.updateRule(v);
+        assertEquals("Private", v.getRule());
 
-	@Test
-	void yogaOnlyReturnYogaVideos() {
-		for (Video v : bean.getYogaOnly())
-			assertEquals("Yoga", v.getCategory());
-	}
+        v.setRule("Hidden");
+        bean.updateRule(v);
+        assertEquals("Hidden", v.getRule());
+    }
 
-	@Test
-	void recentlyAddedReturnCorrectCategory() {
-		for (Video v : bean.getRecentlyAdded())
-			assertEquals("Recently Added", v.getCategory());
-	}
+    @Test
+    public void updateRulePrivateToPublicHidden() {
+        Video v = new Video(1000, "Test Video", "/resources/videos/test.mp4", "2025-08-19",
+                "Testing updateRule", "Private", "Bodyweight", "tester@example.com");
+        bean.getVideos().add(v);
 
-	@Test
-	void tabataOnlyReturnTabataVideos() {
-		for (Video v : bean.getTabataOnly())
-			assertEquals("Tabata", v.getCategory());
-	}
+        v.setRule("Public");
+        bean.updateRule(v);
+        assertEquals("Public", v.getRule());
 
-	@Test
-	void taiChiOnlyReturnTaiChiVideos() {
-		for (Video v : bean.getTaichiOnly())
-			assertEquals("Tai Chi", v.getCategory());
-	}
+        v.setRule("Hidden");
+        bean.updateRule(v);
+        assertEquals("Hidden", v.getRule());
+    }
 
-	@Test
-	void zumbaOnlyReturnZumbaVideos() {
-		for (Video v : bean.getZumbaOnly())
-			assertEquals("Zumba", v.getCategory());
-	}
+    @Test
+    public void updateRuleHiddenToPublicPrivate() {
+        Video v = new Video(1001, "Test Video", "/resources/videos/test.mp4", "2025-08-19",
+                "Testing updateRule", "Hidden", "Machines", "tester@example.com");
+        bean.getVideos().add(v);
 
-	@Test
-	void coreOnlyReturnCoreStrengthVideos() {
-		for (Video v : bean.getCoreOnly())
-			assertEquals("Core Strength", v.getCategory());
-	}
+        v.setRule("Public");
+        bean.updateRule(v);
+        assertEquals("Public", v.getRule());
 
-	@Test
-	void kickboxingOnlyReturnKickboxingVideos() {
-		for (Video v : bean.getKickboxingOnly())
-			assertEquals("Kickboxing", v.getCategory());
-	}
-
-	@Test
-	void crossfitOnlyReturnCrossfitVideos() {
-		for (Video v : bean.getCrossfitOnly())
-			assertEquals("CrossFit", v.getCategory());
-	}
-
-	@Test
-	void aquaAerobicsOnlyReturnAquaVideos() {
-		for (Video v : bean.getAquaaerobicsOnly())
-			assertEquals("Aqua Aerobics", v.getCategory());
-	}
-
-	@Test
-	void pilatesOnlyReturnPilatesVideos() {
-		for (Video v : bean.getPilatesOnly())
-			assertEquals("Pilates", v.getCategory());
-	}
-
-	@Test
-	public void updateRulePublic() {
-		Video v = new Video(999, "Test Video", "/resources/videos/test.mp4", "2025-08-19", "Testing updateRule",
-				"Public", "Recently Added", "tester@example.com");
-		bean.getVideos().add(v);
-
-		v.setRule("Private");
-		bean.updateRule(v);
-		assertEquals("Private", v.getRule());
-
-		v.setRule("Hidden");
-		bean.updateRule(v);
-		assertEquals("Hidden", v.getRule());
-	}
-
-	@Test
-	public void updateRulePrivate() {
-		Video v = new Video(1000, "Test Video", "/resources/videos/test.mp4", "2025-08-19", "Testing updateRule",
-				"Private", "Recently Added", "tester@example.com");
-		bean.getVideos().add(v);
-
-		v.setRule("Public");
-		bean.updateRule(v);
-		assertEquals("Public", v.getRule());
-
-		v.setRule("Hidden");
-		bean.updateRule(v);
-		assertEquals("Hidden", v.getRule());
-	}
-
-	@Test
-	public void updateRuleHidden() {
-		Video v = new Video(1001, "Test Video", "/resources/videos/test.mp4", "2025-08-19", "Testing updateRule",
-				"Hidden", "Recently Added", "tester@example.com");
-		bean.getVideos().add(v);
-
-		v.setRule("Public");
-		bean.updateRule(v);
-		assertEquals("Public", v.getRule());
-
-		v.setRule("Private");
-		bean.updateRule(v);
-		assertEquals("Private", v.getRule());
-	}
+        v.setRule("Private");
+        bean.updateRule(v);
+        assertEquals("Private", v.getRule());
+    }
 }
