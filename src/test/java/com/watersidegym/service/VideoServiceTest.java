@@ -130,5 +130,57 @@ class VideoServiceTest {
 		
 	}
 
+	
+	
+	@Test
+	public void testGetNonMemberPublicVideos_withAlexAndJoe() {
+	 
+	    // Add video
+	    Video vPublicJoe = new Video(1, "Yoga Basics", "/res/yoga.mp4",
+	            "2025-08-19", "Intro", "Public", "Yoga", "Joe Soundman");
+	    Video vPrivateJoe = new Video(2, "Weights", "/res/weights.mp4",
+	            "2025-08-19", "Strength", "Private", "Weights", "Joe Soundman");
+	    Video vHiddenAlex = new Video(3, "Pilates", "/res/pilates.mp4",
+	            "2025-08-19", "Core", "Hidden", "Pilates", "Alex Byrne");
+	   
+
+	    ptAddVideo.getVideos().add(vPublicJoe);
+	    ptAddVideo.getVideos().add(vPrivateJoe);
+	    ptAddVideo.getVideos().add(vHiddenAlex);
+	  
+	    List<Video> result = videoservice.getNonMemberPublicVideos();
+
+	    // Test
+	    assertTrue(result.contains(vPublicJoe)); //public true
+	    assertFalse(result.contains(vPrivateJoe)); //private false
+	    assertFalse(result.contains(vHiddenAlex)); //hidden false
+	    assertEquals(1, result.size()); //1 public videos
+	}
+	
+	
+	@Test
+	public void testShowPublicVideosFilteredByTrainer() {
+		  // Add video
+	    Video JoeSoundman = new Video(1, "Yoga Basics", "/res/yoga.mp4",
+	            "2025-08-19", "Intro", "Public", "Yoga", "Joe Soundman");
+	    Video JoeSoundman2 = new Video(2, "Weights", "/res/weights.mp4",
+	            "2025-08-19", "Strength", "Public", "Weights", "Joe Soundman");
+	    Video alexByrne = new Video(3, "Pilates", "/res/pilates.mp4",
+	            "2025-08-19", "Core", "Public", "Pilates", "Alex Byrne");
+	   
+
+	    ptAddVideo.getVideos().add(JoeSoundman);
+	    ptAddVideo.getVideos().add(JoeSoundman2);
+	    ptAddVideo.getVideos().add(alexByrne);
+	  
+	    videoservice.setSelectedTrainerName("Joe Soundman");
+	    List<Video> filteredTrainerResult = videoservice.showPublicVideosFilteredByTrainer();
+	    
+	    assertTrue(filteredTrainerResult.contains(JoeSoundman)); //match
+	    assertFalse(filteredTrainerResult.contains(alexByrne)); // no match
+	    assertEquals(2, filteredTrainerResult.size()); // 2 public and by JoeSoundman
+	    
+		
+	}
 
 }
