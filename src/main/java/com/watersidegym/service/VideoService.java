@@ -76,8 +76,9 @@ public class VideoService {
 	}
 
 	public List<Video> getSelectedTrainerVideos() {
+		List<Video> v = getMemberVideos(); // make new array list  of member vids to compare trainer name to
 		trainerVideos.clear();
-		for (Video video : ptAddVideo.getVideos()) {
+		for (Video video : v) {
 			if (video.getUploadedBy().equals(selectedTrainerName)) {
 				trainerVideos.add(video);
 			}

@@ -66,6 +66,7 @@
 
                     <h:outputLabel for="rule" value="Rule" />
                     <h:selectOneMenu id="rule" value="#{videoControllerBean.formRule}">
+                    <f:selectItem itemLabel="— Choose —" itemValue="" noSelectionOption="true" />
                       <f:selectItem itemLabel="Public" itemValue="Public" />
                       <f:selectItem itemLabel="Private" itemValue="Private" />
                       <f:selectItem itemLabel="Hidden" itemValue="Hidden" />
@@ -74,8 +75,6 @@
                     <h:outputLabel for="cat" value="Category" />
                     <h:selectOneMenu id="cat" value="#{videoControllerBean.formCategory}">
                       <f:selectItem itemLabel="— Choose —" itemValue="" noSelectionOption="true" />
-                      <f:selectItem itemLabel="Recently Added" itemValue="Recently Added" />
-                      <f:selectItem itemLabel="My Videos"       itemValue="My Videos" />
                       <f:selectItem itemLabel="Yoga"            itemValue="Yoga" />
                       <f:selectItem itemLabel="Pilates"         itemValue="Pilates" />
                       <f:selectItem itemLabel="Zumba"           itemValue="Zumba" />
