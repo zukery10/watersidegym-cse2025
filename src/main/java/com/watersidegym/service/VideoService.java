@@ -41,7 +41,7 @@ public class VideoService {
 		List<Video> memberVideos = new ArrayList<>();
 		for (Video video : ptAddVideo.getVideos()) {
 
-			if (video != null && !video.getCategory().equalsIgnoreCase("Hidden") && !memberVideos.contains(video)
+			if (video != null && !video.getRule().equalsIgnoreCase("Hidden") && !memberVideos.contains(video)
 					&& !video.getCategory().equalsIgnoreCase("Recently Added")) {
 				memberVideos.add(video);
 			}
@@ -74,8 +74,9 @@ public class VideoService {
 	}
 
 	public List<Video> getSelectedTrainerVideos() {
+		List<Video> v = getMemberVideos(); // make new array list  of member vids to compare trainer name to
 		trainerVideos.clear();
-		for (Video video : ptAddVideo.getVideos()) {
+		for (Video video : v) {
 			if (video.getUploadedBy().equals(selectedTrainerName)) {
 				trainerVideos.add(video);
 			}
@@ -84,6 +85,10 @@ public class VideoService {
 	}
 
 	public String getSelectedTrainerName() {
+<<<<<<< HEAD
+=======
+		//System.out.println(selectedTrainerName);
+>>>>>>> origin/develop
 		return selectedTrainerName;
 	}
 

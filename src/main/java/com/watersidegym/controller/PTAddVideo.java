@@ -30,14 +30,15 @@ public class PTAddVideo {
 	private String formDescription;
 	private String formRule = "Public";
 	private String formCategory = "Recently Added";
-
+	
 	// Max upload size (200MB)
 	private final long MAX_SIZE = 200L * 1024L * 1024L;
 
-	// ===== Adding some sample videos at startup =====
+	// ===== Adding some sample videos at startup =====	
 	@PostConstruct
 	public void preload() {
 		// all in recently added secton
+
 		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "Joe Soundman");
 		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "Joe Soundman");
 		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "Alex Byrne");
@@ -60,11 +61,17 @@ public class PTAddVideo {
 		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
 		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Joe Soundman");
 		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
+
 	}
 
 	// ===== Adding video to the list =====
 	private void addVideo(String title, String link, String date, String desc, String rule, String category, String uploaderUsername) {
 		videos.add(new Video(nextId++, title, link, date, desc, rule, category, uploaderUsername));
+
+	}
+	
+	public void addVideoTest(Video video) { //testing
+		videos.add(video);
 	}
 
 	// ===== Main upload logic =====
@@ -138,7 +145,7 @@ public class PTAddVideo {
 			showMessage(FacesMessage.SEVERITY_ERROR, "Upload failed. Please try again.");
 		}
 
-		return null; // stay on same page
+		return null; 
 	}
 
 	// ===== Cancel upload =====
@@ -149,8 +156,11 @@ public class PTAddVideo {
 	}
 
 	// ===== Helpers =====
-	private void showMessage(FacesMessage.Severity type, String text) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(type, text, null));
+	protected void showMessage(FacesMessage.Severity type, String text) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(type, text, null));
+		}
 	}
 
 	private String getFileName(Part part) {
@@ -180,8 +190,10 @@ public class PTAddVideo {
 				String da = (a.getDate() == null) ? "" : a.getDate();
 				String db = (b.getDate() == null) ? "" : b.getDate();
 
-				// if current item is "older" than the next, swap them
+
+				// if current item is "older" than the next, swapping them
 				if (da.compareTo(db) < 0) {
+
 					out.set(j, b);
 					out.set(j + 1, a);
 				}
@@ -196,15 +208,21 @@ public class PTAddVideo {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
-		User loggedInUser = loginBean.getLoggedInUser();
+		User loggedInUser = loginBean.getLoggedInUser(); //here is when the checking occurs: if the user is logged in
 
-		if (loggedInUser == null) return mine;
+		if (loggedInUser == null) return mine; //if the user is logged in (mine is list of my videos we just created up)
 
 		String email = loggedInUser.getEmail();
-		System.out.println("LOGGEDN IN EMAIL IS " + email);
+		//System.out.println("LOGGEDN IN EMAIL IS " + email);
 		for (Video v : videos) {
-			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
-				System.out.println("v.getUploadedBy() " + v.getUploadedBy());
+			//if the user is already loggedin -> we check the email ofr the user
+			// then we compare with the videos li and add the matching email only 
+			String firstname = loggedInUser.getFirstName();
+			String secondname = loggedInUser.getSecondName();
+			String fullName = firstname.concat(" " + secondname );
+			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(fullName)) {
+				//System.out.println("v.getUploadedBy() " + v.getUploadedBy());
+				//here we add the email for this user
 				mine.add(v);
 			}
 		}
@@ -291,4 +309,19 @@ public class PTAddVideo {
 	public List<Video> getTabataOnly() {
 		return byCategory("Tabata");
 	}
+	
+
+	public String updateRule(Video video) {
+	    // clear messages on all other videos
+	    for (Video v : videos) {
+	        if (v.getId() != video.getId()) {
+	            v.setMessage(null);
+	        }
+	    }
+	    // set the message on the video that was updated
+	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
+	    return null;
+	}
+
+
 }
