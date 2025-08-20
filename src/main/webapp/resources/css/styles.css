@@ -935,7 +935,7 @@ background-size: 65px 60px;
 }
 
 .field-error {
-  color: #ff4d4f;          
+  color: #ff4d4f;          /* red */
   font-weight: 600;
   display: block;
   margin-top: 4px;
@@ -956,7 +956,7 @@ background-size: 65px 60px;
     font-size: 16px;
     text-align: center;
     background-color: #1e1f23; /* dark bg */
-    color: #fff; 
+    color: #fff;
 }
 .jsf-table-cart {
 	float:left;
@@ -966,7 +966,7 @@ background-size: 65px 60px;
     font-size: 16px;
     text-align: center;
     background-color: #1e1f23; /* dark bg */
-    color: #fff; 
+    color: #fff;
 }
 
 
@@ -1000,8 +1000,25 @@ background-size: 65px 60px;
 	border-radius: 12px;
 	padding: 30px;
 	width: 100%;
-	max-width: 500px; 
+	max-width: 650px;
 	position: relative;
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
+	transition: transform 0.3s ease;
+}
+
+.table-card-cart {
+
+
+	float:right;
+	height:100%;
+
+	background-color: #181a1f;
+	border-radius: 12px;
+	padding: 30px;
+
+	width: 100%;
+	max-width: 400px;
+	position:top;
 	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
 	transition: transform 0.3s ease;
 }
@@ -1021,9 +1038,9 @@ background-size: 65px 60px;
   background-size: clamp(900px, 90vw, 1700px) auto;
 
   /* layout helpers */
-  background-color: #0f1115;             
-  min-height: 100svh;                     
-  padding-bottom: clamp(40px, 10vh, 160px);  
+  background-color: #0f1115;
+  min-height: 100svh;
+  padding-bottom: clamp(40px, 10vh, 160px);
 }
 
 /* On narrow phones --> cover so there aren't huge side bars */
@@ -1035,7 +1052,7 @@ background-size: 65px 60px;
   }
 }
 
-/* If the window is very short (e.g., 13'' laptop at 100% zoom) --> 
+/* If the window is very short (e.g., 13'' laptop at 100% zoom) -->
 nudging the focal point slightly higher so the top content stays in view */
 @media (max-height: 800px) and (min-width: 900px){
   .payment-bg{
@@ -1059,8 +1076,8 @@ nudging the focal point slightly higher so the top content stays in view */
 
 /* Shrink card footprint + internal spacing */
 .payment-bg .plan-card{
-  width: 280px;                         
-  padding: 22px;                        
+  width: 280px;
+  padding: 22px;
 }
 
 /* Slightly smaller headings & price */
@@ -1109,7 +1126,7 @@ nudging the focal point slightly higher so the top content stays in view */
 /* THIS SECTION IS FOR MEMBER DASHBOARD & FOR PURCHASE MEMBERSHIP - GREY FORMS ADJUSTMENT TO THE BUTTONS BACKGROUND*/
 /* translucent panel to match .dash-card look */
 .soft-panel {
-  background: rgba(15,17,21,0.90);             
+  background: rgba(15,17,21,0.90);
   border: 1px solid rgba(255,255,255,.08);
   border-radius: 14px;
   box-shadow: 0 8px 18px rgba(0,0,0,.25);
@@ -1141,7 +1158,7 @@ nudging the focal point slightly higher so the top content stays in view */
 }
 
 .soft-panel .jsf-table{
-  background-color: transparent;               
+  background-color: transparent;
 }
 .soft-panel .jsf-table th{
   background-color: rgba(255,255,255,.04);
@@ -1158,15 +1175,15 @@ nudging the focal point slightly higher so the top content stays in view */
 
 /* ===== THIS SECTION IS FOR FOOTER BELOW ON HOME PAGE  ===== */
 .site-footer{
-  background: #0d0f13;                
+  background: #0d0f13;
   border-top: 1px solid rgba(255,255,255,.08);
   padding: 14px 0;
-  color: #9fb0c7;                     
+  color: #9fb0c7;
   font-size: 12px;
 }
 
 .footer-container{
-  max-width: 1100px;                   
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 16px;
   display: flex;
@@ -1189,7 +1206,7 @@ nudging the focal point slightly higher so the top content stays in view */
 }
 
 .footer-link:hover{
-  color: #28a745;                      
+  color: #28a745;
 }
 
 .footer-sep{
