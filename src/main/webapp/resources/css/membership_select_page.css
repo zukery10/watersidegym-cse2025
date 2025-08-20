@@ -1,3 +1,5 @@
+
+
 /* === Global styles for the whole page === */
 body {
     margin: 0; /* Remove default margin around body */
@@ -330,6 +332,28 @@ background-size: 93px 82px;
 
 .feedback-message li {
     list-style: none;
+}
+
+.error {
+	margin: 0 auto 20px auto;
+    text-align: center;
+    color: #ff6b6b;
+    font-size: 16px;
+}
+
+.field-error {
+  color: #ff4d4f;
+  font-weight: 600;
+  display: block;
+  margin-top: 4px;
+}
+
+.message-error {
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+  background: rgba(255, 77, 79, 0.08);
+  padding: 8px 10px;
+  border-radius: 6px;
 }
 
 /* =========================
