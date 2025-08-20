@@ -280,6 +280,32 @@ public class VideoGalleryBean {
 	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
 	    return null;
 	}
+
+
+//this function is for button redirection to the respective dashboards	
+	public String redirect() {
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    if (context == null) return null;
+
+	    LoginBean loginBean = context.getApplication()
+	        .evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+	    User loggedInUser = (loginBean != null) ? loginBean.getLoggedInUser() : null;
+
+	    if (loggedInUser == null || loggedInUser.getRole() == null) {
+	        return null; // stay on the page
+	    }
+
+	    switch (loggedInUser.getRole()) {
+	        case "Member":
+	            return "member-dashboard?faces-redirect=true";
+	        case "Non-Member":
+	            return "nonmember-dashboard?faces-redirect=true";
+	        case "PT":
+	            return "personal-trainer-dashboard?faces-redirect=true";
+	        default:
+	            return null;
+	    }
+	}
 	
 	// ===== Getters/Setters =====
 	public List<Video> getVideos() { return videos; }

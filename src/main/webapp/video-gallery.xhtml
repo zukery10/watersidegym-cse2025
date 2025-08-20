@@ -13,12 +13,29 @@
 
 <h:body>
   <ui:include src="/includes/header.xhtml" />
+  
+  
 
   <main class="main-section">
+  
     <div class="vg-container">
+    
       <div class="vg-titlebar"><h1 class="vg-page-title">Videos</h1></div>
+  
 
+<h:form>
+<h:commandButton value="Back to Dashboard"
+                 action="#{videoControllerBean.redirect}"
+                 immediate="true"
+                 styleClass="choose-btn"/>
+        </h:form>
+        
+        
+        
+        
+        
       <section class="vg-section">
+    
         <div class="vg-section-head"><h2 class="vg-section-title">My videos</h2></div>
               <br></br>
               <hr></hr>
