@@ -104,7 +104,7 @@
                      <h:outputText
                         value="Time left: #{gymClassBean.classPaymentRemainingTime}" />
                   </h:panelGroup>
-					<p:poll interval="1" listener="#{gymClassBean.checkClassPaymentSession}" update="classTimer" />
+					<p:poll interval="1" listener="#{gymClassBean.checkClassPaymentSession()}" update="classTimer" />
                   <h:dataTable value="#{gymClassBean.cart}" var="classAdded"
                      styleClass="jsf-table" border="1"
                      rendered="#{not gymClassBean.member}">
