@@ -39,28 +39,28 @@ public class VideoGalleryBean {
 	@PostConstruct
 	public void preload() {
 		// all in recently added secton
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "PT@example.com");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "PT@example.com");
-		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "PT@example.com");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "PT@example.com");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "PT@example.com");
-		addVideo("CrossFit Hidden", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Hidden", "Recently Added", "PT@example.com");
+		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "Joe Soundman");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "Joe Soundman");
+		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "Alex Byrne");
+		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "Alex Byrne");
+		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "Alex Byrne");
+		addVideo("CrossFit Hidden", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Hidden", "Recently Added", "Alex Byrne");
 		
 		//------------------------------------------
 		// all in related sections
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Tai Chi", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "PT@example.com");
-		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "PT2@example.com");
-		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "PT@example.com");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "PT@example.com");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Kickboxing", "PT@example.com");
-		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Public", "CrossFit", "PT@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
+		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Tai Chi", "Joe Soundman");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Alex Byrne");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Joe Soundman");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Joe Soundman");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "Joe Soundman");
+		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "Alex Byrne");
+		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "Joe Soundman");
+		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "Joe Soundman");
+		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Kickboxing", "Alex Byrne");
+		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Public", "CrossFit", "Joe Soundman");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Joe Soundman");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
 	}
 
 	// ===== Adding video to the list =====
@@ -118,29 +118,26 @@ public class VideoGalleryBean {
 			}
 
 			// 6. Add to video list
-			String title = (formTitle == null || formTitle.isEmpty()) ? fileName.replaceFirst("\\.[^.]+$", "") : formTitle; //if no title was added we added we use the file name as title.
-			String date = (formDate == null || formDate.isEmpty()) ? LocalDate.now().toString() : formDate; // if no date was added we add the server date as date 
-			String desc = (formDescription == null) ? "no description." : formDescription;
-
+			String title = (formTitle == null || formTitle.isEmpty()) ? fileName.replaceFirst("\\.[^.]+$", "") : formTitle;
+			String date = (formDate == null || formDate.isEmpty()) ? LocalDate.now().toString() : formDate;
+			String desc = (formDescription == null) ? "Uploaded by trainer." : formDescription;
+			
 			// get the loggedin user from the LoginBean
 			FacesContext context = FacesContext.getCurrentInstance();
 			LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 			User loggedInUser = loginBean.getLoggedInUser();
-
-			// after we get the user logged in we get his email to add to the video items.
 
 			String firstname = loggedInUser.getFirstName();
 			String secondname = loggedInUser.getSecondName();
 			String fullName = firstname.concat(" " + secondname );
 			addVideo(title, link, date, desc, formRule, formCategory, fullName);
 
-			// 7. Reset form fields, after we upload the video we reset the video upload form to no values.
+			// 7. Reset form fields
 			uploadedFile = null;
 			formTitle = formDate = formDescription = null;
 			formRule = "Public";
 			formCategory = "Recently Added";
 
-			//server msgs to display for debugging
 			showMessage(FacesMessage.SEVERITY_INFO, "Upload complete. Video added.");
 		} catch (Exception e) {
 			showMessage(FacesMessage.SEVERITY_ERROR, "Upload failed. Please try again.");
@@ -148,7 +145,6 @@ public class VideoGalleryBean {
 
 		return null; 
 	}
-
 	
 	public void addVideoTest(Video video) { //testing
 		videos.add(video);
@@ -229,13 +225,12 @@ public class VideoGalleryBean {
 		String email = loggedInUser.getEmail();
 		//System.out.println("LOGGEDN IN EMAIL IS " + email);
 		for (Video v : videos) {
-			//if the user is already loggedin -> we check the email of the user
-			// then we compare with the videos lib and add the matching email only 
+			//if the user is already loggedin -> we check the email ofr the user
+			// then we compare with the videos li and add the matching email only 
 			String firstname = loggedInUser.getFirstName();
 			String secondname = loggedInUser.getSecondName();
 			String fullName = firstname.concat(" " + secondname );
-
-			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
+			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(fullName)) {
 				//System.out.println("v.getUploadedBy() " + v.getUploadedBy());
 				//here we add the email for this user
 				mine.add(v);
@@ -243,7 +238,8 @@ public class VideoGalleryBean {
 		}
 		return mine;
 	}
-	
+
+
 	
 	//delete video section here
 	public void deleteVideo(int id) {
@@ -268,21 +264,6 @@ public class VideoGalleryBean {
 		}
 	}
 	
-
-	public String updateRule(Video video) {
-	    // clear messages on all other videos
-	    for (Video v : videos) {
-	        if (v.getId() != video.getId()) {
-	            v.setMessage(null);
-	        }
-	    }
-	    // set the message on the video that was updated
-	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
-	    return null;
-	}
-
-
-//this function is for button redirection to the respective dashboards	
 	public String redirect() {
 	    FacesContext context = FacesContext.getCurrentInstance();
 	    if (context == null) return null;
@@ -305,6 +286,18 @@ public class VideoGalleryBean {
 	        default:
 	            return null;
 	    }
+	}
+
+	public String updateRule(Video video) {
+	    // clear messages on all other videos
+	    for (Video v : videos) {
+	        if (v.getId() != video.getId()) {
+	            v.setMessage(null);
+	        }
+	    }
+	    // set the message on the video that was updated
+	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
+	    return null;
 	}
 	
 	// ===== Getters/Setters =====
