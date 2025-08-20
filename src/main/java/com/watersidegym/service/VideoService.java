@@ -67,8 +67,6 @@ public class VideoService {
 			// check if user role is PT
 			if ("PT".equals(u.getRole())) {
 				trainers.add(u);
-				System.out.println(u.getFirstName());
-				System.out.println(u.getSecondName());
 			}
 		}
 
@@ -87,7 +85,7 @@ public class VideoService {
 	}
 
 	public String getSelectedTrainerName() {
-		//System.out.println(selectedTrainerName);
+
 		return selectedTrainerName;
 	}
 
@@ -111,13 +109,39 @@ public class VideoService {
 		this.trainerVideos = trainerVideos;
 	}
 
-	public List<Video> showVideosMembers() { //for members
+	// for members
+	public List<Video> showVideosMembers() {
 		if (selectedTrainerName != null && !selectedTrainerName.isEmpty()) {
 			return getSelectedTrainerVideos();
-		} else 
-			return getMemberVideos(); 
+		} else
+			return getMemberVideos();
+	}
+
+	// nonmember can view only public video
+		public List<Video> getNonMemberPublicVideos() {
+			List<Video> nonMemberPublicVideos = new ArrayList<>();
+			for (Video video : ptAddVideo.getVideos()) {
+				if (video != null && video.getRule().equalsIgnoreCase("Public")) {
+					nonMemberPublicVideos.add(video);
+				}
+			}
+			return nonMemberPublicVideos;
+		}
+	
+	// nonmember view public videos filtered by trainer
+	public List<Video> showPublicVideosFilteredByTrainer() {
+	    List<Video> filterByTrainerVideos = new ArrayList<>();
+
+	    if (selectedTrainerName != null && !selectedTrainerName.isEmpty()) {
+	        for (Video video : getSelectedTrainerVideos()) {
+	            if (video != null && video.getRule().equalsIgnoreCase("Public")) {
+	            	filterByTrainerVideos.add(video);
+	            }
+	        }
+	        return filterByTrainerVideos;
+	    } else {
+	        return getNonMemberPublicVideos();
+	    }
 	}
 
 }
-
-
