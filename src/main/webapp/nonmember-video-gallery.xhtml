@@ -35,7 +35,7 @@
 					<h:message for="trainer" errorClass="field-error" />
 					<br></br>
 
-					 <h:commandButton value="Filter by Trainer" action="#{videoService.showVideosNonMembers()}" />
+					 <h:commandButton value="Filter by Trainer" action="#{videoService.showPublicVideosFilteredByTrainer()}" />
 			</h:form>
 		</div>
 		<br></br>
@@ -50,7 +50,7 @@
 			<hr />
 
 			<div class="vg-grid">
-                    <ui:repeat value="#{videoService.showVideosNonMembers()}" var="v">
+                    <ui:repeat value="#{videoService.showPublicVideosFilteredByTrainer()}" var="v">
 					<article class="vg-card">
 						<div class="vg-thumb">
 							<video controls="controls" preload="metadata">

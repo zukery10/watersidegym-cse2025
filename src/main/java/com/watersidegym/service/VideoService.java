@@ -85,10 +85,7 @@ public class VideoService {
 	}
 
 	public String getSelectedTrainerName() {
-<<<<<<< HEAD
-=======
-		//System.out.println(selectedTrainerName);
->>>>>>> origin/develop
+
 		return selectedTrainerName;
 	}
 
@@ -132,7 +129,7 @@ public class VideoService {
 		}
 	
 	// nonmember view public videos filtered by trainer
-	public List<Video> showVideosNonMembers() {
+	public List<Video> showPublicVideosFilteredByTrainer() {
 	    List<Video> filterByTrainerVideos = new ArrayList<>();
 
 	    if (selectedTrainerName != null && !selectedTrainerName.isEmpty()) {
