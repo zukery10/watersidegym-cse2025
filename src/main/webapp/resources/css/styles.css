@@ -242,7 +242,7 @@ ul li::before {
 
 .form-field label {
     margin-bottom: 6px;
-    font-size: 14px;
+    font-size: 18px;
     color: #8fffa0;
     font-weight: 500;
 }
@@ -1064,19 +1064,19 @@ nudging the focal point slightly higher so the top content stays in view */
 
 /* More room at the bottom so equipment is visible on the bg */
 .payment-bg{
-  padding-bottom: 180px;                /* was 60px */
+  padding-bottom: 180px;               
 }
 
 /* Tighter grid and smaller cards */
 .payment-bg .plans{
   max-width: 1080px;                    /* keeps the row a bit narrower */
   margin: 0 auto 40px;
-  gap: 18px;                            /* was 24px */
+  gap: 18px;                           
 }
 
 /* Shrink card footprint + internal spacing */
 .payment-bg .plan-card{
-  width: 280px;
+  width: 400px;
   padding: 22px;
 }
 
@@ -1275,5 +1275,21 @@ nudging the focal point slightly higher so the top content stays in view */
   opacity:.55; pointer-events:none; border-color: rgba(255,255,255,.16);
 }
 
+
+/* ===== SEPARATING PAYMENT BOX FROM PLAV BOXES IN PURCHASE MEMBERSHIP ===== */
+
+/* plan tiles only */
+.plans .plan-card{
+  width: 280px;          /* your smaller width */
+  padding: 22px;
+}
+
+/* PayPal card only */
+.payment-form{
+  width: 100%;
+  max-width: 540px;      /* make it wider than the tiles */
+  margin: 0 auto;
+  padding: 30px;
+}
 
 
