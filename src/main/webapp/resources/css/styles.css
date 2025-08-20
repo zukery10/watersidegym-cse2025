@@ -350,7 +350,7 @@ ul li::before {
     background-image: url('../images/paypal.png');
     background-repeat: no-repeat;
     background-position: 16px center;
-background-size: 93px 82px;
+background-size: 65px 60px;
     width: 100%;
     text-align: center;
 }
@@ -1008,26 +1008,103 @@ background-size: 93px 82px;
 
 
 /* THIS SECTION IS FOR MEMBER DASHBOARD - BACKGROUND ADJUSTMENT*/
+/* PAYMENT / MEMBERSHIP PAGES BACKGROUND  */
 .payment-bg{
-  /* shows whole image, no cropping */
-  background-image: url('../images/payment_bg.png'); /* same path as inline */
+  /* image + fallback */
+  background-image: url('../images/payment_bg.png');
   background-repeat: no-repeat;
-  background-position: bottom center;   /* equipment visible */
-  background-size: contain;             /* fit entire image */
-  background-color: #0f1115;            /* fill letterbox area */
-  min-height: calc(100vh - 72px);       /* full screen minus header */
-  padding-bottom: 60px; 
-  
-                   /* space under the cards */
+  background-position: center bottom;
+
+  /* --- key part ---
+     Keeping the *entire* image visible and scale it by width.
+      */
+  background-size: clamp(900px, 90vw, 1700px) auto;
+
+  /* layout helpers */
+  background-color: #0f1115;             
+  min-height: 100svh;                     
+  padding-bottom: clamp(40px, 10vh, 160px);  
 }
 
-/* On narrow phones adj: */
+/* On narrow phones --> cover so there aren't huge side bars */
 @media (max-width: 640px){
   .payment-bg{
     background-size: cover;
     background-position: center;
+    padding-bottom: 60px;
   }
 }
+
+/* If the window is very short (e.g., 13'' laptop at 100% zoom) --> 
+nudging the focal point slightly higher so the top content stays in view */
+@media (max-height: 800px) and (min-width: 900px){
+  .payment-bg{
+    background-position: center 85%;
+  }
+}
+
+/* --- Compact layout just for pages using the payment background --- */
+
+/* More room at the bottom so equipment is visible on the bg */
+.payment-bg{
+  padding-bottom: 180px;                /* was 60px */
+}
+
+/* Tighter grid and smaller cards */
+.payment-bg .plans{
+  max-width: 1080px;                    /* keeps the row a bit narrower */
+  margin: 0 auto 40px;
+  gap: 18px;                            /* was 24px */
+}
+
+/* Shrink card footprint + internal spacing */
+.payment-bg .plan-card{
+  width: 280px;                         
+  padding: 22px;                        
+}
+
+/* Slightly smaller headings & price */
+.payment-bg .plan-card h2{ font-size: 28px; }
+.payment-bg .price{ font-size: 24px; }
+
+/* Slimmer session ribbon */
+.payment-bg .session-label{
+  padding: 5px 8px;
+  margin: 8px 0 14px;
+  font-size: 13px;
+}
+
+/* Compact features list */
+.payment-bg ul{ font-size: 14px; line-height: 1.35; margin-bottom: 14px; }
+.payment-bg ul li{ margin: 6px 0; }
+
+/* Buttons shorter */
+.payment-bg .choose-btn{ padding: 10px; }
+
+/* Toning down the “Most Popular” zoom so it doesn’t push other cards down */
+.payment-bg .soft-panel.popular{
+  transform: scale(1.02);               /* was 1.05 */
+  box-shadow: 0 0 16px rgba(40,167,69,.35);
+}
+
+/* Badging a touch smaller to match the compact card */
+.payment-bg .soft-panel.popular .badge{
+  top: -12px;
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1200px){
+  .payment-bg .plan-card{ width: 260px; }
+}
+@media (max-width: 980px){
+  .payment-bg .plans{ gap: 16px; }
+  .payment-bg .plan-card{ width: 100%; max-width: 520px; }
+  .payment-bg{ padding-bottom: 140px; } /* a bit less on small screens */
+}
+
+
 
 /* THIS SECTION IS FOR MEMBER DASHBOARD & FOR PURCHASE MEMBERSHIP - GREY FORMS ADJUSTMENT TO THE BUTTONS BACKGROUND*/
 /* translucent panel to match .dash-card look */
@@ -1126,6 +1203,60 @@ background-size: 93px 82px;
   }
 }
 
+
+
+
+
+
+
+
+
+/* ===== Unified vertical action buttons on pages ===== */
+.stack-actions{
+  max-width: 560px;
+  margin: 18px auto 28px;
+  padding: 0 12px;
+}
+
+.stack-btn{
+  display: grid;
+  grid-template-columns: 60px 1fr 35px; /* icon | text | arrow */
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 1px;
+  margin: 10px 0;
+  text-decoration: none;
+  color: #e5e7eb;
+  background: rgba(15,17,21,.90);
+  border: 1px solid #28a745;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  transition: transform .12s ease, background .2s ease, border-color .2s ease;
+}
+.stack-btn:hover{
+  transform: translateY(-2px);
+  background: #0f1115;
+  border-color: #34d06d;
+}
+
+/* icon, text block, arrow */
+.stack-btn .icon{
+  display:grid; place-items:center;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: rgba(26,163,111,.15);
+  border: 1px solid rgba(26,163,111,.45);
+  font-size: 20px;
+}
+.stack-btn .text{ line-height: 1.2; }
+.stack-btn .title{ color:#fff; font-weight:700; font-size:16px; }
+.stack-btn .sub{ color:#9fb0c7; font-size:12px; margin-top:2px; }
+.stack-btn .cta{ color:#28a745; font-size:18px; }
+
+.stack-btn.disabled{
+  opacity:.55; pointer-events:none; border-color: rgba(255,255,255,.16);
+}
 
 
 

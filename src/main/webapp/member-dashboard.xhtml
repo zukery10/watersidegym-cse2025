@@ -45,54 +45,57 @@
     <!-- =========================
          Quick Actions (PT-style cards)
          ========================= -->
-    <section class="dash-actions" style="margin-top:10px;margin-bottom:28px">
-      <div class="dash-grid">
-        <!-- Video Gallery -->
-        
-        <h:link outcome="video-gallery" styleClass="dash-card">
-          <span class="dash-icon">🎬</span>
-          <div class="dash-text">
-            <h3 class="dash-title">Video Gallery</h3>
-            <p class="dash-sub">Browse member videos</p>
-          </div>
-          <span class="dash-cta">→</span>
-        </h:link>
+    <!-- Unified vertical buttons -->
+<div class="stack-actions">
 
-        <!-- View Classes -->
-        <h:link outcome="browseClasses" styleClass="dash-card">
-          <span class="dash-icon">📚</span>
-          <div class="dash-text">
-            <h3 class="dash-title">View Classes</h3>
-            <p class="dash-sub">See timetable &amp; book</p>
-          </div>
-          <span class="dash-cta">→</span>
-        </h:link>
+  <!-- Video Gallery -->
+  <h:link outcome="video-gallery" styleClass="stack-btn">   <!-- Quick Links line here -->
+    <span class="icon">🎬</span>
+    <span class="text">
+      <span class="title">Video Gallery</span>
+      <span class="sub">Browse member videos</span>
+    </span>
+    <span class="cta">→</span>
+  </h:link>
 
-        <!-- Book PT Session (enabled/disabled depending on remaining sessions) -->
-        <h:panelGroup rendered="#{loginBean.loggedInUser.remainingPTSessions gt 0}">
-          <h:link outcome="book-pt-session" styleClass="dash-card">
-            <span class="dash-icon">📅</span>
-            <div class="dash-text">
-              <h3 class="dash-title">Book PT Session</h3>
-              <p class="dash-sub">#{ptSessionBean.memberBookedSessions != null ? fn:length(ptSessionBean.memberBookedSessions) : 0} booked • Left: #{loginBean.loggedInUser.remainingPTSessions}</p>
-            </div>
-            <span class="dash-cta">→</span>
-          </h:link>
-        </h:panelGroup>
+  <!-- View Classes -->
+  <h:link outcome="browseClasses" styleClass="stack-btn">   <!-- Quick Links line here -->
+    <span class="icon">📚</span>
+    <span class="text">
+      <span class="title">View Classes</span>
+      <span class="sub">See timetable &amp; book</span>
+    </span>
+    <span class="cta">→</span>
+  </h:link>
 
-        <!-- When none of the classes left - Disabled state of a button activated -->
-        <h:panelGroup rendered="#{loginBean.loggedInUser.remainingPTSessions le 0}">
-          <div class="dash-card disabled">
-            <span class="dash-icon">📅</span>
-            <div class="dash-text">
-              <h3 class="dash-title">Book PT Session</h3>
-              <p class="dash-sub">No sessions left to book</p>
-            </div>
-            <span class="dash-cta">→</span>
-          </div>
-        </h:panelGroup>
-      </div>
-    </section>
+  <!-- Book PT Session (enabled) -->
+  <h:panelGroup rendered="#{loginBean.loggedInUser.remainingPTSessions gt 0}">
+    <h:link outcome="book-pt-session" styleClass="stack-btn">   <!-- Quick Links line here -->
+      <span class="icon">📅</span>
+      <span class="text">
+        <span class="title">Book PT Session</span>
+        <span class="sub">
+          #{ptSessionBean.memberBookedSessions != null ? fn:length(ptSessionBean.memberBookedSessions) : 0}
+          booked • Left: #{loginBean.loggedInUser.remainingPTSessions}
+        </span>
+      </span>
+      <span class="cta">→</span>
+    </h:link>
+  </h:panelGroup>
+
+  <!-- Book PT Session (disabled) -->
+  <h:panelGroup rendered="#{loginBean.loggedInUser.remainingPTSessions le 0}">
+    <div class="stack-btn disabled">
+      <span class="icon">📅</span>
+      <span class="text">
+        <span class="title">Book PT Session</span>
+        <span class="sub">No sessions left to book</span>
+      </span>
+      <span class="cta">→</span>
+    </div>
+  </h:panelGroup>
+</div>
+
 
     <!-- =========================
          Initial content (unchanged) / didnt change the initial code (except commented button)
