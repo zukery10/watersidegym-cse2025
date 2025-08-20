@@ -1,131 +1,140 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <f:metadata>
-  <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 </f:metadata>
 
 <h:head>
-  <h:outputStylesheet library="css" name="membership_select_page.css" />
-  <title>Personal Trainer Dashboard</title>
+	<h:outputStylesheet library="css" name="membership_select_page.css" />
+	<h:outputStylesheet name="styles.css" library="css" />
+	<title>Personal Trainer Dashboard</title>
 </h:head>
 
 <h:body>
 
-  <!-- header -->
-  <ui:include src="/includes/header.xhtml" />
+	<!-- header -->
+	<ui:include src="/includes/header.xhtml" />
 
-  <!-- background image -->
-  <section class="dashboard-bg"
-           style="background-image:url('#{request.contextPath}/resources/images/PT_bg_image.png');
+	<!-- background image -->
+	<section class="dashboard-bg"
+		style="background-image:url('#{request.contextPath}/resources/images/PT_bg_image.png');
                   background-size:cover;
                   background-position:center;
                   background-repeat:no-repeat;">
 
-    
+		<main class="main-section" style="text-align: center">
+			<h1>Personal Trainer Dashboard</h1>
+			<h3>Login Successful</h3>
 
-      <main class="main-section" style="text-align:center">
-        <h1>Personal Trainer Dashboard</h1>
-        <h3>Login Successful</h3>
+			<!-- User card with form styling -->
+			<div class="plans" style="justify-content: center">
+				<div class="plan-card" style="max-width: 600px; width: 100%">
+					<h2 style="margin-top: 0">#{loginBean.loggedInUser.firstName}
+						#{loginBean.loggedInUser.secondName}</h2>
 
-        <!-- User card -->
-        <div class="plans" style="justify-content:center">
-          <div class="plan-card" style="max-width:520px; width:100%">
-            <h2 style="margin-top:0">
-              #{loginBean.loggedInUser.firstName} #{loginBean.loggedInUser.secondName}
-            </h2>
+					<h:form>
+						<!-- Date Filter Section with Form Styling -->
+						<div class="form-group">
+							<div class="form-row" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center;">
+								<h:outputLabel for="date" value="Select Date:" styleClass="form-label" style="margin: 0; white-space: nowrap;" />
+								<h:inputText id="date" value="#{ptSessionBean.selectedDate}" 
+									styleClass="form-control" style="flex: 1; min-width: 150px; max-width: 200px;"
+									pt:type="date" pt:min="#{ptSessionBean.todayIso}">									<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+								</h:inputText>
+								<h:commandButton value="Filter"
+									action="#{ptSessionBean.filterSessionsByDate}"
+									styleClass="choose-btn" style="white-space: nowrap;" />
+							</div>
+						</div>
 
-           	<h:form>
-					<h:outputLabel for="date" value="Select Date:" />
-					<h:inputText id="date" value="#{ptSessionBean.selectedDate}">
-						<f:passThroughAttribute name="type" value="date" />
-						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
-					</h:inputText>
-					<h:commandButton value="Filter" action="#{ptSessionBean.filterSessionsByDate}" styleClass="choose-btn" />
-					<br />
-					<br />
-					<h:panelGroup
-						rendered="#{not empty ptSessionBean.filteredSessions}">
-						<h:dataTable value="#{ptSessionBean.filteredSessions}" var="s"
-							styleClass="jsf-table">
-							<h:column>
-								<f:facet name="header">Member</f:facet>
-                           #{s.member.firstName} #{s.member.secondName}
-                        </h:column>
-							<h:column>
-								<f:facet name="header">Date</f:facet>
-								<h:outputText value="#{s.sessionDate}">
-									<f:convertDateTime pattern="EEE, MMM d, yyyy"
-										timeZone="Europe/Dublin" />
-								</h:outputText>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Time</f:facet>
-                           #{s.startTime}
-                        </h:column>
-							<h:column>
-								<f:facet name="header">Duration</f:facet>
-                           #{s.durationMinutes}
-                        </h:column>
-						</h:dataTable>
-					</h:panelGroup>
-					<h:panelGroup rendered="#{empty ptSessionBean.filteredSessions}">
-						<h:outputText value="No PT sessions scheduled for this date."
-							style="color: red;" />
-					</h:panelGroup>
+						<br />
+						
+						<!-- Results Table -->
+						<h:panelGroup rendered="#{not empty ptSessionBean.filteredSessions}">
+							<div style="overflow-x: auto;">
+								<h:dataTable value="#{ptSessionBean.filteredSessions}" var="s"
+									styleClass="jsf-table" style="width: 100%; margin: 20px 0;">
+									<h:column>
+										<f:facet name="header">Member</f:facet>
+										#{s.member.firstName} #{s.member.secondName}
+									</h:column>
+									<h:column>
+										<f:facet name="header">Date</f:facet>
+										<h:outputText value="#{s.sessionDate}">
+											<f:convertDateTime pattern="EEE, MMM d, yyyy"
+												timeZone="Europe/Dublin" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Time</f:facet>
+										#{s.startTime}
+									</h:column>
+									<h:column>
+										<f:facet name="header">Duration</f:facet>
+										#{s.durationMinutes} min
+									</h:column>
+								</h:dataTable>
+							</div>
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{empty ptSessionBean.filteredSessions}">
+							<h:outputText value="No PT sessions scheduled for this date."
+								style="color: #e74c3c; font-weight: bold; display: block; margin: 20px 0; padding: 15px; background: #fdf2f2; border-radius: 5px; border: 1px solid #f5c6cb;" />
+						</h:panelGroup>
 					</h:form>
-            <h:form>
-              <h:commandButton value="Logout"
-                               action="#{loginBean.logout}"
-                               styleClass="choose-btn"
-                               style="width:100%" />
-            </h:form>
-          </div>
-        </div>
+					
+					<!-- Logout Form -->
+					<h:form style="margin-top: 30px;">
+						<div class="form-actions">
+							<h:commandButton value="Logout" action="#{loginBean.logout}"
+								styleClass="choose-btn btn-secondary" style="width:100%" />
+						</div>
+					</h:form>
+				</div>
+			</div>
 
-        <!-- Quick Links -->
-        <section class="dash-actions">
-          <div class="dash-grid">
+			<!-- Quick Links -->
+			<section class="dash-actions">
+				<div class="dash-grid">
 
-            <!-- Video Gallery -->
-            <h:link outcome="video-gallery" styleClass="dash-card">
-              <span class="dash-icon">🎬</span>
-              <div class="dash-text">
-                <h3 class="dash-title">Video Gallery</h3>
-                <p class="dash-sub">Browse classes &amp; workouts</p>
-              </div>
-              <span class="dash-cta">→</span>
-            </h:link>
+					<!-- Video Gallery -->
+					<h:link outcome="video-gallery" styleClass="dash-card">
+						<span class="dash-icon">🎬</span>
+						<div class="dash-text">
+							<h3 class="dash-title">Video Gallery</h3>
+							<p class="dash-sub">Browse classes &amp; workouts</p>
+						</div>
+						<span class="dash-cta">→</span>
+					</h:link>
 
-            <!-- Upload a Video -->
-            <h:link outcome="PT-add-video" styleClass="dash-card">
-              <span class="dash-icon">⤴️</span>
-              <div class="dash-text">
-                <h3 class="dash-title">Upload Video</h3>
-                <p class="dash-sub">Share a new session</p>
-              </div>
-              <span class="dash-cta">→</span>
-            </h:link>
+					<!-- Upload a Video -->
+					<h:link outcome="PT-add-video" styleClass="dash-card">
+						<span class="dash-icon">⤴️</span>
+						<div class="dash-text">
+							<h3 class="dash-title">Upload Video</h3>
+							<p class="dash-sub">Share a new session</p>
+						</div>
+						<span class="dash-cta">→</span>
+					</h:link>
 
-            <!-- 1:1 Booked Sessions -->
-            <h:link outcome="sessions" styleClass="dash-card">
-              <span class="dash-icon">📅</span>
-              <div class="dash-text">
-                <h3 class="dash-title">1:1 Sessions</h3>
-                <p class="dash-sub">View your bookings</p>
-              </div>
-              <span class="dash-cta">→</span>
-            </h:link>
+					<!-- 1:1 Booked Sessions -->
+					<h:link outcome="sessions" styleClass="dash-card">
+						<span class="dash-icon">📅</span>
+						<div class="dash-text">
+							<h3 class="dash-title">1:1 Sessions</h3>
+							<p class="dash-sub">View your bookings</p>
+						</div>
+						<span class="dash-cta">→</span>
+					</h:link>
 
-          </div>
-        </section>
-
-      </main>
-    
-  </section>
-
+				</div>
+			</section>
+		</main>
+	</section>
 </h:body>
 </html>

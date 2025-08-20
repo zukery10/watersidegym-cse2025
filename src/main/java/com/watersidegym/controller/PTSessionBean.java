@@ -25,6 +25,7 @@ public class PTSessionBean {
 	private List<User> trainers = new ArrayList<>();
 	private String startTime;
 	private String selectedTrainerName;
+	private boolean dateFilterApplied = false; // to track if date filter has been applied
 
 	public PTSessionBean() {
 	}
@@ -38,7 +39,7 @@ public class PTSessionBean {
 
 		if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
 			setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
-			filteredSessions = new ArrayList<>(getSessionList());
+			filteredSessions = new ArrayList<>(getSessionList()); // show all sessions initially
 		}
 
 		// populate trainers dropdown
@@ -62,9 +63,10 @@ public class PTSessionBean {
 	}
 
 	public List<PTSession> getFilteredSessions() {
-		if (filteredSessions == null || filteredSessions.isEmpty()) {
+		// if no date filter has been applied and filteredSessions is empty, 
+		// initialize with all trainer sessions
+		if (!dateFilterApplied && (filteredSessions == null || filteredSessions.isEmpty())) {
 			User loggedInUser = getLoggedInUser();
-			// if logged-in user is a trainer, load their sessions
 			if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
 				setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
 				filteredSessions = new ArrayList<>(getSessionList());
@@ -135,7 +137,6 @@ public class PTSessionBean {
 		    hasError = true;
 		}
 
-
 		if (hasError) {
 			return null; // stop if validation fails
 		}
@@ -154,7 +155,7 @@ public class PTSessionBean {
 						"Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions());
 				return "member-dashboard?faces-redirect=true";
 			} else {
-				addMessage(null, FacesMessage.SEVERITY_ERROR, "This session has been already booked. Try another.");
+				addMessage(null, FacesMessage.SEVERITY_ERROR, "This session has been already booked.\nTry another.");
 				return null;
 			}
 		} catch (Exception e) {
@@ -176,10 +177,19 @@ public class PTSessionBean {
 	// filter logic
 	public String filterSessionsByDate() {
 		filteredSessions = new ArrayList<>();
+		dateFilterApplied = true; // mark filter has been applied
 
-		// if no date selected, show nothing
+		// if no date selected, show all sessions
 		if (selectedDate == null) {
+			filteredSessions = new ArrayList<>(getSessionList());
+			dateFilterApplied = false; // Reset filter flag
 			return null;
+		}
+
+		// refresh the session list to get the latest data
+		User loggedInUser = getLoggedInUser();
+		if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
+			setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
 		}
 
 		Calendar calSelected = Calendar.getInstance();
@@ -190,20 +200,30 @@ public class PTSessionBean {
 		calSelected.set(Calendar.MILLISECOND, 0);
 
 		for (PTSession session : getSessionList()) {
-			Calendar calSession = Calendar.getInstance();
-			calSession.setTime(session.getSessionDate());
-			calSession.set(Calendar.HOUR_OF_DAY, 0);
-			calSession.set(Calendar.MINUTE, 0);
-			calSession.set(Calendar.SECOND, 0);
-			calSession.set(Calendar.MILLISECOND, 0);
+			if (session.getSessionDate() != null) { // Add null check
+				Calendar calSession = Calendar.getInstance();
+				calSession.setTime(session.getSessionDate());
+				calSession.set(Calendar.HOUR_OF_DAY, 0);
+				calSession.set(Calendar.MINUTE, 0);
+				calSession.set(Calendar.SECOND, 0);
+				calSession.set(Calendar.MILLISECOND, 0);
 
-			// compare year, month, day to match date
-			if (calSession.get(Calendar.YEAR) == calSelected.get(Calendar.YEAR)
-					&& calSession.get(Calendar.MONTH) == calSelected.get(Calendar.MONTH)
-					&& calSession.get(Calendar.DAY_OF_MONTH) == calSelected.get(Calendar.DAY_OF_MONTH)) {
-				filteredSessions.add(session);
+				// compare year, month, day to match date
+				if (calSession.get(Calendar.YEAR) == calSelected.get(Calendar.YEAR)
+						&& calSession.get(Calendar.MONTH) == calSelected.get(Calendar.MONTH)
+						&& calSession.get(Calendar.DAY_OF_MONTH) == calSelected.get(Calendar.DAY_OF_MONTH)) {
+					filteredSessions.add(session);
+				}
 			}
 		}
+		return null;
+	}
+
+	// Add a method to clear the date filter
+	public String clearDateFilter() {
+		selectedDate = null;
+		dateFilterApplied = false;
+		filteredSessions = new ArrayList<>(getSessionList());
 		return null;
 	}
 

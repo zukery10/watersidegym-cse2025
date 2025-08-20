@@ -1,3 +1,5 @@
+
+
 /* === Global styles for the whole page === */
 body {
     margin: 0; /* Remove default margin around body */
@@ -330,6 +332,28 @@ background-size: 93px 82px;
 
 .feedback-message li {
     list-style: none;
+}
+
+.error {
+	margin: 0 auto 20px auto;
+    text-align: center;
+    color: #ff6b6b;
+    font-size: 16px;
+}
+
+.field-error {
+  color: #ff4d4f;
+  font-weight: 600;
+  display: block;
+  margin-top: 4px;
+}
+
+.message-error {
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+  background: rgba(255, 77, 79, 0.08);
+  padding: 8px 10px;
+  border-radius: 6px;
 }
 
 /* =========================
@@ -856,3 +880,86 @@ background-size: 93px 82px;
   padding-top: 60px; /* push content below header */
 }
 
+.jsf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: #1e1f23; /* dark bg */
+    color: #fff; /* white text */
+}
+.jsf-table-cart {
+	float:left;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: #1e1f23; /* dark bg */
+    color: #fff; /* white text */
+}
+
+
+.jsf-table th,
+.jsf-table td {
+    border: 1px solid #444; /* subtle border */
+    padding: 12px 8px;
+}
+
+.jsf-table th {
+    background-color: #2a2d34;
+    font-weight: bold;
+    color: #8fffa0; /* green header text */
+}
+
+.jsf-table tr:nth-child(even) {
+    background-color: #2a2d34; /* alternating row */
+}
+
+.jsf-table tr:hover {
+    background-color: #33363d; /* hover row */
+}
+
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.table-card {
+	background-color: #181a1f;
+	border-radius: 12px;
+	padding: 30px;
+	width: 100%;
+	max-width: 650px; 
+	position: relative;
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
+	transition: transform 0.3s ease;
+}
+
+.radio-group td {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 6px;
+}
+
+.table-card-cart {
+	
+	
+	float:right;
+	height:100%;
+	
+	background-color: #181a1f;
+	border-radius: 12px;
+	padding: 30px;
+	
+	width: 100%;
+	max-width: 400px; 
+	position:top;
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
+	transition: transform 0.3s ease;
+}

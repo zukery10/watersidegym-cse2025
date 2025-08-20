@@ -70,6 +70,7 @@
 			<version>1.10.0</version> <!-- this must match JUnit 5.x -->
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

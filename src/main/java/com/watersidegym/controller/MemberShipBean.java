@@ -84,6 +84,8 @@ public class MemberShipBean {
 		if (isPaymentTimedOut()) {
 			addMessage("Your payment session has expired. Please select a plan again.", FacesMessage.SEVERITY_ERROR);
 			return "index.xhtml?faces-redirect=true";
+			
+			
 		}
 
 		if (!isValidPayPal()) {
@@ -96,6 +98,8 @@ public class MemberShipBean {
 		LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 		User loggedInUser = loginBean.getLoggedInUser();
 
+		
+		
 		// update user role to Member
 		if (loggedInUser != null) {
 			loggedInUser.setRole("Member");

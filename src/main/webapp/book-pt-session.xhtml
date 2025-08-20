@@ -13,7 +13,6 @@
 		<h1>
 			Book Personal <span class="highlight">Training Session</span>
 		</h1>
-		<h:messages globalOnly="true" layout="list" errorClass="message-error" />
 		<h:form id="ptForm">
 			<div class="plans">
 				<div class="plan-card">
@@ -84,6 +83,9 @@
 						</div>
 						<h:message for="dur" styleClass="error-message" />
 					</div>
+					
+					<!-- Messages above buttons -->
+					<h:messages globalOnly="true" layout="table" style="color: #e74c3c; font-weight: bold; display: block; margin: 20px 0; padding: 15px; background: #fdf2f2; border-radius: 5px; border: 1px solid #f5c6cb;"  />
 
 					<!-- Buttons -->
 					<div class="form-actions">

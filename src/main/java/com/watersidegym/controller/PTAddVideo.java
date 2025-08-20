@@ -30,42 +30,48 @@ public class PTAddVideo {
 	private String formDescription;
 	private String formRule = "Public";
 	private String formCategory = "Recently Added";
-
+	
 	// Max upload size (200MB)
 	private final long MAX_SIZE = 200L * 1024L * 1024L;
 
-	// ===== Adding some sample videos at startup =====
+	// ===== Adding some sample videos at startup =====	
 	@PostConstruct
 	public void preload() {
 		// all in recently added secton
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "PT@example.com");
-		
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "PTXYZ@example.com");
-		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "PT@example.com");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "PT@example.com");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "PT@example.com");
-		addVideo("CrossFit Hidden", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Hidden", "Recently Added", "PT@example.com");
+
+		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "Joe Soundman");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Recently Added", "Joe Soundman");
+		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Recently Added", "Alex Byrne");
+		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Recently Added", "Alex Byrne");
+		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Recently Added", "Alex Byrne");
+		addVideo("CrossFit Hidden", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Hidden", "Recently Added", "Alex Byrne");
 		
 		//------------------------------------------
 		// all in related sections
-		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Tai Chi", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "PT@example.com");
-		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "PTXYZ@example.com");
-		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "PT2@example.com");
-		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "PT@example.com");
-		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "PT@example.com");
-		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Kickboxing", "PT@example.com");
-		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Public", "CrossFit", "PT@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
-		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "PT2@example.com");
+		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Tai Chi", "Joe Soundman");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Alex Byrne");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_2.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Joe Soundman");
+		addVideo("Yoga", "/resources/videos/Francine_Cipollone_Yoga_3.mp4", "2025-08-12", "Gentle flow", "Public", "Yoga", "Joe Soundman");
+		addVideo("Core Strength", "/resources/videos/Kaleigh_Cohen_Core_Strength.mp4", "2025-08-12", "Core routine", "Private", "Core Strength", "Joe Soundman");
+		addVideo("Zumba", "/resources/videos/Zumba_Holly_Corrente.mp4", "2025-08-15", "Zumba dance", "Private", "Zumba", "Alex Byrne");
+		addVideo("Pilates", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "Pilates flow", "Private", "Pilates", "Joe Soundman");
+		addVideo("Aqua Aerobics", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "Aqua Aerobics routine", "Private", "Aqua Aerobics", "Joe Soundman");
+		addVideo("Kickboxing", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "Kickboxing excercises", "Public", "Kickboxing", "Alex Byrne");
+		addVideo("CrossFit", "/resources/videos/CrossFit_Dan%20Bailey.mp4", "2025-08-11", "CrossFit HIIT", "Public", "CrossFit", "Joe Soundman");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata_2.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Joe Soundman");
+		addVideo("Tabata", "/resources/videos/Anna_Tabata_3.mp4", "2025-08-07", "Tabata dance", "Private", "Tabata", "Alex Byrne");
+
 	}
 
 	// ===== Adding video to the list =====
 	private void addVideo(String title, String link, String date, String desc, String rule, String category, String uploaderUsername) {
 		videos.add(new Video(nextId++, title, link, date, desc, rule, category, uploaderUsername));
+
+	}
+	
+	public void addVideoTest(Video video) { //testing
+		videos.add(video);
 	}
 
 	// ===== Main upload logic =====
@@ -117,14 +123,16 @@ public class PTAddVideo {
 			String title = (formTitle == null || formTitle.isEmpty()) ? fileName.replaceFirst("\\.[^.]+$", "") : formTitle;
 			String date = (formDate == null || formDate.isEmpty()) ? LocalDate.now().toString() : formDate;
 			String desc = (formDescription == null) ? "Uploaded by trainer." : formDescription;
-
+			
 			// get the loggedin user from the LoginBean
 			FacesContext context = FacesContext.getCurrentInstance();
 			LoginBean loginBean = context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
 			User loggedInUser = loginBean.getLoggedInUser();
 
-
-			addVideo(title, link, date, desc, formRule, formCategory, loggedInUser.getEmail());
+			String firstname = loggedInUser.getFirstName();
+			String secondname = loggedInUser.getSecondName();
+			String fullName = firstname.concat(" " + secondname );
+			addVideo(title, link, date, desc, formRule, formCategory, fullName);
 
 			// 7. Reset form fields
 			uploadedFile = null;
@@ -148,8 +156,11 @@ public class PTAddVideo {
 	}
 
 	// ===== Helpers =====
-	private void showMessage(FacesMessage.Severity type, String text) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(type, text, null));
+	protected void showMessage(FacesMessage.Severity type, String text) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(type, text, null));
+		}
 	}
 
 	private String getFileName(Part part) {
@@ -179,8 +190,10 @@ public class PTAddVideo {
 				String da = (a.getDate() == null) ? "" : a.getDate();
 				String db = (b.getDate() == null) ? "" : b.getDate();
 
+
 				// if current item is "older" than the next, swapping them
 				if (da.compareTo(db) < 0) {
+
 					out.set(j, b);
 					out.set(j + 1, a);
 				}
@@ -204,7 +217,10 @@ public class PTAddVideo {
 		for (Video v : videos) {
 			//if the user is already loggedin -> we check the email ofr the user
 			// then we compare with the videos li and add the matching email only 
-			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
+			String firstname = loggedInUser.getFirstName();
+			String secondname = loggedInUser.getSecondName();
+			String fullName = firstname.concat(" " + secondname );
+			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(fullName)) {
 				//System.out.println("v.getUploadedBy() " + v.getUploadedBy());
 				//here we add the email for this user
 				mine.add(v);
@@ -293,4 +309,19 @@ public class PTAddVideo {
 	public List<Video> getTabataOnly() {
 		return byCategory("Tabata");
 	}
+	
+
+	public String updateRule(Video video) {
+	    // clear messages on all other videos
+	    for (Video v : videos) {
+	        if (v.getId() != video.getId()) {
+	            v.setMessage(null);
+	        }
+	    }
+	    // set the message on the video that was updated
+	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
+	    return null;
+	}
+
+
 }
