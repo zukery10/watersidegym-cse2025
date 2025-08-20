@@ -2,6 +2,7 @@ package com.watersidegym.controller;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @ManagedBean(name = "videoControllerBean")
-@SessionScoped
+@ApplicationScoped
 public class VideoGalleryBean {
 
 	// ===== List of all videos =====
@@ -35,11 +36,7 @@ public class VideoGalleryBean {
 	private final long MAX_SIZE = 200L * 1024L * 1024L;
 
 	
-	public VideoGalleryBean() { //public default constructor loads preloaded videos, calls the preload function
-		preload();
-	}
-
-	// ===== Adding some sample videos at startup =====
+	@PostConstruct
 	public void preload() {
 		// all in recently added secton
 		addVideo("Tai Chi", "/resources/videos/Jimmi_Chan_Tai%20chi.mp4", "2025-08-12", "Calming Tai Chi", "Public", "Recently Added", "PT@example.com");
@@ -132,7 +129,10 @@ public class VideoGalleryBean {
 
 			// after we get the user logged in we get his email to add to the video items.
 
-			addVideo(title, link, date, desc, formRule, formCategory, loggedInUser.getEmail());
+			String firstname = loggedInUser.getFirstName();
+			String secondname = loggedInUser.getSecondName();
+			String fullName = firstname.concat(" " + secondname );
+			addVideo(title, link, date, desc, formRule, formCategory, fullName);
 
 			// 7. Reset form fields, after we upload the video we reset the video upload form to no values.
 			uploadedFile = null;
@@ -149,6 +149,11 @@ public class VideoGalleryBean {
 		return null; 
 	}
 
+	
+	public void addVideoTest(Video video) { //testing
+		videos.add(video);
+	}
+	
 	// ===== Cancel upload =====
 	public String cancelUpload() {
 		uploadedFile = null;
@@ -157,8 +162,11 @@ public class VideoGalleryBean {
 	}
 
 	// ===== Helpers for showing server msgs =====
-	private void showMessage(FacesMessage.Severity type, String text) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(type, text, null));
+	public void showMessage(FacesMessage.Severity type, String text) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(null, new FacesMessage(type, text, null));
+		}
 	}
 
 	// function to get the file name that we have in the system
@@ -223,6 +231,10 @@ public class VideoGalleryBean {
 		for (Video v : videos) {
 			//if the user is already loggedin -> we check the email of the user
 			// then we compare with the videos lib and add the matching email only 
+			String firstname = loggedInUser.getFirstName();
+			String secondname = loggedInUser.getSecondName();
+			String fullName = firstname.concat(" " + secondname );
+
 			if (v.getUploadedBy() != null && v.getUploadedBy().equalsIgnoreCase(email)) {
 				//System.out.println("v.getUploadedBy() " + v.getUploadedBy());
 				//here we add the email for this user
@@ -250,18 +262,24 @@ public class VideoGalleryBean {
 			//System.out.println("video index was deleted >> " +	index);   --> for testing
 			videos.remove(index);
 			//here goes success message
-			FacesContext.getCurrentInstance().addMessage(
-		            null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Video deleted successfully.", null)
-		        );
 		}
 		else {
 			// nothing deleted (e.g., already removed)
-	        FacesContext.getCurrentInstance().addMessage(
-	            null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Video not found or already deleted.", null)
-	        );
 		}
 	}
 	
+
+	public String updateRule(Video video) {
+	    // clear messages on all other videos
+	    for (Video v : videos) {
+	        if (v.getId() != video.getId()) {
+	            v.setMessage(null);
+	        }
+	    }
+	    // set the message on the video that was updated
+	    video.setMessage("Visibility updated to " + video.getRule() + " for " + video.getTitle());
+	    return null;
+	}
 	
 	// ===== Getters/Setters =====
 	public List<Video> getVideos() { return videos; }
