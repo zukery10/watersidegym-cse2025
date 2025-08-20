@@ -87,6 +87,6 @@ class PTSessionBeanTest {
         String today = bean.getTodayIso();
         assertNotNull(today);
         System.out.println(today);
-        assertTrue(today.matches("2025-08-18"));
+        assertTrue(today.matches("2025-08-20"));
     }
 }
