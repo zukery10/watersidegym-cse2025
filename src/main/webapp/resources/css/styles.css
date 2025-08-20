@@ -1280,14 +1280,14 @@ nudging the focal point slightly higher so the top content stays in view */
 
 /* plan tiles only */
 .plans .plan-card{
-  width: 400px;          /*smaller width */
+  width: 300px;          /*smaller width */
   padding: 20px;
 }
 
 /* PayPal card only */
 .payment-form{
   width: 100%;
-  max-width: 540px;      /* make it wider than the tiles */
+  max-width: 540px;      /*wider than the tiles */
   margin: 0 auto;
   padding: 30px;
 }
