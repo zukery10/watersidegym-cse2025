@@ -200,6 +200,10 @@ public class GymClassBean {
 		if (cart.isEmpty()) {
 			startClassPaymentTimer(); // set deadline
 		}
+		if(cls.getNoOfSlots()<= 0) {
+			addMessage("Class Full, No slots available.", FacesMessage.SEVERITY_WARN);
+			return null;
+		}
 		if (!disabledButtons.contains(cls)) {
 			cart.add(cls);
 			totalPrice += cls.getPrice();
