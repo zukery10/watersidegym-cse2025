@@ -59,7 +59,17 @@
 									<h:commandButton value="Save"
 										action="#{videoControllerBean.updateRule(v)}"
 										styleClass="choose-btn" />
-                
+										<div style="display: flex; justify-content: center; margin-top: 6px;">
+										<h:outputText value="#{v.message}"
+										style="color: green; font-weight: bold;"
+										rendered= "#{not empty v.message}"  />
+										
+										</div>
+										
+										<h:commandButton value="Delete"
+										action="#{videoControllerBean.deleteVideo(v)}"
+										styleClass="choose-btn" onclick="return confirm('Delete this video permanently?');"/>
+										            
               </div>
             </article>
           </ui:repeat>
