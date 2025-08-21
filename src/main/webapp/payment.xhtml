@@ -11,10 +11,16 @@
 <h:head>
 	<title>Payment</title>
 	<link rel="stylesheet" type="text/css"
-		href="resources/css/membership_select_page.css" />
-	<h:outputStylesheet name="styles.css" library="css" />
+		href="resources/css/styles.css" />
+
 </h:head>
 <h:body>
+
+<!-- header -->
+  <ui:include src="/includes/header.xhtml" />
+
+  <!-- background image -->
+  <section class="dashboard-bg payment-bg">
 
 	<main class="main-section">
 		<h1>
@@ -45,7 +51,8 @@
 					€#{gymClassBean.totalPrice}</span>
 			</p>
 		</h:panelGroup>
-		<div class="plan-card payment-form">
+		<div class="soft-panel payment-form">
+
 			<h:messages globalOnly="true" layout="list"
 				styleClass="feedback-message" />
 			<!--  if user enters wrong credentials this message will appear -->
@@ -91,5 +98,6 @@
 		<p class="subtitle2" style="color: red; font-weight: bold;">You
 			have 5 minutes to complete your payment before the session expires.</p>
 	</main>
+	</section>
 </h:body>
 </html>

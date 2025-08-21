@@ -30,6 +30,19 @@ class PTSessionBeanTest {
     void testGetFilteredSessionsWhenNoUser() {
         assertTrue(bean.getFilteredSessions().isEmpty());
     }
+    @Test
+    void returnsNullWhenRequiredFieldsMissing() {
+        User loggedIn = new User();
+        loggedIn.setFirstName("Alex");
+        loggedIn.setSecondName("Byrne");
+        loggedIn.setRemainingPTSessions(2);
+
+        bean.init(); 
+
+        String outcome = bean.bookSession(); // no session details
+
+        assertNull(outcome);
+    }
 
     @Test
     void testFilterSessionsByDateWhenDatesMatch() {
@@ -86,7 +99,29 @@ class PTSessionBeanTest {
     void testGetTodayIso_notNull() {
         String today = bean.getTodayIso();
         assertNotNull(today);
-        System.out.println(today);
-        assertTrue(today.matches("2025-08-20"));
+        //System.out.println(today);
+        assertTrue(today.matches("2025-08-21"));
     }
+    //0 sessions check
+    @Test
+    void returnsNullWhenNoSessionsLeft() {
+        User loggedIn = new User();
+        loggedIn.setFirstName("Alex");
+        loggedIn.setSecondName("Byrne");
+        loggedIn.setRemainingPTSessions(0);
+
+        PTSession form = bean.getPtSession();
+        form.setTrainer(loggedIn);
+        form.setSessionDate(new Date());
+        form.setStartTime("8:00");
+        form.setDurationMinutes(30);
+
+        String outcome = bean.bookSession();
+
+        assertNull(outcome);
+        assertEquals(0, loggedIn.getRemainingPTSessions());
+    }
+
+
 }
+

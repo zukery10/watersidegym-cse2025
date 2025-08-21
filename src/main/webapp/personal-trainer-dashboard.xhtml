@@ -10,12 +10,13 @@
 </f:metadata>
 
 <h:head>
-	<h:outputStylesheet library="css" name="membership_select_page.css" />
-	<h:outputStylesheet name="styles.css" library="css" />
+
+	<h:outputStylesheet library="css" name="styles.css" />
 	<title>Personal Trainer Dashboard</title>
 </h:head>
 
 <h:body>
+
 
 	<!-- header -->
 	<ui:include src="/includes/header.xhtml" />
@@ -40,11 +41,16 @@
 					<h:form>
 						<!-- Date Filter Section with Form Styling -->
 						<div class="form-group">
-							<div class="form-row" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center;">
-								<h:outputLabel for="date" value="Select Date:" styleClass="form-label" style="margin: 0; white-space: nowrap;" />
-								<h:inputText id="date" value="#{ptSessionBean.selectedDate}" 
-									styleClass="form-control" style="flex: 1; min-width: 150px; max-width: 200px;"
-									pt:type="date" pt:min="#{ptSessionBean.todayIso}">									<f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Dublin" />
+							<div class="form-row"
+								style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center;">
+								<h:outputLabel for="date" value="Select Date:"
+									styleClass="form-label" style="margin: 0; white-space: nowrap;" />
+								<h:inputText id="date" value="#{ptSessionBean.selectedDate}"
+									styleClass="form-control"
+									style="flex: 1; min-width: 150px; max-width: 200px;"
+									pt:type="date" pt:min="#{ptSessionBean.todayIso}">
+									<f:convertDateTime pattern="yyyy-MM-dd"
+										timeZone="Europe/Dublin" />
 								</h:inputText>
 								<h:commandButton value="Filter"
 									action="#{ptSessionBean.filterSessionsByDate}"
@@ -53,9 +59,10 @@
 						</div>
 
 						<br />
-						
+
 						<!-- Results Table -->
-						<h:panelGroup rendered="#{not empty ptSessionBean.filteredSessions}">
+						<h:panelGroup
+							rendered="#{not empty ptSessionBean.filteredSessions}">
 							<div style="overflow-x: auto;">
 								<h:dataTable value="#{ptSessionBean.filteredSessions}" var="s"
 									styleClass="jsf-table" style="width: 100%; margin: 20px 0;">
@@ -81,13 +88,13 @@
 								</h:dataTable>
 							</div>
 						</h:panelGroup>
-						
+
 						<h:panelGroup rendered="#{empty ptSessionBean.filteredSessions}">
 							<h:outputText value="No PT sessions scheduled for this date."
 								style="color: #e74c3c; font-weight: bold; display: block; margin: 20px 0; padding: 15px; background: #fdf2f2; border-radius: 5px; border: 1px solid #f5c6cb;" />
 						</h:panelGroup>
 					</h:form>
-					
+
 					<!-- Logout Form -->
 					<h:form style="margin-top: 30px;">
 						<div class="form-actions">
@@ -98,43 +105,44 @@
 				</div>
 			</div>
 
-			<!-- Quick Links -->
-			<section class="dash-actions">
-				<div class="dash-grid">
+			<!-- Unified vertical buttons -->
+			<div class="stack-actions">
 
-					<!-- Video Gallery -->
-					<h:link outcome="video-gallery" styleClass="dash-card">
-						<span class="dash-icon">🎬</span>
-						<div class="dash-text">
-							<h3 class="dash-title">Video Gallery</h3>
-							<p class="dash-sub">Browse classes &amp; workouts</p>
-						</div>
-						<span class="dash-cta">→</span>
-					</h:link>
+				<!-- Video Gallery -->
+				<h:link outcome="video-gallery" styleClass="stack-btn">
+					<!-- Quick Links line here -->
+					<span class="icon">🎬</span>
+					<span class="text"> <span class="title">Video Gallery</span>
+						<span class="sub">Browse classes &amp; workouts</span>
+					</span>
+					<span class="cta">→</span>
+				</h:link>
 
-					<!-- Upload a Video -->
-					<h:link outcome="PT-add-video" styleClass="dash-card">
-						<span class="dash-icon">⤴️</span>
-						<div class="dash-text">
-							<h3 class="dash-title">Upload Video</h3>
-							<p class="dash-sub">Share a new session</p>
-						</div>
-						<span class="dash-cta">→</span>
-					</h:link>
+				<!-- Upload Video -->
+				<h:link outcome="PT-add-video" styleClass="stack-btn">
+					<!-- Quick Links line here -->
+					<span class="icon">⤴️</span>
+					<span class="text"> <span class="title">Upload Video</span>
+						<span class="sub">Share a new session</span>
+					</span>
+					<span class="cta">→</span>
+				</h:link>
 
-					<!-- 1:1 Booked Sessions -->
-					<h:link outcome="sessions" styleClass="dash-card">
-						<span class="dash-icon">📅</span>
-						<div class="dash-text">
-							<h3 class="dash-title">1:1 Sessions</h3>
-							<p class="dash-sub">View your bookings</p>
-						</div>
-						<span class="dash-cta">→</span>
-					</h:link>
+				<!-- 1:1 Sessions -->
+				<h:link outcome="sessions" styleClass="stack-btn">
+					<!-- Quick Links line here -->
+					<span class="icon">📅</span>
+					<span class="text"> <span class="title">1:1 Sessions</span>
+						<span class="sub">View your bookings</span>
+					</span>
+					<span class="cta">→</span>
+				</h:link>
 
-				</div>
-			</section>
+			</div>
+
+
 		</main>
+
 	</section>
 </h:body>
 </html>

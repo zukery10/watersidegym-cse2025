@@ -7,7 +7,7 @@
 
 <h:head>
 	<title>Upload your Video</title>
-	<h:outputStylesheet library="css" name="membership_select_page.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
 	<f:metadata>
 		<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 	</f:metadata>
@@ -21,9 +21,26 @@
 			<h1>
 				Upload your <span class="highlight">Video</span>
 			</h1>
-
+			<h:form>
+				<h:commandButton value="Back to Dashboard"
+					action="personal-trainer-dashboard.xhtml?faces-redirect=true"
+					styleClass="choose-btn" />
+			</h:form>
 			<!-- Global messages for success/error/canceled -->
-			<h:messages id="msgs" globalOnly="true" style="margin:12px 0;color:#cbd5e1" />
+			<h:messages id="msgs" globalOnly="true"
+				style="margin:12px 0;color:#cbd5e1" />
+			<div id="clientFileMsg" class="ui-messages ui-widget"
+				style="display: none; margin: 12px 0; color: #cbd5e1">
+				<div class="ui-messages-info ui-corner-all">
+					<span class="ui-messages-info-icon"></span>
+					<ul>
+						<li><span class="ui-messages-info-summary">Video
+								selected.</span> <span class="ui-messages-info-detail">Ready to
+								upload.</span></li>
+					</ul>
+				</div>
+			</div>
+
 
 			<div class="video-gallery">
 				<div class="page">
@@ -47,11 +64,8 @@
 
 										<h:inputFile id="file"
 											value="#{videoControllerBean.uploadedFile}"
-											styleClass="dz-input">
-											<p:ajax event="change"
-												listener="#{videoControllerBean.notifyFileChosen}"
-												update=":msgs" />
-										</h:inputFile>
+											styleClass="dz-input"
+											onchange="document.getElementById('clientFileMsg').style.display='block';" />
 									</div>
 
 									<!-- FIELDS -->
