@@ -13,6 +13,8 @@
 </h:head>
 
 <h:body>
+<ui:include src="/includes/header.xhtml" />
+
 	<main class="main-section">
 		<div class="vg-container">
 			<div class="vg-titlebar">
@@ -47,7 +49,7 @@
 							action="#{videoService.showVideosMembers()}"
 							styleClass="choose-btn" style="white-space: nowrap;" />
 						<h:commandButton value="Back to Dashboard"
-							action="nonmember-dashboard.xhtml?faces-redirect=true"
+							action="member-dashboard.xhtml?faces-redirect=true"
 							styleClass="choose-btn" />
 					</div>
 				</div>

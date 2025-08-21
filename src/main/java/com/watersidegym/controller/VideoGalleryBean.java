@@ -4,9 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;     // used for file upload
 import com.watersidegym.model.User;
@@ -45,8 +43,6 @@ public class VideoGalleryBean {
 		addVideo("Incline Walk", "/resources/videos/Kickboxing_Rebecca_Louise.mp4", "2025-08-11", "How to use the threadmill at incline","Private", "Cardio Equipment", "Alex Byrne");
 		addVideo("Resistance Band Curl", "/resources/videos/Pooja_Aqua_Aerobics.mp4", "2025-08-11", "How to do a resistance band curl", "Public", "Bands", "Alex Byrne");
 		addVideo("Cable Row", "/resources/videos/Rachel_Lawrence_pilates.mp4", "2025-08-16", "How to do a cable row", "Hidden", "Machines", "Joe Soundman");
-
-
 	}
 
 	// ===== Adding video to the list =====

@@ -103,6 +103,7 @@ body {
     flex-wrap: wrap; /* Wrap to next line on smaller screens */
     gap: 24px; /* Space between cards */
     padding: 0 20px;
+    align-items: flex-start;
 }
 
 /* === Individual plan card styling === */
@@ -1143,6 +1144,7 @@ nudging the focal point slightly higher so the top content stays in view */
   -webkit-backdrop-filter: saturate(120%) blur(2px);
   backdrop-filter: saturate(120%) blur(2px);
   position: relative; /* Needed for the badge */
+  
 }
 
 /* Highlighted "Most Popular" card */

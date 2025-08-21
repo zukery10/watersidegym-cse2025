@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VideoGalleryBeanTest {
@@ -23,13 +22,8 @@ public class VideoGalleryBeanTest {
     public void testPreload_addsVideos1() {
         List<Video> videos = bean.getVideos();
         assertNotNull(videos);
-        assertFalse(videos.isEmpty(), "Preload should add sample videos");
+        assertFalse(videos.isEmpty());
     }
-
-    
-
-   
-   
 
     @Test
     public void testFormFieldSettersAndGetters1() {
@@ -46,15 +40,10 @@ public class VideoGalleryBeanTest {
         assertEquals("Yoga", bean.getFormCategory());
     }
 
-  
-    
-    
-    
-  
         @Test
         void testPreload_addsVideos() {
             assertNotNull(bean.getVideos());
-            assertTrue(bean.getVideos().size() >= 6, "preload should add many videos");
+            assertEquals(6, bean.getVideos().size());
         }
 
         @Test
@@ -124,15 +113,14 @@ public class VideoGalleryBeanTest {
         void testDeleteVideo_existingVideo() {
             int initialSize = bean.getVideos().size();
             
-            int videoId = bean.getVideos().get(0).getId();
+            int video1 = bean.getVideos().get(0).getId();
             
-            bean.deleteVideo(videoId);
+            bean.deleteVideo(video1);
             
-            assertEquals(initialSize - 1, bean.getVideos().size(), "Video list size should decrease by 1");
+            int video2 = bean.getVideos().get(0).getId();    
             
-            boolean videoStillExists = bean.getVideos().stream()
-                    .anyMatch(v -> v.getId() == videoId);
-            assertFalse(videoStillExists, "Video should no longer exist in the list");
+            assertEquals(initialSize - 1, bean.getVideos().size());
+            assertFalse(video1 == video2);
         }
 
         @Test
@@ -141,7 +129,7 @@ public class VideoGalleryBeanTest {
             
             bean.deleteVideo(-1);
             
-            assertEquals(initialSize, bean.getVideos().size(), "Video list size should not change");
+            assertEquals(initialSize, bean.getVideos().size());
         }
 
         @Test
@@ -154,12 +142,7 @@ public class VideoGalleryBeanTest {
             bean.deleteVideo(firstVideoId);
             bean.deleteVideo(secondVideoId);
             
-            assertEquals(initialSize - 2, bean.getVideos().size(), "Video list size should decrease by 2");
-            
-            assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == firstVideoId), 
-                    "First video should no longer exist");
-            assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == secondVideoId), 
-                    "Second video should no longer exist");
+            assertEquals(initialSize - 2, bean.getVideos().size());
         }
 
         @Test

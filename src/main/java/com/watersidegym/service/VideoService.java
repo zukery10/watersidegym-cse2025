@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
-import com.watersidegym.controller.LoginBean;
 import com.watersidegym.controller.VideoGalleryBean;
 import com.watersidegym.model.User;
 import com.watersidegym.model.Video;

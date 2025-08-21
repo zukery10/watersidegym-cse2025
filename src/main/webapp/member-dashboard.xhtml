@@ -13,7 +13,6 @@
 	<!-- stylesheet with PT dash-card styles -->
 	<h:outputStylesheet name="styles.css" library="css" />
 	<style>
-
 </style>
 </h:head>
 
@@ -41,65 +40,66 @@
 				<p>Role: #{loginBean.loggedInUser.role}</p>
 			</h:panelGroup>
 
-			<!-- =========================
-         Quick Actions (PT-style cards)
-         ========================= -->
-			<!-- Unified vertical buttons -->
-			<div class="stack-actions">
 
-				<!-- Video Gallery -->
-				<h:link outcome="member-video-gallery" styleClass="stack-btn">
-					<!-- Quick Links line here -->
-					<span class="icon">🎬</span>
-					<span class="text"> <span class="title">Video Gallery</span>
-						<span class="sub">Browse member videos</span>
-					</span>
-					<span class="cta">→</span>
-				</h:link>
 
-				<!-- View Classes -->
-				<h:link outcome="browseClasses" styleClass="stack-btn">
-					<!-- Quick Links line here -->
-					<span class="icon">📚</span>
-					<span class="text"> <span class="title">View Classes</span>
-						<span class="sub">See timetable &amp; book</span>
-					</span>
-					<span class="cta">→</span>
-				</h:link>
 
-				<!-- Book PT Session (enabled) -->
-				<h:panelGroup
-					rendered="#{loginBean.loggedInUser.remainingPTSessions gt 0}">
-					<h:link outcome="book-pt-session" styleClass="stack-btn">
-						<!-- Quick Links line here -->
-						<span class="icon">📅</span>
-						<span class="text"> <span class="title">Book PT
-								Session</span> <span class="sub">
-								#{ptSessionBean.memberBookedSessions != null ?
-								fn:length(ptSessionBean.memberBookedSessions) : 0} booked •
-								Left: #{loginBean.loggedInUser.remainingPTSessions} </span>
-						</span>
-						<span class="cta">→</span>
-					</h:link>
-				</h:panelGroup>
 
-				<!-- Book PT Session (disabled) -->
-				<h:panelGroup
-					rendered="#{loginBean.loggedInUser.remainingPTSessions le 0}">
-					<div class="stack-btn disabled">
-						<span class="icon">📅</span> <span class="text"> <span
-							class="title">Book PT Session</span> <span class="sub">No
-								sessions left to book</span>
-						</span> <span class="cta">→</span>
+			<div class="plans">
+				<div class="plan-card soft-panel">
+
+					<!-- Unified vertical buttons -->
+					<div class="stack-actions">
+
+						<!-- Video Gallery -->
+						<h:link outcome="member-video-gallery" styleClass="stack-btn">
+							<!-- Quick Links line here -->
+							<span class="icon">🎬</span>
+							<span class="text"> <span class="title">Video
+									Gallery</span> <span class="sub">Browse member videos</span>
+							</span>
+							<span class="cta">→</span>
+						</h:link>
+
+						<!-- View Classes -->
+						<h:link outcome="browseClasses" styleClass="stack-btn">
+							<!-- Quick Links line here -->
+							<span class="icon">📚</span>
+							<span class="text"> <span class="title">View
+									Classes</span> <span class="sub">See timetable &amp; book</span>
+							</span>
+							<span class="cta">→</span>
+						</h:link>
+
+						<!-- Book PT Session (enabled) -->
+						<h:panelGroup
+							rendered="#{loginBean.loggedInUser.remainingPTSessions gt 0}">
+							<h:link outcome="book-pt-session" styleClass="stack-btn">
+								<!-- Quick Links line here -->
+								<span class="icon">📅</span>
+								<span class="text"> <span class="title">Book PT
+										Session</span> <span class="sub">
+										#{ptSessionBean.memberBookedSessions != null ?
+										fn:length(ptSessionBean.memberBookedSessions) : 0} booked •
+										Left: #{loginBean.loggedInUser.remainingPTSessions} </span>
+								</span>
+								<span class="cta">→</span>
+							</h:link>
+						</h:panelGroup>
+
+						<!-- Book PT Session (disabled) -->
+						<h:panelGroup
+							rendered="#{loginBean.loggedInUser.remainingPTSessions le 0}">
+							<div class="stack-btn disabled">
+								<span class="icon">📅</span> <span class="text"> <span
+									class="title">Book PT Session</span> <span class="sub">No
+										sessions left to book</span>
+								</span> <span class="cta">→</span>
+							</div>
+						</h:panelGroup>
 					</div>
-				</h:panelGroup>
-			</div>
-
-
-			<!-- =========================
-         Initial content (unchanged) / didnt change the initial code (except commented button)
-         ========================= -->
-			<div class="plans" id="dash-pt">
+				</div>
+			
+		
 				<div class="plan-card soft-panel">
 					<h:panelGroup
 						rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
@@ -139,10 +139,9 @@
 						<br />
 					</h:form>
 				</div>
-			</div>
+			
 
 			<!-- PT Sessions card / didnt change the initial code (except commented button) -->
-			<div class="plans" id="dash-pt">
 				<div class="plan-card soft-panel">
 					<h:panelGroup styleClass="card info-card">
 						<h3>

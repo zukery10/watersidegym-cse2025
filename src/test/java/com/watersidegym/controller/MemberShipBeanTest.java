@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import com.watersidegym.model.User;
 
 public class MemberShipBeanTest {
@@ -116,8 +114,6 @@ public class MemberShipBeanTest {
 
         // Override to simulate user update
         bean = new MemberShipBean() {
-            @Override
-            protected void addMessage(String msg, FacesMessage.Severity severity) {}
 
             @Override
             public String processPaymentPayPal() {
