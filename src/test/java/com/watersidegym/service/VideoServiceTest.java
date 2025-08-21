@@ -8,19 +8,19 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.watersidegym.controller.PTAddVideo;
+import com.watersidegym.controller.VideoGalleryBean;
 import com.watersidegym.model.User;
 import com.watersidegym.model.Video;
 
 class VideoServiceTest {
 	private VideoService videoservice= new VideoService();;
-	private PTAddVideo ptAddVideo ;
+	private VideoGalleryBean ptAddVideo ;
 	//private Video video;
 
 	@BeforeEach
 	public void setup() {
 
-		ptAddVideo = new PTAddVideo();
+		ptAddVideo = new VideoGalleryBean();
 		videoservice.setPtAddVideo(ptAddVideo);
 	}
 

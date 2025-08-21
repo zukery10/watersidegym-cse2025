@@ -9,13 +9,14 @@
 </f:metadata>
 
 <h:head>
-  <h:outputStylesheet library="css" name="membership_select_page.css" />
+  <h:outputStylesheet library="css" name="styles.css" />
   <title>Personal Trainer Dashboard</title>
 </h:head>
 
 <h:body>
 
-
+<!-- header -->
+  <ui:include src="/includes/header.xhtml" />
 
   <!-- background image -->
   <section class="dashboard-bg"
@@ -46,42 +47,42 @@
           </div>
         </div>
 
-        <!-- Quick Links -->
-        <section class="dash-actions">
-          <div class="dash-grid">
+        
+        <!-- Unified vertical buttons -->
+<div class="stack-actions">
 
-            <!-- Video Gallery -->
-            <h:link outcome="video-gallery" styleClass="dash-card">
-              <span class="dash-icon">🎬</span>
-              <div class="dash-text">
-                <h3 class="dash-title">Video Gallery</h3>
-                <p class="dash-sub">Browse classes &amp; workouts</p>
-              </div>
-              <span class="dash-cta">→</span>
-            </h:link>
+  <!-- Video Gallery -->
+  <h:link outcome="video-gallery" styleClass="stack-btn">  <!-- Quick Links line here -->
+    <span class="icon">🎬</span>
+    <span class="text">
+      <span class="title">Video Gallery</span>
+      <span class="sub">Browse classes &amp; workouts</span>
+    </span>
+    <span class="cta">→</span>
+  </h:link>
 
-            <!-- Upload a Video -->
-            <h:link outcome="PT-add-video" styleClass="dash-card">
-              <span class="dash-icon">⤴️</span>
-              <div class="dash-text">
-                <h3 class="dash-title">Upload Video</h3>
-                <p class="dash-sub">Share a new session</p>
-              </div>
-              <span class="dash-cta">→</span>
-            </h:link>
+  <!-- Upload Video -->
+  <h:link outcome="PT-add-video" styleClass="stack-btn">   <!-- Quick Links line here -->
+    <span class="icon">⤴️</span>
+    <span class="text">
+      <span class="title">Upload Video</span>
+      <span class="sub">Share a new session</span>
+    </span>
+    <span class="cta">→</span>
+  </h:link>
 
-            <!-- 1:1 Booked Sessions -->
-            <h:link outcome="sessions" styleClass="dash-card">
-              <span class="dash-icon">📅</span>
-              <div class="dash-text">
-                <h3 class="dash-title">1:1 Sessions</h3>
-                <p class="dash-sub">View your bookings</p>
-              </div>
-              <span class="dash-cta">→</span>
-            </h:link>
+  <!-- 1:1 Sessions -->
+  <h:link outcome="sessions" styleClass="stack-btn">   <!-- Quick Links line here -->
+    <span class="icon">📅</span>
+    <span class="text">
+      <span class="title">1:1 Sessions</span>
+      <span class="sub">View your bookings</span>
+    </span>
+    <span class="cta">→</span>
+  </h:link>
 
-          </div>
-        </section>
+</div>
+
 
       </main>
     

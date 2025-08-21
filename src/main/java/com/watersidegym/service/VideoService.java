@@ -11,7 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import com.watersidegym.controller.LoginBean;
-import com.watersidegym.controller.PTAddVideo;
+import com.watersidegym.controller.VideoGalleryBean;
 import com.watersidegym.model.User;
 import com.watersidegym.model.Video;
 
@@ -21,7 +21,7 @@ import com.watersidegym.model.Video;
 public class VideoService {
 
 	@ManagedProperty("#{videoControllerBean}") // reference the JSF-managed bean
-	private PTAddVideo ptAddVideo;
+	private VideoGalleryBean ptAddVideo;
 	private String selectedTrainerName;
 	private List<User> trainers = new ArrayList<>();
 	private ArrayList<Video> trainerVideos = new ArrayList<>();
@@ -32,7 +32,7 @@ public class VideoService {
 
 	}
 
-	public void setPtAddVideo(PTAddVideo ptAddVideo) {
+	public void setPtAddVideo(VideoGalleryBean ptAddVideo) {
 		this.ptAddVideo = ptAddVideo;
 	}
 
