@@ -13,30 +13,22 @@
 
 <h:body>
   <ui:include src="/includes/header.xhtml" />
-  
-  
 
   <main class="main-section">
-  
     <div class="vg-container">
-    
-      <div class="vg-titlebar"><h1 class="vg-page-title">Videos</h1></div>
-  
 
 <h:form>
 <h:commandButton value="Back to Dashboard"
                  action="#{videoControllerBean.redirect}"
                  immediate="true"
                  styleClass="choose-btn"/>
-        </h:form>
-        
-        
-        
-        
-        
+        </h:form>         
+            
+      <div class="vg-titlebar"><h1 class="vg-page-title">Videos</h1></div>
       <section class="vg-section">
-    
         <div class="vg-section-head"><h2 class="vg-section-title">My videos</h2></div>
+              				<h:form styleClass="video-rule-form">
+              
               <br></br>
               <hr></hr>
 
@@ -52,10 +44,28 @@
               <div class="vg-meta">
                 <h3 class="vg-title">#{v.title}</h3>
                 <p class="vg-by">#{v.category} • #{v.rule}</p>
+                									<!-- Radio buttons for visibility -->
+
+									<div
+										style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+										<h:selectOneRadio value="#{v.rule}" layout="lineDirection">
+											<f:selectItem itemValue="Public" itemLabel="Public" />
+											<f:selectItem itemValue="Private" itemLabel="Private" />
+											<f:selectItem itemValue="Hidden" itemLabel="Hidden" />
+										</h:selectOneRadio>
+									</div>
+
+
+									<h:commandButton value="Save"
+										action="#{videoControllerBean.updateRule(v)}"
+										styleClass="choose-btn" />
+                
               </div>
             </article>
           </ui:repeat>
         </div>
+        				</h:form>
+        
       </section>
 
 
