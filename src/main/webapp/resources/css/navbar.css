@@ -1,44 +1,66 @@
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #1a1a1a;
-    color: white;
-    padding: 10px 20px;
-}
 
 .logo {
     display: flex;
     align-items: center;
-    font-size: 20px;
-    font-weight: bold;
+    gap: 12px;
 }
 
-.logo .site-name {
-    margin-left: 10px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
-}
-.logo-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;  
-    object-fit: cover;    
-}
-.tagline {
-    margin-left: 8px;
-    font-size: 14px;
-    font-style: italic;
-    color: #ccc;
+/* Black circular logo background */
+.logo-circle {
+    width: 60px;
+    height: 60px;
+    background-color: black;
+    border-radius: 50%;
+    display: flex;
+    border: 2px #28a745 solid;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* makes image fit inside circle */
 }
 
-.logout-link .logout-btn {
-    color: #008000;
+.logo-circle img {
+    width: 70%;
+    height: auto;
+}
+
+/* Text next to logo */
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.site-name {
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.logo-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Logout link */
+.navbar .logout-link a.logout-btn,
+.navbar .logout-link a.logout-btn:link,
+.navbar .logout-link a.logout-btn:visited {
+    color: #28a745 !important;
     font-weight: bold;
     text-decoration: none;
 }
 
-.logout-link .logout-btn:hover {
+.navbar .logout-link a.logout-btn:hover {
     text-decoration: underline;
 }

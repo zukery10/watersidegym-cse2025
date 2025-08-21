@@ -1,19 +1,21 @@
-
-<!-- includes/header.xhtml -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+    <h:outputStylesheet library="css" name="navbar.css" />
+
     <header class="navbar">
-        <div class="logo">Waterside Gym <span class="tagline">A Fit for Your Life</span></div>
-
-        <!--  to be returned once the full login work.
-        <div class="nav-buttons">
-            <a href="#" class="sign-in">Sign In</a>
-            <a href="#" class="join-now">Join Now</a>
+        <div class="logo">
+            <h:graphicImage library="images" name="only-logo.jpg" styleClass="logo-circle" alt="Logo" />
+            <div class="logo-text">
+                <span class="site-name">Waterside Gym</span>
+                <span class="tagline">A Fit for Your Life</span>
+            </div>
         </div>
-         -->
+        <div class="logout-link">
+            <h:form>
+                <h:commandLink value="Logout" action="#{loginBean.logout}" styleClass="choose-btn full-btn" style="text-decoration: none;"/>
+            </h:form>
+        </div>
     </header>
-
-
 </ui:composition>

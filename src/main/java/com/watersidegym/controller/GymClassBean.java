@@ -12,7 +12,6 @@ import com.watersidegym.model.User;
 import com.watersidegym.service.GymClassService;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 
 @ManagedBean
 @SessionScoped
@@ -53,6 +52,7 @@ public class GymClassBean {
 			filteredClasses = new ArrayList<>();
 			errorMessage = "Currently unable to load classes. Please try again later.";
 		}
+		
 		isMember();
 		showPrice();
 		// checkClassPaymentSession();
@@ -183,14 +183,21 @@ public class GymClassBean {
 	}
 
 	public boolean buttonDisabled(GymClass cls) {
-		if (disabledButtons.contains(cls)) {
-			return true; // already in cart
-		}
-		if (loggedInUser != null && loggedInUser.isEnrolledInClass(cls)) {
-			return true; // already booked
-		}
-		return false;
+	    // disable if no slots
+	    if (cls.getNoOfSlots() <= 0) {
+	        return true;
+	    }
+	    // disable if already in cart
+	    if (disabledButtons.contains(cls)) {
+	        return true;
+	    }
+	    // disable if already booked
+	    if (loggedInUser != null && loggedInUser.isEnrolledInClass(cls)) {
+	        return true;
+	    }
+	    return false;
 	}
+
 
 	public boolean isCartEmpty() {
 		return cart.isEmpty();

@@ -20,52 +20,57 @@
 					Public<span class="highlight"> Videos</span>
 				</h1>
 			</div>
-		
+			<h:form>
 				<div class="form-group">
-					<h:form style="display: flex; align-items: center;">
-					<label class="form-label" for="trainer">Choose Trainer</label>
-					<h:selectOneMenu value="#{videoService.selectedTrainerName}"
-						id="trainer">
-						<f:selectItem itemLabel="-- All Videos --" itemValue="" />
-						<f:selectItems value="#{videoService.trainers}" var="t"
-							itemLabel="#{t.firstName} #{t.secondName}"
-							itemValue="#{t.firstName} #{t.secondName}" />
-					</h:selectOneMenu>
-					<br></br>
-					<h:message for="trainer" errorClass="field-error" />
-					<br></br>
+					<div class="form-row"
+						style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center;">
 
-					 <h:commandButton value="Filter by Trainer" action="#{videoService.showPublicVideosFilteredByTrainer()}" />
+						<h:outputLabel for="trainer" value="Choose Trainer"
+							styleClass="form-label" style="margin: 0; white-space: nowrap;" />
+
+						<h:selectOneMenu value="#{videoService.selectedTrainerName}"
+							id="trainer" styleClass="form-control"
+							style="flex: 1; min-width: 150px; max-width: 200px;">
+							<f:selectItem itemLabel="-- All Videos --" itemValue="" />
+							<f:selectItems value="#{videoService.trainers}" var="t"
+								itemLabel="#{t.firstName} #{t.secondName}"
+								itemValue="#{t.firstName} #{t.secondName}" />
+						</h:selectOneMenu>
+
+						<h:message for="trainer" errorClass="field-error" />
+
+						<h:commandButton value="Filter by Trainer"
+							action="#{videoService.showPublicVideosFilteredByTrainer()}"
+							styleClass="choose-btn" style="white-space: nowrap;" />
+						<h:commandButton value="Back to Dashboard"
+							action="nonmember-dashboard.xhtml?faces-redirect=true"
+							styleClass="choose-btn" />
+					</div>
+				</div>
 			</h:form>
-		</div>
-		<br></br>
-		<h:form>
-			<h:commandButton value="Back to Dashboard"
-				action="nonmember-dashboard.xhtml?faces-redirect=true"
-				styleClass="choose-btn" />
-		</h:form>
-		<section class="vg-section">
-			<div class="vg-section-head"></div>
-			<br />
-			<hr />
 
-			<div class="vg-grid">
-                    <ui:repeat value="#{videoService.showPublicVideosFilteredByTrainer()}" var="v">
-					<article class="vg-card">
-						<div class="vg-thumb">
-							<video controls="controls" preload="metadata">
-								<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-							</video>
-							<span class="vg-duration">#{v.date}</span>
-						</div>
-						<div class="vg-meta">
-							<h3 class="vg-title">#{v.title}</h3>
-							<p class="vg-by">#{v.uploadedBy}</p>
-						</div>
-					</article>
-				</ui:repeat>
-			</div>
-		</section>
+			<section class="vg-section">
+				<div class="vg-section-head"></div>
+
+				<div class="vg-grid">
+					<ui:repeat
+						value="#{videoService.showPublicVideosFilteredByTrainer()}"
+						var="v">
+						<article class="vg-card">
+							<div class="vg-thumb">
+								<video controls="controls" preload="metadata">
+									<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+								</video>
+								<span class="vg-duration">#{v.date}</span>
+							</div>
+							<div class="vg-meta">
+								<h3 class="vg-title">#{v.title}</h3>
+								<p class="vg-by">#{v.uploadedBy}</p>
+							</div>
+						</article>
+					</ui:repeat>
+				</div>
+			</section>
 		</div>
 	</main>
 </h:body>
