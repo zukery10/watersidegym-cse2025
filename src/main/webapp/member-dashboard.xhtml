@@ -21,6 +21,8 @@
 	<!-- header -->
 	<ui:include src="/includes/header.xhtml" />
 
+
+
 	<!-- background image -->
 	<section class="dashboard-bg"
 		style="background-image:url('#{request.contextPath}/resources/images/member_bg_image.png');
@@ -34,6 +36,8 @@
 			</h1>
 
 			<h:panelGroup rendered="#{not empty loginBean.loggedInUser}">
+				<h:messages globalOnly="true" layout="table"
+					style="margin:12px 0; color:green; text-align:center; margin-left:auto; margin-right:auto;" />
 				<h3>Welcome, #{loginBean.loggedInUser.firstName}
 					#{loginBean.loggedInUser.secondName}!</h3>
 				<p>Email: #{loginBean.loggedInUser.email}</p>
@@ -55,9 +59,8 @@
 							<!-- Quick Links line here -->
 							<span class="icon">🎬</span>
 							<span class="text"> <span class="title">Video
-									Gallery</span> <span class="sub">Browse member videos</span>
+									Gallery</span>
 							</span>
-							<span class="cta">→</span>
 						</h:link>
 
 						<!-- View Classes -->
@@ -65,9 +68,9 @@
 							<!-- Quick Links line here -->
 							<span class="icon">📚</span>
 							<span class="text"> <span class="title">View
-									Classes</span> <span class="sub">See timetable &amp; book</span>
+									Classes</span>
 							</span>
-							<span class="cta">→</span>
+
 						</h:link>
 
 						<!-- Book PT Session (enabled) -->
@@ -77,12 +80,8 @@
 								<!-- Quick Links line here -->
 								<span class="icon">📅</span>
 								<span class="text"> <span class="title">Book PT
-										Session</span> <span class="sub">
-										#{ptSessionBean.memberBookedSessions != null ?
-										fn:length(ptSessionBean.memberBookedSessions) : 0} booked •
-										Left: #{loginBean.loggedInUser.remainingPTSessions} </span>
+										Session</span>
 								</span>
-								<span class="cta">→</span>
 							</h:link>
 						</h:panelGroup>
 
@@ -93,55 +92,43 @@
 								<span class="icon">📅</span> <span class="text"> <span
 									class="title">Book PT Session</span> <span class="sub">No
 										sessions left to book</span>
-								</span> <span class="cta">→</span>
+								</span>
 							</div>
 						</h:panelGroup>
 					</div>
 				</div>
-			
-		
-				<div class="plan-card soft-panel">
-					<h:panelGroup
-						rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
-						<h:form id="loginForm" styleClass="form-container">
-							<h3>Your Enrolled Classes:</h3>
-							<h:dataTable value="#{loginBean.loggedInUser.enrolledClasses}"
-								var="gymClass" border="1" styleClass="jsf-table">
-								<h:column>
-									<f:facet name="header">Class Name</f:facet>
+
+
+				<h:panelGroup class="plan-card soft-panel"
+					rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
+					<h3>Your Enrolled Classes:</h3>
+					<h:dataTable value="#{loginBean.loggedInUser.enrolledClasses}"
+						var="gymClass" border="1" styleClass="jsf-table">
+						<h:column>
+							<f:facet name="header">Class Name</f:facet>
                 #{gymClass.nameOfClass}
               </h:column>
-								<h:column>
-									<f:facet name="header">Date</f:facet>
-									<h:outputText value="#{gymClass.classDate}">
-										<f:convertDateTime pattern="EEE, MMM d, yyyy" />
-									</h:outputText>
-								</h:column>
-								<h:column>
-									<f:facet name="header">Time</f:facet>
-                #{gymClass.classTime}
-              </h:column>
-								<h:column>
-									<f:facet name="header">Duration</f:facet>
-                #{gymClass.classDuration}
-              </h:column>
-							</h:dataTable>
-						</h:form>
-					</h:panelGroup>
+						<h:column>
+							<f:facet name="header">Date</f:facet>
+							<h:outputText value="#{gymClass.classDate}">
+								<f:convertDateTime pattern="EEE, MMM d, yyyy" />
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Time</f:facet>
+							<h:outputText value="#{gymClass.classTime}">
+								<f:convertDateTime pattern="h:mm a" />
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Duration</f:facet> #{gymClass.classDuration}</h:column>
+					</h:dataTable>
+				</h:panelGroup>
 
-					<br />
 
-					<h:form>
-						<!-- <h:commandButton value="View Classes"
-                           action="browseClasses?faces-redirect=true"
-                           styleClass="choose-btn" />-->
-						<br />
-						<br />
-					</h:form>
-				</div>
-			
 
-			<!-- PT Sessions card / didnt change the initial code (except commented button) -->
+
+				<!-- PT Sessions card / didnt change the initial code (except commented button) -->
 				<div class="plan-card soft-panel">
 					<h:panelGroup styleClass="card info-card">
 						<h3>

@@ -1256,16 +1256,15 @@ nudging the focal point slightly higher so the top content stays in view */
   transition: transform .12s ease, background .2s ease, border-color .2s ease;
 }
 .stack-btn:hover{
+  background-color: #28a745; /* Fill with green */
   transform: translateY(-2px);
-  background: #0f1115;
-  border-color: #34d06d;
 }
 
 /* icon, text block, arrow */
 .stack-btn .icon{
-  display:grid; place-items:center;
+  display:contents;
   width: 40px; height: 40px;
-  border-radius: 10px;
+  border-radius: 100px;
   background: rgba(26,163,111,.15);
   border: 1px solid rgba(26,163,111,.45);
   font-size: 20px;
@@ -1273,7 +1272,9 @@ nudging the focal point slightly higher so the top content stays in view */
 .stack-btn .text{ line-height: 1.2; }
 .stack-btn .title{ color:#fff; font-weight:700; font-size:16px; }
 .stack-btn .sub{ color:#9fb0c7; font-size:12px; margin-top:2px; }
-.stack-btn .cta{ color:#28a745; font-size:18px; }
+.stack-btn:hover .title {
+  color: black;
+}
 
 .stack-btn.disabled{
   opacity:.55; pointer-events:none; border-color: rgba(255,255,255,.16);

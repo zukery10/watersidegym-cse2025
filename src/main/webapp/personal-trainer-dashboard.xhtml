@@ -29,12 +29,36 @@
                   background-repeat:no-repeat;">
 
 		<main class="main-section" style="text-align: center">
-			<h1>Personal Trainer <span class="highlight">Dashboard</span></h1>
-			<h3>Login Successful</h3>
+			<h1>
+				Personal Trainer <span class="highlight">Dashboard</span>
+			</h1>
+				<h:messages globalOnly="true" layout="table"
+					style="margin:12px 0; color:green; text-align:center; margin-left:auto; margin-right:auto;" />
 
 			<!-- User card with form styling -->
-			<div class="plans" style="justify-content: center">
-				<div class="plan-card" style="max-width: 600px; width: 100%">
+			<div class="plans">
+			<div class="plan-card soft-panel">
+					<!-- Unified vertical buttons -->
+					<div class="stack-actions">
+
+						<!-- Video Gallery -->
+						<h:link outcome="video-gallery" styleClass="stack-btn">
+							<!-- Quick Links line here -->
+							<span class="icon">🎬</span>
+							<span class="text"> <span class="title">Video Gallery</span></span>
+						</h:link>
+
+						<!-- Upload Video -->
+						<h:link outcome="PT-add-video" styleClass="stack-btn">
+							<!-- Quick Links line here -->
+							<span class="icon">⤴️</span>
+							<span class="text"> <span class="title">Upload
+									Video</span></span>
+						</h:link>
+
+					</div>
+				</div>
+				<div class="plan-card soft-panel">
 					<h2 style="margin-top: 0">#{loginBean.loggedInUser.firstName}
 						#{loginBean.loggedInUser.secondName}</h2>
 
@@ -57,8 +81,6 @@
 									styleClass="choose-btn" style="white-space: nowrap;" />
 							</div>
 						</div>
-
-						<br />
 
 						<!-- Results Table -->
 						<h:panelGroup
@@ -95,32 +117,11 @@
 						</h:panelGroup>
 					</h:form>
 				</div>
+
+				
 			</div>
 
-			<!-- Unified vertical buttons -->
-			<div class="stack-actions">
 
-				<!-- Video Gallery -->
-				<h:link outcome="video-gallery" styleClass="stack-btn">
-					<!-- Quick Links line here -->
-					<span class="icon">🎬</span>
-					<span class="text"> <span class="title">Video Gallery</span>
-						<span class="sub">Browse classes &amp; workouts</span>
-					</span>
-					<span class="cta">→</span>
-				</h:link>
-
-				<!-- Upload Video -->
-				<h:link outcome="PT-add-video" styleClass="stack-btn">
-					<!-- Quick Links line here -->
-					<span class="icon">⤴️</span>
-					<span class="text"> <span class="title">Upload Video</span>
-						<span class="sub">Share a new session</span>
-					</span>
-					<span class="cta">→</span>
-				</h:link>
-
-			</div>
 
 
 		</main>
