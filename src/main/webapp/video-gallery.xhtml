@@ -16,23 +16,22 @@
 
 	<main class="main-section">
 		<div class="vg-container">
-			<h:form>
+			
+			<div class="vg-titlebar">
+				<h1 class="vg-page-title">Videos</h1>
+			</div>
+<h:form>
 				<h:commandButton value="Back to Dashboard"
 					action="#{videoControllerBean.redirect}" immediate="true"
 					styleClass="choose-btn" />
 			</h:form>
-			<div class="vg-titlebar">
-				<h1 class="vg-page-title">Videos</h1>
-			</div>
-
 			<section class="vg-section">
 				<div class="vg-section-head">
 					<h2 class="vg-section-title">My videos</h2>
 				</div>
 
 				<h:form styleClass="video-rule-form">
-					<br></br>
-					<hr></hr>
+					
 					<div class="vg-grid">
 
 						<ui:repeat value="#{videoControllerBean.myVideos}" var="v">
@@ -63,6 +62,8 @@
 									<h:commandButton value="Save"
 										action="#{videoControllerBean.updateRule(v)}"
 										styleClass="choose-btn" />
+										<br>
+										</br>
 									<h:commandButton value="Delete"
 										action="#{videoControllerBean.deleteVideo(v.id)}"
 										styleClass="choose-btn"
