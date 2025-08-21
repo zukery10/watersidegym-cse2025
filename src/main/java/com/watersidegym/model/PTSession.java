@@ -3,63 +3,60 @@ package com.watersidegym.model;
 import java.util.Date;
 
 public class PTSession {
-
-	private String memberName;
-	private String trainerName;
+	private User member; // person booking
+	private User trainer; // has role = "PT"
 	private Date sessionDate;
-	private String sessionTime;
-	private String duration;
+	private String startTime;
+	private Integer durationMinutes;
 
 	public PTSession() {
 	}
 
-	public PTSession(String memberName, String trainerName, Date sessionDate, String sessionTime, String duration) {
-		super();
-		this.memberName = memberName;
-		this.trainerName = trainerName;
+	public PTSession(User member, User trainer, Date sessionDate, String startTime, int durationMinutes) {
+		this.member = member;
+		this.trainer = trainer;
 		this.sessionDate = sessionDate;
-		this.sessionTime = sessionTime;
-		this.duration = duration;
+		this.startTime = startTime;
+		this.durationMinutes = durationMinutes;
 	}
 
-	public String getMemberName() {
-		return memberName;
+	public User getMember() {
+		return member;
 	}
 
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-	}
-
-	public String getTrainerName() {
-		return trainerName;
-	}
-
-	public void setTrainerName(String trainerName) {
-		this.trainerName = trainerName;
+	public User getTrainer() {
+		return trainer;
 	}
 
 	public Date getSessionDate() {
 		return sessionDate;
 	}
 
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public Integer getDurationMinutes() {
+	    return durationMinutes;
+	}
+
+	public void setMember(User member) {
+		this.member = member;
+	}
+
+	public void setTrainer(User trainer) {
+		this.trainer = trainer;
+	}
+
 	public void setSessionDate(Date sessionDate) {
 		this.sessionDate = sessionDate;
 	}
 
-	public String getSessionTime() {
-		return sessionTime;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 
-	public void setSessionTime(String sessionTime) {
-		this.sessionTime = sessionTime;
+	public void setDurationMinutes(Integer durationMinutes) {
+	    this.durationMinutes = durationMinutes;
 	}
-
-	public String getDuration() {
-		return duration;
-	}
-
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
-
 }

@@ -103,6 +103,7 @@ body {
     flex-wrap: wrap; /* Wrap to next line on smaller screens */
     gap: 24px; /* Space between cards */
     padding: 0 20px;
+    align-items: flex-start;
 }
 
 /* === Individual plan card styling === */
@@ -1006,6 +1007,16 @@ background-size: 65px 60px;
 	transition: transform 0.3s ease;
 }
 
+.radio-group td {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 6px;
+}
+
 .table-card-cart {
 
 
@@ -1133,6 +1144,7 @@ nudging the focal point slightly higher so the top content stays in view */
   -webkit-backdrop-filter: saturate(120%) blur(2px);
   backdrop-filter: saturate(120%) blur(2px);
   position: relative; /* Needed for the badge */
+  
 }
 
 /* Highlighted "Most Popular" card */
@@ -1220,14 +1232,6 @@ nudging the focal point slightly higher so the top content stays in view */
   }
 }
 
-
-
-
-
-
-
-
-
 /* ===== Unified vertical action buttons on pages ===== */
 .stack-actions{
   max-width: 560px;
@@ -1291,5 +1295,13 @@ nudging the focal point slightly higher so the top content stays in view */
   margin: 0 auto;
   padding: 30px;
 }
+.radio-group td {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
 
+.radio-group input[type="radio"] {
+    margin-right: 6px;
+}
 

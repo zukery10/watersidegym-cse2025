@@ -1,14 +1,14 @@
 package com.watersidegym.controller;
 
-import javax.faces.bean.ManagedBean;
-
-import javax.faces.bean.SessionScoped;
-
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import com.watersidegym.model.PTSession;
 import com.watersidegym.model.User;
 import com.watersidegym.service.PTSessionService;
@@ -17,119 +17,257 @@ import com.watersidegym.service.PTSessionService;
 @SessionScoped
 public class PTSessionBean {
 
-	PTSession ptSession = new PTSession();
-	PTSessionService ptSessionService;
+	private Date selectedDate;
+	private PTSession ptSession = new PTSession();
+	private PTSessionService ptSessionService;
+	private List<PTSession> sessionList = new ArrayList<>();
+	private List<PTSession> filteredSessions = new ArrayList<>();
+	private List<User> trainers = new ArrayList<>();
+	private String startTime;
+	private String selectedTrainerName;
+	private boolean dateFilterApplied = false; // to track if date filter has been applied
+
+	public PTSessionBean() {
+	}
 
 	@PostConstruct
-	void init() {
-		ptSessionService = new PTSessionService();
+	public void init() {
+		setPtSessionService(new PTSessionService());
 
+		// load existing sessions for the logged-in trainer if needed
+		User loggedInUser = getLoggedInUser();
+
+		if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
+			setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
+			filteredSessions = new ArrayList<>(getSessionList()); // show all sessions initially
+		}
+
+		// populate trainers dropdown
+		setTrainers(getPtSessionService().getAllTrainers());
+	}
+
+	public Date getSelectedDate() {
+		return selectedDate;
+	}
+
+	public void setSelectedDate(Date selectedDate) {
+		this.selectedDate = selectedDate;
 	}
 
 	public PTSession getPtSession() {
 		return ptSession;
 	}
 
-	public void setPtSession(PTSession ptSession) {
-		this.ptSession = ptSession;
+	public List<PTSession> getSessionList() {
+		return sessionList;
 	}
 
-	//handles the book button and calls service to book
-	public String bookSession() {
+	public List<PTSession> getFilteredSessions() {
+		// if no date filter has been applied and filteredSessions is empty, 
+		// initialize with all trainer sessions
+		if (!dateFilterApplied && (filteredSessions == null || filteredSessions.isEmpty())) {
+			User loggedInUser = getLoggedInUser();
+			if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
+				setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
+				filteredSessions = new ArrayList<>(getSessionList());
+			} else {
+				filteredSessions = new ArrayList<>();
+			}
+		}
+		return filteredSessions;
+	}
 
+	public List<User> getTrainers() {
+		return trainers;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getSelectedTrainerName() {
+		return selectedTrainerName;
+	}
+
+	public void setSelectedTrainerName(String selectedTrainerName) {
+		this.selectedTrainerName = selectedTrainerName;
+	}
+
+	// booking logic
+	public String bookSession() {
 		boolean hasError = false;
 
-		//validation messages
-		if (ptSession.getTrainerName() == null || ptSession.getTrainerName().isEmpty()) {
-		    addMessage("ptForm:trainer", FacesMessage.SEVERITY_ERROR, "Please choose a trainer.");
-		    hasError = true;
+		// find the trainer object based on selected string
+		if (selectedTrainerName != null && !selectedTrainerName.isEmpty()) {
+			String[] parts = selectedTrainerName.split(" ", 2); // split into first and last
+			String firstName = parts[0];
+			String lastName = "";
+			if (parts.length > 1) {
+				lastName = parts[1]; // if last name exists, assign it
+			}
+			ptSession.setTrainer(null);
+			for (User t : getTrainers()) {
+				// check if first and last names match
+				if (t.getFirstName().equals(firstName) && t.getSecondName().equals(lastName)) {
+					ptSession.setTrainer(t);
+					break;
+				}
+			}
 		}
 
+		// validation checks
+		if (ptSession.getTrainer() == null) {
+			addMessage("ptForm:trainer", FacesMessage.SEVERITY_ERROR, "Please choose a trainer.");
+			hasError = true;
+		}
 		if (ptSession.getSessionDate() == null) {
-		    addMessage("ptForm:date", FacesMessage.SEVERITY_ERROR, "Please select a date");
-		    hasError = true;
+			addMessage("ptForm:date", FacesMessage.SEVERITY_ERROR, "Please select a date");
+			hasError = true;
 		}
-
-		if (ptSession.getSessionTime() == null || ptSession.getSessionTime().isEmpty()) {
-		    addMessage("ptForm:time", FacesMessage.SEVERITY_ERROR, "Please select a time.");
-		    hasError = true;
+		if (ptSession.getStartTime() == null) {
+			addMessage("ptForm:time", FacesMessage.SEVERITY_ERROR, "Please select a time.");
+			hasError = true;
 		}
-
-		if (ptSession.getDuration() == null || ptSession.getDuration().isEmpty()) {
+		if (ptSession.getDurationMinutes() == null) {
 		    addMessage("ptForm:dur", FacesMessage.SEVERITY_ERROR, "Please select a duration.");
 		    hasError = true;
 		}
 
-
 		if (hasError) {
-			return null; // if error - stay on the same page
+			return null; // stop if validation fails
 		}
 
-		// get LoginBean and logged-in user
-		LoginBean loginBean = currentLoginBean();
-		User loggedInUser = loginBean.getLoggedInUser();
+		User loggedInUser = getLoggedInUser();
 
-		//calls servise class book method and failure check.
 		try {
-		    boolean sessionOk = ptSessionService.bookSession(ptSession, loggedInUser);
+			boolean sessionOk = getPtSessionService().bookSession(ptSession, loggedInUser);
 
-		    if (sessionOk) {
-		        ptSession = new PTSession();
-		        addMessage(null, FacesMessage.SEVERITY_INFO,
-		                "Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions());
-		        return "member-dashboard?faces-redirect=true";
-		    } else {
-		        addMessage(null, FacesMessage.SEVERITY_ERROR,
-		                "This session has been already booked. Try another.");
-		        return null;
-		    }
+			if (sessionOk) {
+				// reset form fields after successful booking
+				ptSession = new PTSession();
+				selectedTrainerName = null;
+
+				addMessage(null, FacesMessage.SEVERITY_INFO,
+						"Booking confirmed. Remaining 1:1 sessions: " + loggedInUser.getRemainingPTSessions());
+				return "member-dashboard?faces-redirect=true";
+			} else {
+				addMessage(null, FacesMessage.SEVERITY_ERROR, "This session has been already booked.\nTry another.");
+				return null;
+			}
 		} catch (Exception e) {
-		    addMessage(null, FacesMessage.SEVERITY_ERROR,
-		            "System error: booking failed. Please try again later.");
-		    return null;
+			addMessage(null, FacesMessage.SEVERITY_ERROR, "System error: booking failed. Please try again later.");
+			return null;
 		}
-
 	}
-	
-	//returns member’s booked sessions- linked to service	
+
+	// logic to get member booked sessions
 	public List<PTSession> getMemberBookedSessions() {
+		User loggedInUser = getLoggedInUser();
 
-		LoginBean loginBean = currentLoginBean();
-
-		User member = (loginBean != null) ? loginBean.getLoggedInUser() : null;
-		if (member == null) {
-			return new ArrayList<>();
+		if (loggedInUser == null) {
+			return new ArrayList<>(); // return empty if no user
 		}
-
-		return ptSessionService.getBookedSessionsForMember(member);
+		return getPtSessionService().getBookedSessionsForMember(loggedInUser);
 	}
 
-	//calling login bean- whenever need to use loginBean object
+	// filter logic
+	public String filterSessionsByDate() {
+		filteredSessions = new ArrayList<>();
+		dateFilterApplied = true; // mark filter has been applied
+
+		// if no date selected, show all sessions
+		if (selectedDate == null) {
+			filteredSessions = new ArrayList<>(getSessionList());
+			dateFilterApplied = false; // Reset filter flag
+			return null;
+		}
+
+		// refresh the session list to get the latest data
+		User loggedInUser = getLoggedInUser();
+		if (loggedInUser != null && "PT".equals(loggedInUser.getRole())) {
+			setSessionList(getPtSessionService().getSessionsForTrainer(loggedInUser));
+		}
+
+		Calendar calSelected = Calendar.getInstance();
+		calSelected.setTime(selectedDate);
+		calSelected.set(Calendar.HOUR_OF_DAY, 0);
+		calSelected.set(Calendar.MINUTE, 0);
+		calSelected.set(Calendar.SECOND, 0);
+		calSelected.set(Calendar.MILLISECOND, 0);
+
+		for (PTSession session : getSessionList()) {
+			if (session.getSessionDate() != null) { // Add null check
+				Calendar calSession = Calendar.getInstance();
+				calSession.setTime(session.getSessionDate());
+				calSession.set(Calendar.HOUR_OF_DAY, 0);
+				calSession.set(Calendar.MINUTE, 0);
+				calSession.set(Calendar.SECOND, 0);
+				calSession.set(Calendar.MILLISECOND, 0);
+
+				// compare year, month, day to match date
+				if (calSession.get(Calendar.YEAR) == calSelected.get(Calendar.YEAR)
+						&& calSession.get(Calendar.MONTH) == calSelected.get(Calendar.MONTH)
+						&& calSession.get(Calendar.DAY_OF_MONTH) == calSelected.get(Calendar.DAY_OF_MONTH)) {
+					filteredSessions.add(session);
+				}
+			}
+		}
+		return null;
+	}
+
+	// Add a method to clear the date filter
+	public String clearDateFilter() {
+		selectedDate = null;
+		dateFilterApplied = false;
+		filteredSessions = new ArrayList<>(getSessionList());
+		return null;
+	}
+
+	// utility methods
 	protected LoginBean currentLoginBean() {
-		javax.faces.context.FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
+		FacesContext context = FacesContext.getCurrentInstance();
 		if (context == null) {
 			return null;
-		} else {
-			javax.faces.application.Application app = context.getApplication();
-			LoginBean loginBean = app.evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+		}
+		return context.getApplication().evaluateExpressionGet(context, "#{loginBean}", LoginBean.class);
+	}
 
-			return loginBean;
+	protected void addMessage(String clientId, FacesMessage.Severity severity, String text) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context != null) {
+			context.addMessage(clientId, new FacesMessage(severity, text, null));
 		}
 	}
 
-	//Faces context - reusable 
-	protected void addMessage(String clientId,
-			javax.faces.application.FacesMessage.Severity severity,
-			String text) {
-		javax.faces.context.FacesContext ctx = javax.faces.context.FacesContext.getCurrentInstance();
-		if (ctx != null) { 
-			ctx.addMessage(clientId, new javax.faces.application.FacesMessage(severity, text, null));
-		}
-
-	}
-	
 	public String getTodayIso() {
-	    return new java.text.SimpleDateFormat("yyyy-MM-dd")
-	            .format(new java.util.Date());
+		return new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+	}
+
+	private User getLoggedInUser() {
+		LoginBean loginBean = currentLoginBean();
+		if (loginBean != null) {
+			return loginBean.getLoggedInUser();
+		}
+		return null;
+	}
+
+	public PTSessionService getPtSessionService() {
+		return ptSessionService;
+	}
+
+	public void setPtSessionService(PTSessionService ptSessionService) {
+		this.ptSessionService = ptSessionService;
+	}
+
+	public void setTrainers(List<User> trainers) {
+		this.trainers = trainers;
+	}
+
+	public void setSessionList(List<PTSession> sessionList) {
+		this.sessionList = sessionList;
 	}
 }

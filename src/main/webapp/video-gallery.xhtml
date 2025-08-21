@@ -3,48 +3,52 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-   <f:metadata>
-      <f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
-   </f:metadata>
+<f:metadata>
+	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
+</f:metadata>
 <h:head>
-  <title>Video Gallery</title>
-  <h:outputStylesheet library="css" name="styles.css" />
+	<title>Video Gallery</title>
+	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
 
 <h:body>
-  <ui:include src="/includes/header.xhtml" />
+	<ui:include src="/includes/header.xhtml" />
 
-  <main class="main-section">
-    <div class="vg-container">
+	<main class="main-section">
+		<div class="vg-container">
+			<h:form>
+				<h:commandButton value="Back to Dashboard"
+					action="#{videoControllerBean.redirect}" immediate="true"
+					styleClass="choose-btn" />
+			</h:form>
+			<div class="vg-titlebar">
+				<h1 class="vg-page-title">Videos</h1>
+			</div>
 
-<h:form>
-<h:commandButton value="Back to Dashboard"
-                 action="#{videoControllerBean.redirect}"
-                 immediate="true"
-                 styleClass="choose-btn"/>
-        </h:form>         
-            
-      <div class="vg-titlebar"><h1 class="vg-page-title">Videos</h1></div>
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">My videos</h2></div>
-              				<h:form styleClass="video-rule-form">
-              
-              <br></br>
-              <hr></hr>
+			<section class="vg-section">
+				<div class="vg-section-head">
+					<h2 class="vg-section-title">My videos</h2>
+				</div>
 
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.myVideos}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-                									<!-- Radio buttons for visibility -->
+				<h:form styleClass="video-rule-form">
+					<br></br>
+					<hr></hr>
+					<div class="vg-grid">
+
+						<ui:repeat value="#{videoControllerBean.myVideos}" var="v">
+							<article class="vg-card">
+								<div class="vg-thumb">
+									<video controls="controls" preload="metadata">
+										<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+									</video>
+									<span class="vg-duration">#{v.date}</span>
+								</div>
+
+								<div class="vg-meta">
+									<h3 class="vg-title">#{v.title}</h3>
+									<p class="vg-by">#{v.category}</p>
+
+									<!-- Radio buttons for visibility -->
 
 									<div
 										style="display: flex; justify-content: center; align-items: center; gap: 15px;">
@@ -59,251 +63,153 @@
 									<h:commandButton value="Save"
 										action="#{videoControllerBean.updateRule(v)}"
 										styleClass="choose-btn" />
-										<div style="display: flex; justify-content: center; margin-top: 6px;">
+									<h:commandButton value="Delete"
+										action="#{videoControllerBean.deleteVideo(v.id)}"
+										styleClass="choose-btn"
+										onclick="return confirm('Delete this video permanently?');" />
+
+									<div
+										style="display: flex; justify-content: center; margin-top: 6px;">
 										<h:outputText value="#{v.message}"
-										style="color: green; font-weight: bold;"
-										rendered= "#{not empty v.message}"  />
-										
-										</div>
-										
-										<h:commandButton value="Delete"
-										action="#{videoControllerBean.deleteVideo(v)}"
-										styleClass="choose-btn" onclick="return confirm('Delete this video permanently?');"/>
-										            
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-        				</h:form>
-        
-      </section>
+											style="color: green; font-weight: bold;"
+											rendered="#{not empty v.message}" />
+									</div>
 
 
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Recently Added</h2></div>
-              <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.recentlyAdded}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
 
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Yoga only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.yogaOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
+								</div>
+							</article>
+						</ui:repeat>
+
+					</div>
+				</h:form>
+			</section>
 
 
-       <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Tabata only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.tabataOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
+			<section class="vg-section">
+				<div class="vg-section-head">
+					<h2 class="vg-section-title">Free Weights</h2>
+				</div>
+				<br></br>
+				<hr></hr>
+				<div class="vg-grid">
+					<ui:repeat value="#{videoControllerBean.freeWeightsOnly}" var="v">
+						<article class="vg-card">
+							<div class="vg-thumb">
+								<video controls="controls" preload="metadata">
+									<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+								</video>
+								<span class="vg-duration">#{v.date}</span>
+							</div>
+							<div class="vg-meta">
+								<h3 class="vg-title">#{v.title}</h3>
+								<p class="vg-by">#{v.category} • #{v.rule}</p>
+							</div>
+						</article>
+					</ui:repeat>
+				</div>
+			</section>
+
+			<section class="vg-section">
+				<div class="vg-section-head">
+					<h2 class="vg-section-title">Bodyweight</h2>
+				</div>
+				<br></br>
+				<hr></hr>
+				<div class="vg-grid">
+					<ui:repeat value="#{videoControllerBean.bodyweightOnly}" var="v">
+						<article class="vg-card">
+							<div class="vg-thumb">
+								<video controls="controls" preload="metadata">
+									<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+								</video>
+								<span class="vg-duration">#{v.date}</span>
+							</div>
+							<div class="vg-meta">
+								<h3 class="vg-title">#{v.title}</h3>
+								<p class="vg-by">#{v.category} • #{v.rule}</p>
+							</div>
+						</article>
+					</ui:repeat>
+				</div>
+			</section>
 
 
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Zumba only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.zumbaOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
+			<section class="vg-section">
+				<div class="vg-section-head">
+					<h2 class="vg-section-title">Bands</h2>
+				</div>
+				<br></br>
+				<hr></hr>
+				<div class="vg-grid">
+					<ui:repeat value="#{videoControllerBean.bandsOnly}" var="v">
+						<article class="vg-card">
+							<div class="vg-thumb">
+								<video controls="controls" preload="metadata">
+									<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+								</video>
+								<span class="vg-duration">#{v.date}</span>
+							</div>
+							<div class="vg-meta">
+								<h3 class="vg-title">#{v.title}</h3>
+								<p class="vg-by">#{v.category} • #{v.rule}</p>
+							</div>
+						</article>
+					</ui:repeat>
+				</div>
+			</section>
 
 
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Core Strength only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.coreOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
-
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Tai Chi only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.taichiOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
-
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Kickboxing only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.kickboxingOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
-
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">CrossFit only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.crossfitOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
-
-         <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Aqua Aerobics only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.aquaaerobicsOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
-
-      <section class="vg-section">
-        <div class="vg-section-head"><h2 class="vg-section-title">Pilates only</h2></div>
-                      <br></br>
-              <hr></hr>
-        <div class="vg-grid">
-          <ui:repeat value="#{videoControllerBean.pilatesOnly}" var="v">
-            <article class="vg-card">
-              <div class="vg-thumb">
-                <video controls="controls" preload="metadata">
-                  <source src="#{request.contextPath}#{v.link}" type="video/mp4" />
-                </video>
-                <span class="vg-duration">#{v.date}</span>
-              </div>
-              <div class="vg-meta">
-                <h3 class="vg-title">#{v.title}</h3>
-                <p class="vg-by">#{v.category} • #{v.rule}</p>
-              </div>
-            </article>
-          </ui:repeat>
-        </div>
-      </section>
+			<section class="vg-section">
+				<div class="vg-section-head">
+					<h2 class="vg-section-title">Machines</h2>
+				</div>
+				<br></br>
+				<hr></hr>
+				<div class="vg-grid">
+					<ui:repeat value="#{videoControllerBean.machinesOnly}" var="v">
+						<article class="vg-card">
+							<div class="vg-thumb">
+								<video controls="controls" preload="metadata">
+									<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+								</video>
+								<span class="vg-duration">#{v.date}</span>
+							</div>
+							<div class="vg-meta">
+								<h3 class="vg-title">#{v.title}</h3>
+								<p class="vg-by">#{v.category} • #{v.rule}</p>
+							</div>
+						</article>
+					</ui:repeat>
+				</div>
+			</section>
 
 
-    </div>
-  </main>
+			<section class="vg-section">
+				<div class="vg-section-head">
+					<h2 class="vg-section-title">Cardio Equipment</h2>
+				</div>
+				<br></br>
+				<hr></hr>
+				<div class="vg-grid">
+					<ui:repeat value="#{videoControllerBean.cardioEquipmentOnly}"
+						var="v">
+						<article class="vg-card">
+							<div class="vg-thumb">
+								<video controls="controls" preload="metadata">
+									<source src="#{request.contextPath}#{v.link}" type="video/mp4" />
+								</video>
+								<span class="vg-duration">#{v.date}</span>
+							</div>
+							<div class="vg-meta">
+								<h3 class="vg-title">#{v.title}</h3>
+								<p class="vg-by">#{v.category} • #{v.rule}</p>
+							</div>
+						</article>
+					</ui:repeat>
+				</div>
+			</section>
+		</div>
+	</main>
 </h:body>
 </html>

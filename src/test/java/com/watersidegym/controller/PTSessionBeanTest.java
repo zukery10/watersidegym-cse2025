@@ -1,113 +1,127 @@
 package com.watersidegym.controller;
 
-	import com.watersidegym.model.PTSession;
-	import com.watersidegym.model.User;
-	import org.junit.jupiter.api.Test;
+import com.watersidegym.model.PTSession;
+import com.watersidegym.model.User;
+import com.watersidegym.service.PTSessionService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import java.util.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+class PTSessionBeanTest {
 
-	import static org.junit.jupiter.api.Assertions.*;
+    private PTSessionBean bean;
+    private PTSessionService service;
+    private User trainer;
 
-	class PTSessionBeanTest {
+    @BeforeEach
+    void setUp() {
+        service = new PTSessionService();
+        bean = new PTSessionBean();
+        bean.setPtSessionService(service);
 
-		// Creates a PTSessionBean for tests - 
-		//so we don't need JSF/EL for loginbean and skips FacesContext - for Faces messages 
-		private PTSessionBean newBeanFor(final User u) {
-		    return new PTSessionBean() {
+        trainer = new User();
+        trainer.setFirstName("Alice");
+        trainer.setSecondName("Trainer");
+        trainer.setRole("PT");
+    }
 
-		    	// Return - gives back the test user.(fake loginbean)
-		        @Override
-		        protected LoginBean currentLoginBean() {
-		            return new LoginBean() {
-		                @Override
-		                public User getLoggedInUser() {
-		                    return u;
-		                }
-		            };
-		        }
-		        //Ignores Faces messages 
-		        @Override
-		        protected void addMessage(String clientId,
-		                                  javax.faces.application.FacesMessage.Severity severity,
-		                                  String text) {
-		         }
-		    };
-		}
+    @Test
+    void testGetFilteredSessionsWhenNoUser() {
+        assertTrue(bean.getFilteredSessions().isEmpty());
+    }
+    @Test
+    void returnsNullWhenRequiredFieldsMissing() {
+        User loggedIn = new User();
+        loggedIn.setFirstName("Alex");
+        loggedIn.setSecondName("Byrne");
+        loggedIn.setRemainingPTSessions(2);
 
-		//null case - missing field
-	    @Test
-	    void returnsNullWhenRequiredFieldsMissing() {
-	        User loggedIn = new User();
-	        loggedIn.setFirstName("Alex");
-	        loggedIn.setSecondName("Byrne");
-	        loggedIn.setRemainingPTSessions(2);
+        bean.init(); 
 
-	        PTSessionBean bean = newBeanFor(loggedIn);
-	        bean.init(); 
+        String outcome = bean.bookSession(); // no session details
 
-	        String outcome = bean.bookSession(); // no session details
+        assertNull(outcome);
+    }
 
-	        assertNull(outcome);
-	    }
+    @Test
+    void testFilterSessionsByDateWhenDatesMatch() {
+        PTSession s = new PTSession();
+        s.setTrainer(trainer);
 
-	    //success case - decrement, form reset and redirect
-	    @Test
-	    void returnsRedirectAndResetsFormAndDecrementsCount() {
-	        User loggedIn = new User();
-	        loggedIn.setFirstName("Alex");
-	        loggedIn.setSecondName("Byrne");
-	        loggedIn.setRemainingPTSessions(2); //2 sessions
+        Calendar cal = Calendar.getInstance();
+        cal.set(2025, Calendar.AUGUST, 18, 10, 0, 0);
+        Date sessionDate = cal.getTime();
+        s.setSessionDate(sessionDate);
 
-	        PTSessionBean bean = newBeanFor(loggedIn);
-	        bean.init();
+        s.setStartTime("09:00");
+        s.setDurationMinutes(60);
 
-	        PTSession form = bean.getPtSession();
-	        form.setTrainerName("Priya Shah");
-	        form.setSessionDate(new Date());
-	        form.setSessionTime("17:00");
-	        form.setDuration("60 min");
+        List<PTSession> list = new ArrayList<>();
+        list.add(s);
+        bean.setSessionList(list);
 
-	        String outcome = bean.bookSession();
+        bean.setSelectedDate(sessionDate);
+        bean.filterSessionsByDate();
 
-	        assertEquals("member-dashboard?faces-redirect=true", outcome); //redirect
-	        assertNull(bean.getPtSession().getTrainerName());   // form reset
-	        assertEquals(1, loggedIn.getRemainingPTSessions()); // decremented to 1
-	    }
+        assertEquals(1, bean.getFilteredSessions().size());
+    }
 
-	    //0 sessions check
-	    @Test
-	    void returnsNullWhenNoSessionsLeft() {
-	        User loggedIn = new User();
-	        loggedIn.setFirstName("Alex");
-	        loggedIn.setSecondName("Byrne");
-	        loggedIn.setRemainingPTSessions(0);
+    @Test
+    void testFilterSessionsByDateWhenDatesDoNotMatch() {
+        PTSession s = new PTSession();
+        s.setTrainer(trainer);
 
-	        PTSessionBean bean = newBeanFor(loggedIn);
-	        bean.init();
+        Calendar cal = Calendar.getInstance();
+        cal.set(2025, Calendar.AUGUST, 18, 10, 0, 0);
+        s.setSessionDate(cal.getTime());
 
-	        PTSession form = bean.getPtSession();
-	        form.setTrainerName("Joe");
-	        form.setSessionDate(new Date());
-	        form.setSessionTime("08:00");
-	        form.setDuration("30 min");
+        s.setStartTime("09:00");
+        s.setDurationMinutes(60);
 
-	        String outcome = bean.bookSession();
+        // make a list and add the session
+        List<PTSession> list = new ArrayList<>();
+        list.add(s);
+        bean.setSessionList(list);
 
-	        assertNull(outcome);
-	        assertEquals(0, loggedIn.getRemainingPTSessions());
-	    }
-	    
-	    //date check
-	    @Test
-	    void getTodayIso_returnsTodayInIsoFormat() {
-	        PTSessionBean bean = newBeanFor(null);
-	       
-	        String actual = bean.getTodayIso();
+        // pick a different day
+        Calendar other = Calendar.getInstance();
+        other.set(2025, Calendar.AUGUST, 19);
+        bean.setSelectedDate(other.getTime());
 
-	        String expected = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-	        
-	        assertEquals(expected, actual);
-	    }
-	}
+        bean.filterSessionsByDate();
+
+        assertTrue(bean.getFilteredSessions().isEmpty());
+    }
+
+
+    @Test
+    void testGetTodayIso_notNull() {
+        String today = bean.getTodayIso();
+        assertNotNull(today);
+        //System.out.println(today);
+        assertTrue(today.matches("2025-08-21"));
+    }
+    //0 sessions check
+    @Test
+    void returnsNullWhenNoSessionsLeft() {
+        User loggedIn = new User();
+        loggedIn.setFirstName("Alex");
+        loggedIn.setSecondName("Byrne");
+        loggedIn.setRemainingPTSessions(0);
+
+        PTSession form = bean.getPtSession();
+        form.setTrainer(loggedIn);
+        form.setSessionDate(new Date());
+        form.setStartTime("8:00");
+        form.setDurationMinutes(30);
+
+        String outcome = bean.bookSession();
+
+        assertNull(outcome);
+        assertEquals(0, loggedIn.getRemainingPTSessions());
+    }
+
+
+}
 

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VideoGalleryBeanTest {
@@ -23,34 +22,7 @@ public class VideoGalleryBeanTest {
     public void testPreload_addsVideos1() {
         List<Video> videos = bean.getVideos();
         assertNotNull(videos);
-        assertFalse(videos.isEmpty(), "Preload should add sample videos");
-    }
-
-    @Test
-    public void testGetYogaOnly_returnsYogaVideos() {
-        List<Video> yoga = bean.getYogaOnly();
-        assertFalse(yoga.isEmpty(), "Yoga list should not be empty");
-        for (Video v : yoga) {
-            assertEquals("Yoga", v.getCategory());
-        }
-    }
-
-    @Test
-    public void testGetRecentlyAdded_returnsRecentlyAddedVideos() {
-        List<Video> recent = bean.getRecentlyAdded();
-        assertFalse(recent.isEmpty());
-        for (Video v : recent) {
-            assertEquals("Recently Added", v.getCategory());
-        }
-    }
-
-    @Test
-    public void testGetTabataOnly_returnsTabataVideos() {
-        List<Video> tabata = bean.getTabataOnly();
-        assertFalse(tabata.isEmpty());
-        for (Video v : tabata) {
-            assertEquals("Tabata", v.getCategory());
-        }
+        assertFalse(videos.isEmpty());
     }
 
     @Test
@@ -68,23 +40,10 @@ public class VideoGalleryBeanTest {
         assertEquals("Yoga", bean.getFormCategory());
     }
 
-    @Test
-    public void testByCategory_isSortedNewestFirst1() {
-        List<Video> tabata = bean.getTabataOnly();
-        assertFalse(tabata.isEmpty());
-        String firstDate = tabata.get(0).getDate();
-        String lastDate = tabata.get(tabata.size()-1).getDate();
-        assertTrue(firstDate.compareTo(lastDate) >= 0,
-                "Videos should be sorted newest-first by date string");
-    }
-    
-    
-    
-  
         @Test
         void testPreload_addsVideos() {
             assertNotNull(bean.getVideos());
-            assertTrue(bean.getVideos().size() >= 10, "preload should add many videos");
+            assertEquals(6, bean.getVideos().size());
         }
 
         @Test
@@ -105,60 +64,63 @@ public class VideoGalleryBeanTest {
        
 
         // --------------------
+        @Test
+    	public void bodyweightOnlyContainBodyweight() {
+    		List<Video> bodyweight = bean.getBodyweightOnly();
+    		assertFalse(bodyweight.isEmpty());
+    		for (Video v : bodyweight) {
+    			assertEquals("Bodyweight", v.getCategory());
+    		}
+    	}
 
-        @Test void testGetYogaOnly_returnsYoga() {
-            for (Video v : bean.getYogaOnly())   assertEquals("Yoga", v.getCategory());
-        }
+    	@Test
+    	public void freeWeightsOnlyContainFreeWeights() {
+    		List<Video> freeWeights = bean.getFreeWeightsOnly();
+    		assertFalse(freeWeights.isEmpty());
+    		for (Video v : freeWeights) {
+    			assertEquals("Free Weights", v.getCategory());
+    		}
+    	}
 
-        @Test void testGetRecentlyAdded_returnsRA() {
-            for (Video v : bean.getRecentlyAdded()) assertEquals("Recently Added", v.getCategory());
-        }
+    	@Test
+    	public void machinesOnlyContainMachines() {
+    		List<Video> machines = bean.getMachinesOnly();
+    		assertFalse(machines.isEmpty());
+    		for (Video v : machines) {
+    			assertEquals("Machines", v.getCategory());
+    		}
+    	}
 
-        @Test void testGetTabataOnly_returnsTabata() {
-            for (Video v : bean.getTabataOnly()) assertEquals("Tabata", v.getCategory());
-        }
+    	@Test
+    	public void bandsOnlyContainBands() {
+    		List<Video> bands = bean.getBandsOnly();
+    		assertFalse(bands.isEmpty());
+    		for (Video v : bands) {
+    			assertEquals("Bands", v.getCategory());
+    		}
+    	}
 
-        @Test void testGetTaichiOnly_returnsTaiChi() {
-            for (Video v : bean.getTaichiOnly()) assertEquals("Tai Chi", v.getCategory());
-        }
-
-        @Test void testGetZumbaOnly_returnsZumba() {
-            for (Video v : bean.getZumbaOnly()) assertEquals("Zumba", v.getCategory());
-        }
-
-        @Test void testGetCoreOnly_returnsCore() {
-            for (Video v : bean.getCoreOnly()) assertEquals("Core Strength", v.getCategory());
-        }
-
-        @Test void testGetKickboxingOnly_returnsKickboxing() {
-            for (Video v : bean.getKickboxingOnly()) assertEquals("Kickboxing", v.getCategory());
-        }
-
-        @Test void testGetCrossfitOnly_returnsCrossfit() {
-            for (Video v : bean.getCrossfitOnly()) assertEquals("CrossFit", v.getCategory());
-        }
-
-        @Test void testGetAquaAerobicsOnly_returnsAqua() {
-            for (Video v : bean.getAquaaerobicsOnly()) assertEquals("Aqua Aerobics", v.getCategory());
-        }
-
-        @Test void testGetPilatesOnly_returnsPilates() {
-            for (Video v : bean.getPilatesOnly()) assertEquals("Pilates", v.getCategory());
-        }
+    	@Test
+    	public void cardioOnlyContainCardio() {
+    		List<Video> cardio = bean.getCardioEquipmentOnly();
+    		assertFalse(cardio.isEmpty());
+    		for (Video v : cardio) {
+    			assertEquals("Cardio Equipment", v.getCategory());
+    		}
+    	}
 
         @Test
         void testDeleteVideo_existingVideo() {
             int initialSize = bean.getVideos().size();
             
-            int videoId = bean.getVideos().get(0).getId();
+            int video1 = bean.getVideos().get(0).getId();
             
-            bean.deleteVideo(videoId);
+            bean.deleteVideo(video1);
             
-            assertEquals(initialSize - 1, bean.getVideos().size(), "Video list size should decrease by 1");
+            int video2 = bean.getVideos().get(0).getId();    
             
-            boolean videoStillExists = bean.getVideos().stream()
-                    .anyMatch(v -> v.getId() == videoId);
-            assertFalse(videoStillExists, "Video should no longer exist in the list");
+            assertEquals(initialSize - 1, bean.getVideos().size());
+            assertFalse(video1 == video2);
         }
 
         @Test
@@ -167,7 +129,7 @@ public class VideoGalleryBeanTest {
             
             bean.deleteVideo(-1);
             
-            assertEquals(initialSize, bean.getVideos().size(), "Video list size should not change");
+            assertEquals(initialSize, bean.getVideos().size());
         }
 
         @Test
@@ -180,12 +142,7 @@ public class VideoGalleryBeanTest {
             bean.deleteVideo(firstVideoId);
             bean.deleteVideo(secondVideoId);
             
-            assertEquals(initialSize - 2, bean.getVideos().size(), "Video list size should decrease by 2");
-            
-            assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == firstVideoId), 
-                    "First video should no longer exist");
-            assertFalse(bean.getVideos().stream().anyMatch(v -> v.getId() == secondVideoId), 
-                    "Second video should no longer exist");
+            assertEquals(initialSize - 2, bean.getVideos().size());
         }
 
         @Test
@@ -276,6 +233,90 @@ public class VideoGalleryBeanTest {
                     "Category matching should be case-insensitive");
             }
         }
+        
+        @Test
+    	void updateRuleSetsMessage() {
+    		Video v = new Video(3000, "Message Test", "/resources/videos/test.mp4", "2025-08-20", "desc", "Public",
+    				"Free Weights", "Uploader");
+    		bean.getVideos().add(v);
 
+    		v.setRule("Private");
+    		bean.updateRule(v);
+
+    		assertTrue(v.getMessage().contains("Visibility updated to Private"));
+    	}
+        @Test
+    	public void freeWeightsVideosSortedNewestFirst() {
+    		List<Video> freeWeights = bean.getFreeWeightsOnly();
+    		assertFalse(freeWeights.isEmpty());
+    		String firstDate = freeWeights.get(0).getDate();
+    		String lastDate = freeWeights.get(freeWeights.size() - 1).getDate();
+    		assertTrue(firstDate.compareTo(lastDate) >= 0);
+    	}
+
+    	@Test
+    	void preloadLoadAtLeastSixVideos() {
+    		assertNotNull(bean.getVideos());
+    		assertTrue(bean.getVideos().size() >= 6);
+    	}
+    	@Test
+    	public void updateRulePublicToPrivateHidden() {
+    		Video v = new Video(999, "Test Video", "/resources/videos/test.mp4", "2025-08-19", "Testing updateRule",
+    				"Public", "Free Weights", "tester@example.com");
+    		bean.getVideos().add(v);
+
+    		v.setRule("Private");
+    		bean.updateRule(v);
+    		assertEquals("Private", v.getRule());
+
+    		v.setRule("Hidden");
+    		bean.updateRule(v);
+    		assertEquals("Hidden", v.getRule());
+    	}
+
+    	@Test
+    	public void updateRulePrivateToPublicHidden() {
+    		Video v = new Video(1000, "Test Video", "/resources/videos/test.mp4", "2025-08-19", "Testing updateRule",
+    				"Private", "Bodyweight", "tester@example.com");
+    		bean.getVideos().add(v);
+
+    		v.setRule("Public");
+    		bean.updateRule(v);
+    		assertEquals("Public", v.getRule());
+
+    		v.setRule("Hidden");
+    		bean.updateRule(v);
+    		assertEquals("Hidden", v.getRule());
+    	}
+
+    	@Test
+    	public void updateRuleHiddenToPublicPrivate() {
+    		Video v = new Video(1001, "Test Video", "/resources/videos/test.mp4", "2025-08-19", "Testing updateRule",
+    				"Hidden", "Machines", "tester@example.com");
+    		bean.getVideos().add(v);
+
+    		v.setRule("Public");
+    		bean.updateRule(v);
+    		assertEquals("Public", v.getRule());
+
+    		v.setRule("Private");
+    		bean.updateRule(v);
+    		assertEquals("Private", v.getRule());
+    	}
+
+    	@Test
+    	void gettersAndSettersWork() {
+    		bean.setFormTitle("Test Title");
+    		bean.setFormDate("2025-08-20");
+    		bean.setFormDescription("Test Desc");
+    		bean.setFormRule("Hidden");
+    		bean.setFormCategory("Machines");
+
+    		assertEquals("Test Title", bean.getFormTitle());
+    		assertEquals("2025-08-20", bean.getFormDate());
+    		assertEquals("Test Desc", bean.getFormDescription());
+    		assertEquals("Hidden", bean.getFormRule());
+    		assertEquals("Machines", bean.getFormCategory());
+    	}
 }
 

@@ -5,19 +5,20 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:metadata>
 	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
-
 </f:metadata>
-
-<head>
-<title>Waterside Gym Membership</title>
-<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
-</head>
+<h:head>
+    <title>Waterside Gym Membership</title>
+    <h:outputStylesheet name="styles.css" library="css" />
+</h:head>
 <h:body>
+<ui:include src="/includes/header.xhtml" />
 	<!-- header -->
-	<ui:include src="/includes/header.xhtml" />
-
 	<!-- background image -->
-	<section class="dashboard-bg payment-bg">
+	<section class="home"
+		style="background-image:url('#{request.contextPath}/resources/images/payment_bg.png');
+                background-size:cover;background-position:center;background-repeat:no-repeat;">
+	
+	<!--<section class="dashboard-bg payment-bg">-->
 
 		<main class="main-section">
 			<h1>

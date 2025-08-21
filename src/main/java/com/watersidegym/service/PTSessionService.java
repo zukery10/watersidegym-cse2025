@@ -1,61 +1,86 @@
 package com.watersidegym.service;
 
+import com.watersidegym.model.PTSession;
+import com.watersidegym.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.watersidegym.model.PTSession;
-import com.watersidegym.model.User;
-
 public class PTSessionService {
 
+    private List<PTSession> sessions = new ArrayList<>();
 
-	//adds session to list and decrement session number
-	public boolean bookSession(PTSession ptSession, User member) {
+    public PTSessionService() {
+    }
 
-		
-		
-		if (member == null || ptSession == null) {
-			return false;
-		}
+    public List<PTSession> getAllSessions() {
+        // returns all sessions stored in memory
+        return sessions;
+    }
 
-		if (member.getRemainingPTSessions() <= 0) {
-			return false;
-		}
+    // retrieve all sessions for a specific trainer
+    public List<PTSession> getSessionsForTrainer(User trainer) {
+        List<PTSession> result = new ArrayList<>();
+        for (PTSession s : sessions) {
+            // check if session's trainer matches the requested trainer
+            if (s.getTrainer() != null && s.getTrainer().equals(trainer)) {
+                result.add(s);
+            }
+        }
+        return result;
+    }
 
-		String fullName = member.getFirstName() + " " + member.getSecondName();
-		ptSession.setMemberName(fullName);
-	
-		for (PTSession s : member.getBookedPTSession()) {
-	        if (s.getMemberName().equalsIgnoreCase(fullName)
-	                && s.getTrainerName().equalsIgnoreCase(ptSession.getTrainerName())
-	                && s.getSessionDate().toString().equalsIgnoreCase(ptSession.getSessionDate().toString())
-	                && s.getSessionTime().equalsIgnoreCase(ptSession.getSessionTime())) {
-	            return false;
-	        }
-	    }
+    // book a session for a member
+    public boolean bookSession(PTSession ptSession, User member) {
+        // if either member or session is null, cannot book
+        if (member == null || ptSession == null) {
+            return false;
+        }
 
-		member.addBookedPTSession(ptSession);
+        // check if member has remaining sessions
+        if (member.getRemainingPTSessions() <= 0) {
+            return false;
+        }
 
-		member.setRemainingPTSessions(member.getRemainingPTSessions() - 1);
-		return true;
-	}
-	
-	
-	
-	//Returns all sessions booked by a specific member name
-	public List<PTSession> getBookedSessionsForMember(User member) {
-		List<PTSession> result = new ArrayList<>();
-		
-		String memberName = member.getFirstName() + " " + member.getSecondName();
+        ptSession.setMember(member);
 
+        // prevent duplicate booking of same trainer/date/time
+        for (PTSession s : sessions) {
+            if (s.getTrainer() != null && s.getTrainer().equals(ptSession.getTrainer())
+                    && s.getSessionDate().equals(ptSession.getSessionDate())
+                    && s.getStartTime().equals(ptSession.getStartTime())) {
+                return false;
+            }
+        }
 
-		for (PTSession s : member.getBookedPTSession()) {
-			if (s.getMemberName() != null && s.getMemberName().equalsIgnoreCase(memberName)) {
-				result.add(s);
-			}
-		}
+        // add session to member and global list, reduce remaining sessions
+        member.addBookedPTSession(ptSession);
+        member.setRemainingPTSessions(member.getRemainingPTSessions() - 1);
+        sessions.add(ptSession);
+        return true;
+    }
 
-		return result;
-	}
+    // get all sessions booked by a specific member
+    public List<PTSession> getBookedSessionsForMember(User member) {
+        List<PTSession> result = new ArrayList<>();
+        for (PTSession s : member.getBookedPTSession()) {
+            // check if the session belongs to this member
+            if (s.getMember() != null && s.getMember().equals(member)) {
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    // retrieve all users with role "PT" (all trainers)
+    public List<User> getAllTrainers() {
+        List<User> trainers = new ArrayList<>();
+        for (User u : UserService.getUsers()) {
+            // check if user role is PT
+            if ("PT".equals(u.getRole())) {
+                trainers.add(u);
+            }
+        }
+        return trainers;
+    }
 
 }

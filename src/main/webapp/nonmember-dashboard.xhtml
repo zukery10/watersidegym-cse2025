@@ -1,99 +1,97 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
->
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <f:metadata>
 	<f:event type="preRenderView" listener="#{loginBean.checkLoggedIn}" />
 </f:metadata>
 <h:head>
 	<!-- stylesheet with PT dash-card styles -->
-  <h:outputStylesheet library="css" name="styles.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
 	<title>Non-Member Dashboard</title>
 </h:head>
 <h:body>
 
 	<!-- header -->
-  <ui:include src="/includes/header.xhtml" />
+	<ui:include src="/includes/header.xhtml" />
 
 
-  <!-- background image -->
-  <section class="dashboard-bg"
-           style="background-image:url('#{request.contextPath}/resources/images/nonmember_bg.png');
+	<!-- background image -->
+	<section class="dashboard-bg"
+		style="background-image:url('#{request.contextPath}/resources/images/nonmember_bg.png');
                   background-size:cover;
                   background-position:center;
                   background-repeat:no-repeat;">
 
 
 
-	<main class="main-section">
-		<h1>
-			Non-Member <span class="highlight">Dashboard</span>
-		</h1>
-		<h3>Login Successful</h3>
-		<h:form id="loginForm" styleClass="form-container">
-			<div class="plans">
-				<div class="plan-card soft-panel">
-					<h:panelGroup rendered="#{not empty loginBean.loggedInUser}">
-						<h3>Welcome, #{loginBean.loggedInUser.firstName}
-							#{loginBean.loggedInUser.secondName}!</h3>
-						<p>Email: #{loginBean.loggedInUser.email}</p>
-						<p>Role: #{loginBean.loggedInUser.role}</p>
-					</h:panelGroup>
+		<main class="main-section">
+			<h1>
+				Non-Member <span class="highlight">Dashboard</span>
+			</h1>
+			<h3>Login Successful</h3>
+			<h:form id="loginForm" styleClass="form-container">
+				<div class="plans">
+					<div class="plan-card soft-panel">
+						<h:panelGroup rendered="#{not empty loginBean.loggedInUser}">
+							<h3>Welcome, #{loginBean.loggedInUser.firstName}
+								#{loginBean.loggedInUser.secondName}!</h3>
+							<p>Email: #{loginBean.loggedInUser.email}</p>
+							<p>Role: #{loginBean.loggedInUser.role}</p>
+						</h:panelGroup>
 
 
-					<!-- booked classes -->
-					<h:panelGroup
-						rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
-						<h3>Your Enrolled Classes:</h3>
-						<h:dataTable value="#{loginBean.loggedInUser.enrolledClasses}"
-							var="gymClass" border="1" styleClass="jsf-table">
-							<h:column>
-								<f:facet name="header">Class Name</f:facet> #{gymClass.nameOfClass}</h:column>
-							<h:column>
-								<f:facet name="header">Date</f:facet>
-								<h:outputText value="#{gymClass.classDate}">
-									<f:convertDateTime pattern="EEE, MMM d, yyyy" />
-								</h:outputText>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Time</f:facet>
-								<h:outputText value="#{gymClass.classTime}">
-									<f:convertDateTime pattern="h:mm a" />
-								</h:outputText>
-							</h:column>
-							<h:column>
-								<f:facet name="header">Duration</f:facet>#{gymClass.classDuration}
+						<!-- booked classes -->
+						<h:panelGroup
+							rendered="#{not empty loginBean.loggedInUser.enrolledClasses}">
+							<h3>Your Enrolled Classes:</h3>
+							<h:dataTable value="#{loginBean.loggedInUser.enrolledClasses}"
+								var="gymClass" border="1" styleClass="jsf-table">
+								<h:column>
+									<f:facet name="header">Class Name</f:facet> #{gymClass.nameOfClass}</h:column>
+								<h:column>
+									<f:facet name="header">Date</f:facet>
+									<h:outputText value="#{gymClass.classDate}">
+										<f:convertDateTime pattern="EEE, MMM d, yyyy" />
+									</h:outputText>
 								</h:column>
-						</h:dataTable>
-					</h:panelGroup>
+								<h:column>
+									<f:facet name="header">Time</f:facet>
+									<h:outputText value="#{gymClass.classTime}">
+										<f:convertDateTime pattern="h:mm a" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Duration</f:facet>#{gymClass.classDuration}
+								</h:column>
+							</h:dataTable>
+						</h:panelGroup>
 
-					<h:commandButton value="View Classes"
-						action="browseClasses?faces-redirect=true" styleClass="choose-btn" />
-					<br></br> <br></br>
-					<h:form>
-
-						<h:commandButton value="View Videos"
-						action="nonmember-video-gallery.xhtml?faces-redirect=true"
-						styleClass="choose-btn" />
-						<br />
-						<br />
-						<h:commandButton value="Membership Plans"
-							action="purchase-membership.xhtml?faces-redirect=true"
+						<h:commandButton value="View Classes"
+							action="browseClasses?faces-redirect=true"
 							styleClass="choose-btn" />
-						<br />
-						<br />
+						<br></br> <br></br>
+						<h:form>
 
-						<h:commandButton value="Logout" action="#{loginBean.logout}"
-							styleClass="choose-btn" />
-					</h:form>
+							<h:commandButton value="View Videos"
+								action="nonmember-video-gallery.xhtml?faces-redirect=true"
+								styleClass="choose-btn" />
+							<br />
+							<br />
+							<h:commandButton value="Membership Plans"
+								action="purchase-membership.xhtml?faces-redirect=true"
+								styleClass="choose-btn" />
+					
+
+						</h:form>
+					</div>
 				</div>
-			</div>
 
-		</h:form>
-	</main>
+			</h:form>
+		</main>
 	</section>
 </h:body>
 </html>
